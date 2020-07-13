@@ -16,7 +16,7 @@ services:
     command: python manage.py migrate
     command: python manage.py runserver 0.0.0.0:8080
     volumes:
-      - /sunbot-api/.:/code
+      - /code:/sunbot-api
     ports:
       - "8080:8080"
     depends_on:
@@ -26,6 +26,6 @@ services:
     build: sunbot-bot/.
     command: python main.py
     volumes:
-      - /sunbot-bot/.:/code
+      - /code:/sunbot-bot
     depends_on:
       - api
