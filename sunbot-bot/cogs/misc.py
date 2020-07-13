@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from datetime import datetime
 
-import rest_api
+from utils import rest_api
 import utils
 
 

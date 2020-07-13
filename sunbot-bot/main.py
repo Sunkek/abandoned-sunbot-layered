@@ -47,10 +47,10 @@ async def on_ready():
     #bot.guild_log = bot.apoc.get_channel(721044808080293899)
     if not bot.web:
         bot.web = aiohttp.ClientSession(loop=bot.loop)
-    if not bot.settings:
+    """if not bot.settings:
         async with bot.web.get("api:8080/api/v1/settings") as resp:
             json = await resp.json()
-            bot.settings = json["settings"]
+            bot.settings = json["settings"]"""
     if not bot.cogs:
         for cog in cogs:
             try:
