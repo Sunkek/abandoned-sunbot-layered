@@ -25,7 +25,6 @@ services:
   bot:
     build: sunbot-bot/.
     command: python main.py
-    command: pause
     volumes:
       - .:/sunbot-bot
     depends_on:
