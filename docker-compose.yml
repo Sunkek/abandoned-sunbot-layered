@@ -10,6 +10,7 @@ services:
       - POSTGRES_PASSWORD=sunbot
 
   api:
+    entrypoint: /entrypoint.sh
     build: sunbot-api/.
     command: python manage.py makemigrations
     command: python manage.py makemigrations api
