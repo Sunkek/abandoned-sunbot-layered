@@ -38,6 +38,9 @@ for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
             for file in filenames if "pycache" not in file
         ]
 
+for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
+    print(dirpath, dirnames, filenames)
+    
 with open("config.json") as cfg:
     config = json.load(cfg)
         
