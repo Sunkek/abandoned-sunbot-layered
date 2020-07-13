@@ -40,7 +40,7 @@ for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
 
 for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
     print(dirpath, dirnames, filenames)
-    
+
 with open("config.json") as cfg:
     config = json.load(cfg)
         
@@ -51,7 +51,7 @@ async def on_ready():
     if not bot.web:
         bot.web = aiohttp.ClientSession(loop=bot.loop)
     if not bot.settings:
-        async with bot.web.get("api:8000/api/v1/settings") as resp:
+        async with bot.web.get("api:8080/api/v1/settings") as resp:
             json = await resp.json()
             bot.settings = json["settings"]
     if not bot.cogs:
