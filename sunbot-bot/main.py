@@ -40,7 +40,7 @@ for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
 
 for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}"):
     print(dirpath, dirnames, filenames)
-
+"""
 with open("config.json") as cfg:
     config = json.load(cfg)
         
@@ -155,3 +155,4 @@ async def reload(ctx, *, ext):
     bot.load_extension(cog)
 
 bot.run(config["discord_token"])
+"""
