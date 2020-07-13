@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=sunbot_db
+      - POSTGRES_USER=sunbot
+      - POSTGRES_PASSWORD=sunbot
+
+  api:
+    build: sunbot-api/.
+    command: python manage.py makemigrations
+    command: python manage.py makemigrations api
+    command: python manage.py migrate
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      
+  bot:
+    build: sunbot-bot/.
+    command: python main.py
+    volumes:
+      - .:/code
+    depends_on:
+      - api
