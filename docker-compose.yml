@@ -11,10 +11,11 @@ services:
 
   api:
     build: sunbot-api/.
-    command: python manage.py makemigrations
-    command: python manage.py makemigrations api
-    command: python manage.py migrate
-    command: python manage.py runserver 0.0.0.0:8000
+    image: sunbot-api
+    command: python code/manage.py makemigrations
+    command: python code/manage.py makemigrations api
+    command: python code/manage.py migrate
+    command: python code/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
@@ -24,7 +25,8 @@ services:
       
   bot:
     build: sunbot-bot/.
-    command: python main.py
+    image: sunbot-bot
+    command: python code/main.py
     volumes:
       - .:/code
     depends_on:
