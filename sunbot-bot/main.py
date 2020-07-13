@@ -43,8 +43,8 @@ with open("config.json") as cfg:
         
 @bot.event
 async def on_ready():
-    bot.apoc = bot.get_guild(107900245270110208)
-    bot.guild_log = bot.apoc.get_channel(721044808080293899)
+    #bot.apoc = bot.get_guild(107900245270110208)
+    #bot.guild_log = bot.apoc.get_channel(721044808080293899)
     if not bot.web:
         bot.web = aiohttp.ClientSession(loop=bot.loop)
     if not bot.settings:
@@ -124,7 +124,7 @@ async def on_guild_join(guild):
     desc = f"Name: {guild.name}\nMembers: {len(guild.members)}\nID: {guild.id}\nOwned by: {guild.owner.mention if guild.owner else None}"
     embed = discord.Embed(
         title="Sunbot joined a new server!",
-        color=bot.apoc.me.color,
+        #color=bot.apoc.me.color,
         description=desc
     )
     embed.set_image(url=guild.icon_url)
@@ -135,7 +135,7 @@ async def on_guild_remove(guild):
     desc = f"Name: {guild.name}\nMembers: {len(guild.members)}\nID: {guild.id}\nOwned by: {guild.owner.mention if guild.owner else None}"
     embed = discord.Embed(
         title="Sunbot was removed from a server",
-        color=bot.apoc.me.color,
+        #color=bot.apoc.me.color,
         description=desc
     )
     embed.set_image(url=guild.icon_url)
