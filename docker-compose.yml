@@ -11,13 +11,12 @@ services:
 
   api:
     build: sunbot-api/.
-    image: sunbot-api
     command: python code/manage.py makemigrations
     command: python code/manage.py makemigrations api
     command: python code/manage.py migrate
     command: python code/manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .sunbot-api:/code
     ports:
       - "8080:8080"
     depends_on:
@@ -25,9 +24,8 @@ services:
       
   bot:
     build: sunbot-bot/.
-    image: sunbot-bot
     command: python code/main.py
     volumes:
-      - .:/code
+      - .sunbot-bot:/code
     depends_on:
       - api
