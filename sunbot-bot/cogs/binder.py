@@ -31,12 +31,7 @@ class Binder(commands.Cog):
             if datetime.now() - birthday > timedelta(days=365*100):
                 raise commands.BadArgument
             birthday = birthday.strftime("%Y-%m-%d")
-        # Bind parameter
-        await rest_api.bind_user_param(
-            self.bot, 
-            user_id=ctx.author.id,
-            birthday=birthday
-        )
+        await rest_api.bind_user_param(self.bot, ctx.author.id, birthday=birthday)
 
     @bind.command(
         description="`bind country <official name or 2 or 3 letter code>` - adds the country to your entry in the database.", 
@@ -50,12 +45,7 @@ class Binder(commands.Cog):
                 country = country.name
             else:
                 raise commands.BadArgument
-        # Bind parameter
-        await rest_api.bind_user_param(
-            self.bot, 
-            user_id=ctx.author.id,
-            country=country
-        )
+        await rest_api.bind_user_param(self.bot, ctx.author.id, country=country)
                 
     @bind.command(
         description="`bind steam <steam profile link>` - adds the steam profile to your entry in the database.", 
@@ -73,12 +63,27 @@ class Binder(commands.Cog):
                     soup = BeautifulSoup(raw_user, 'lxml-xml')
                     steam_id = soup.find('steamID64').string
             #steam = f"https://steamcommunity.com/profiles/{steam_id}"
-        # Bind parameter
-        await rest_api.bind_user_param(
-            self.bot, 
-            user_id=ctx.author.id,
-            steam=steam_id
-        )
+        await rest_api.bind_user_param(self.bot, ctx.author.id, steam=steam_id)
+                
+    @bind.command(
+        description="`bind pcwarframe` - adds the PC Warframe name to your entry in the database.", 
+        name="pcwarframe"
+    )
+    async def bind_pcwarframe(self, ctx, name="reset"):
+        if name != "reset":
+            if len(name) > 25:
+                raise commands.BadArgument
+        await rest_api.bind_user_param(self.bot, ctx.author.id, pcwarframe=name)  
+
+    @bind.command(
+        description="`bind ddo` - adds the DDO character name to your entry in the database.", 
+        name="ddo"
+    )
+    async def bind_ddo(self, ctx, name="reset"):
+        if name != "reset":
+            if len(name) > 50:
+                raise commands.BadArgument
+        await rest_api.bind_user_param(self.bot, ctx.author.id, ddo=name)
 
 def setup(bot):
     bot.add_cog(Binder(bot))
