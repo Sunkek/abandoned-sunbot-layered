@@ -1,6 +1,6 @@
 """My own Discord bot, made to automate the boring admin work
-and to track server statistics. A lot of its features only work on 
-`A Piece of Cake` server, but some are made to be global."""
+and to track server statistics. Some of its features only work on 
+`A Piece of Cake` server."""
 
 import discord 
 from discord.ext import commands
@@ -26,6 +26,7 @@ bot.error_titles = (
     "Did you really think I would do that?", "Do this shit yourself",
 )  
 cogs = []
+# Reading cog names
 for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
     if "__pycache__" not in dirpath:
         # Getting relative cog path, stripping the .py extension and replacing 
@@ -38,6 +39,7 @@ for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
             for file in filenames if "pycache" not in file
         ]
 
+# Reading config
 with open("config.json") as cfg:
     config = json.load(cfg)
         
@@ -79,6 +81,7 @@ async def on_command_completion(ctx):
 
 @bot.event 
 async def on_command_error(ctx, error):
+    """Command error handler"""
     await ctx.message.add_reaction("✋")
     # Refresh random seed just in case
     seed()
@@ -119,7 +122,7 @@ async def on_command_error(ctx, error):
         )
     await ctx.send(embed=embed)
 
-@bot.event 
+"""@bot.event 
 async def on_guild_join(guild):
     desc = f"Name: {guild.name}\nMembers: {len(guild.members)}\nID: {guild.id}\nOwned by: {guild.owner.mention if guild.owner else None}"
     embed = discord.Embed(
@@ -139,7 +142,7 @@ async def on_guild_remove(guild):
         description=desc
     )
     embed.set_image(url=guild.icon_url)
-    await bot.guild_log.send(embed=embed)
+    await bot.guild_log.send(embed=embed)"""
 
 @commands.check(commands.is_owner())
 @bot.command(description=f"`reload <cog name>` - reloads the specified cog")
