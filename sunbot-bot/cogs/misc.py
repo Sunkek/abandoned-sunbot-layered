@@ -5,8 +5,7 @@ from discord.ext import commands
 
 from datetime import datetime
 
-from utils import rest_api
-import utils
+from utils import rest_api, utils
 
 
 class Misc(commands.Cog):

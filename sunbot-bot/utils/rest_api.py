@@ -34,3 +34,10 @@ async def add_message(bot, **kwargs):
     ) as resp:
         return resp
     return
+
+async def bind_user_param(bot, **kwargs):
+    """Change user parameters"""
+    async with bot.web.patch(
+        urls['user']+str(kwargs["user_id"]), json=kwargs
+    ) as resp:
+        return resp

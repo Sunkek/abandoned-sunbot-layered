@@ -6,8 +6,7 @@ from pycountry import countries
 from bs4 import BeautifulSoup
 from typing import Optional
 
-import rest_api
-import utils
+from utils import rest_api
 
 class Binder(commands.Cog):
     def __init__(self, bot):
