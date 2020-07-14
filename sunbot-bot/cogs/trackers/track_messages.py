@@ -11,7 +11,7 @@ class TrackMessages(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
+    """@commands.Cog.listener()
     async def on_message(self, message):
         # I don't want to save info about DMs, also no webhooks
         if message.guild and message.guild.get_member(message.author.id):
@@ -24,7 +24,7 @@ class TrackMessages(commands.Cog):
                 attachments=len(message.attachments),
                 words=len(message.content.split()),
                 period=datetime.now().strftime("%Y-%m-%d")
-            )
+            )"""
         
 
 def setup(bot):
