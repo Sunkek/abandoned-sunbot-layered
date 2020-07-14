@@ -8,6 +8,10 @@ services:
       - POSTGRES_DB=sunbot_db
       - POSTGRES_USER=sunbot
       - POSTGRES_PASSWORD=sunbot
+    volumes:
+      # Mounting a database in the host system so it's
+      # persistent through different containers
+      - ${HOME}/postgres-data/:/var/lib/postgresql/data
 
   api:
     build: sunbot-api/.
