@@ -35,6 +35,13 @@ async def add_message(bot, **kwargs):
         return resp
     return
 
+async def get_user_info(bot, user_id):
+    """Get user info"""
+    async with bot.web.get(urls['user']+str(user_id)) as resp:
+        json = await resp.json()
+        print(json)
+        return json
+
 async def bind_user_param(bot, user_id, **kwargs):
     """Change user parameters"""
     async with bot.web.patch(
