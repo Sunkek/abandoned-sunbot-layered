@@ -1,6 +1,6 @@
 """Helper functions to address the REST API"""
 
-host = "http://localhost:8080"
+host = "api:8080"
 urls = {
     "user":f"{host}/api/v1/user/",
 
