@@ -14,6 +14,7 @@ services:
       - ${HOME}/postgres-data/:/var/lib/postgresql/data
 
   api:
+    image: api
     build: sunbot-api/.
     command: python manage.py makemigrations
     command: python manage.py makemigrations api
@@ -27,6 +28,7 @@ services:
       - db
       
   bot:
+    image: bot
     build: sunbot-bot/.
     command: python main.py
     volumes:
