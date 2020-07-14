@@ -1,2 +1,3 @@
 pycountry
 beautifulsoup4
+lxml
