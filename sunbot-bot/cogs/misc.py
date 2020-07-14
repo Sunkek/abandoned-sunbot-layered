@@ -61,13 +61,11 @@ class Misc(commands.Cog):
         result = [f'Avatar: [link]({target.avatar_url})']
         for key, value in info.items():
             if key == 'steam' and value:
-                value = f'[link]({value})'
-            if key == 'birthday' and value != '0001-01-01T00:00:00Z':
-                value = datetime.strptime(
-                    value, '%Y-%m-%dT%H:%M:%S%z'
-                ).strftime('%Y-%m-%d')
+                value = f'[link](https://steamcommunity.com/profiles/{value})'
+            elif key == 'birthday' and value:
+                value = datetime.strptime(value, "%Y-%m-%d").strftime("%d/%m/%Y")
             key = utils.format_info_key(key)
-            if value and value not in ['0001-01-01T00:00:00Z']: 
+            if value: 
                 result.append(f'{key}: {value}')
         embed.add_field(
             name=f'Info', 
