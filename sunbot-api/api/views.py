@@ -13,7 +13,11 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def retrieve(self, request, user_id, *args, **kwargs):
-        user = User.objects.get(user_id=user_id)
+        try:
+            # Find the existing user entry
+            user = User.objects.get(user_id=user_id)
+        except ObjectDoesNotExist:
+            user = User(user_id=user_id)
         serializer = self.get_serializer(user)
         return Response(serializer.data)
 
