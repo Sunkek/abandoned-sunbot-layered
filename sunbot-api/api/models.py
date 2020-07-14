@@ -24,7 +24,7 @@ class User(models.Model):
 
 class Messages(models.Model):
     """Info about user's posts - where and how much."""
-    server_id = models.BigIntegerField()
+    guild_id = models.BigIntegerField()
     channel_id = models.BigIntegerField()
     user_id = models.ForeignKey(
         User, 
