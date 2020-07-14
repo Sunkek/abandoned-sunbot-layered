@@ -5,7 +5,7 @@ urls = {
     "settings":f"{host}/api/v1/settings",
 
     "guilds":f"{host}/api/v1/server",
-    "users":f"{host}/api/v1/user",
+    "user":f"{host}/api/v1/user",
     
     "messages":f"{host}/api/v1/messages",
     "voice":f"{host}/api/v1/voice",
