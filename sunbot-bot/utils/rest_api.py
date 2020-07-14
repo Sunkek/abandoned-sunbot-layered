@@ -2,29 +2,33 @@
 
 host = "api:8080"
 urls = {
-    "settings":f"{host}/api/v1/settings",
+    "user":f"{host}/api/v1/user/",
 
-    "guilds":f"{host}/api/v1/server",
-    "user":f"{host}/api/v1/user",
+
+
+
+    "settings":f"{host}/api/v1/settings/",
+
+    "guilds":f"{host}/api/v1/server/",
     
-    "messages":f"{host}/api/v1/messages",
-    "voice":f"{host}/api/v1/voice",
-    "reactions":f"{host}/api/v1/reactions",
-    "games":f"{host}/api/v1/games",
+    "messages":f"{host}/api/v1/messages/",
+    "voice":f"{host}/api/v1/voice/",
+    "reactions":f"{host}/api/v1/reactions/",
+    "games":f"{host}/api/v1/games/",
 
-    "warnings":f"{host}/api/v1/warning",
+    "warnings":f"{host}/api/v1/warning/",
     
-    "top_postcounts":f"{host}/api/v1/top/postcounts",
-    "top_wordcounts":f"{host}/api/v1/top/wordcounts",
-    "top_attachments":f"{host}/api/v1/top/attachments",
+    "top_postcounts":f"{host}/api/v1/top/postcounts/",
+    "top_wordcounts":f"{host}/api/v1/top/wordcounts/",
+    "top_attachments":f"{host}/api/v1/top/attachments/",
 
-    "top_reactions_given":f"{host}/api/v1/top/reactions/given",
-    "top_reactions_received":f"{host}/api/v1/top/reactions/received",
+    "top_reactions_given":f"{host}/api/v1/top/reactions/given/",
+    "top_reactions_received":f"{host}/api/v1/top/reactions/received/",
     
-    "top_voiceminutes":f"{host}/api/v1/top/voiceminutes",
+    "top_voiceminutes":f"{host}/api/v1/top/voiceminutes/",
 
-    "top_games":f"{host}/api/v1/top/games",
-    "top_players":f"{host}/api/v1/top/players",
+    "top_games":f"{host}/api/v1/top/games/",
+    "top_players":f"{host}/api/v1/top/players/",
 }
 
 async def add_message(bot, **kwargs):
