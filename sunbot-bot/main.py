@@ -6,6 +6,7 @@ import discord
 from discord.ext import commands
 
 import aiohttp
+import socket
 import asyncio
 import json
 import os
@@ -51,8 +52,8 @@ async def on_ready():
         bot.web = aiohttp.ClientSession(
             loop=bot.loop,
             connector=aiohttp.TCPConnector( 
-                ssl=False, #https://github.com/aio-libs/aiohttp/issues/2522#issuecomment-344900023
-                limit=1, 
+                family=socket.AF_INET, #https://github.com/aio-libs/aiohttp/issues/2522#issuecomment-354454800
+                ssl=False, 
                 ),
             )
     """if not bot.settings:
