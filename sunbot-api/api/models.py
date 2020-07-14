@@ -38,9 +38,9 @@ class Messages(models.Model):
     words = models.IntegerField(default=0,)
 
     def __str__(self):
-        return f"{self.server_id}/{self.channel_id} by {self.user_id} for {self.period}"
+        return f"{self.guild_id}/{self.channel_id} by {self.user_id} for {self.period}"
         
     class Meta:
         db_table = "messages"
         # Composite primary key workaround
-        unique_together = [["server_id", "channel_id", "user_id", "period"]]
+        unique_together = [["guild_id", "channel_id", "user_id", "period"]]
