@@ -51,7 +51,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
         try:
             # Find the existing message entry
             messages = Messages.objects.get(
-                server_id=data["server_id"],
+                guild_id=data["guild_id"],
                 channel_id=data["channel_id"],
                 user_id=User(user_id=data["user_id"]),
                 period=data["period"][:-2]+"01", # The first of the current month
@@ -59,7 +59,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
         except ObjectDoesNotExist:
             # Entry not found - create one!
             messages = Messages(
-                server_id=data["server_id"],
+                guild_id=data["guild_id"],
                 channel_id=data["channel_id"],
                 user_id=User(user_id=data["user_id"]),
                 period=data["period"][:-2]+"01", # The first of the current month
