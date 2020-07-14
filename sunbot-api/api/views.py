@@ -35,7 +35,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user = User(user_id=user_id)
         # Update kwargs
         for key, value in data.items():
-            if key == "reset":
+            if value == "reset":
                 value = None
             setattr(user, key, value)
         # Submit changes
