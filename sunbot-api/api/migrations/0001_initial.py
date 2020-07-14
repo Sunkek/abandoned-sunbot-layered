@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('member_id', models.BigIntegerField(primary_key=True, serialize=False)),
+                ('user_id', models.BigIntegerField(primary_key=True, serialize=False)),
                 ('birthday', models.DateField(blank=True, null=True)),
                 ('steam', models.URLField(blank=True, max_length=80, null=True)),
                 ('country', models.CharField(blank=True, max_length=30, null=True)),
@@ -35,11 +35,11 @@ class Migration(migrations.Migration):
                 ('postcount', models.IntegerField(default=0)),
                 ('attachments', models.IntegerField(default=0)),
                 ('words', models.IntegerField(default=0)),
-                ('member_id', models.ForeignKey(db_column='member_id', on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='api.User')),
+                ('user_id', models.ForeignKey(db_column='user_id', on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='api.User')),
             ],
             options={
                 'db_table': 'messages',
-                'unique_together': {('server_id', 'channel_id', 'member_id', 'period')},
+                'unique_together': {('server_id', 'channel_id', 'user_id', 'period')},
             },
         ),
     ]

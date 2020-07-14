@@ -11,6 +11,30 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def retrieve(self, request, user_id, *args, **kwargs):
+        user = User.objects.get(user_id=user_id)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+    def partial_update(self, request, user_id, *args, **kwargs):
+        """PATCH requests fall here.
+        Here I'm working from the idea that the entry already exists, 
+        so I just find it and update. Only if it doesn't exist, 
+        I create a new one and save it."""
+        data = request.data
+        try:
+            # Find the existing user entry
+            user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            # Entry not found - create one!
+            user = User(user_id=user_id)
+        # Update kwargs
+        for key, value in data.items():
+            setattr(user, key, value)
+        # Submit changes
+        user.save()
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
 
 class MessagesViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
@@ -28,7 +52,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
             messages = Messages.objects.get(
                 server_id=data["server_id"],
                 channel_id=data["channel_id"],
-                member_id=User(member_id=data["member_id"]),
+                user_id=User(user_id=data["user_id"]),
                 period=data["period"][:-2]+"01", # The first of the current month
             )
         except Messages.DoesNotExist:
@@ -36,7 +60,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
             messages = Messages(
                 server_id=data["server_id"],
                 channel_id=data["channel_id"],
-                member_id=User(member_id=data["member_id"]),
+                user_id=User(user_id=data["user_id"]),
                 period=data["period"][:-2]+"01", # The first of the current month
             )
         # Update counters
@@ -48,15 +72,16 @@ class MessagesViewSet(viewsets.ModelViewSet):
             messages.save()
         except IntegrityError:
             # If there's no member - create one!
-            author = User(member_id=request.data["member_id"])
+            author = User(user_id=request.data["user_id"])
             author.save()
             messages.save()
         serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
 """Define the allowed request methods for each ModelViewSet"""
-users = UserViewSet.as_view({
-    'get': 'list',
+user = UserViewSet.as_view({
+    'get': 'retrieve',
+    'patch': 'partial_update',
 })
 messages = MessagesViewSet.as_view({
     'get': 'list',

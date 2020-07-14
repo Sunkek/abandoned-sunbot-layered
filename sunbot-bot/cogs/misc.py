@@ -38,9 +38,9 @@ class Misc(commands.Cog):
         # Avatar
         embed.set_author(name=str(target), icon_url=target.avatar_url)
         # Known info from database
-        info = await rest_api.get_user(
+        info = await rest_api.get_user_info(
             self.bot, 
-            user_id=target.id
+            target.id
         )
         # Account creation date
         created = target.created_at

@@ -1,7 +1,7 @@
 """URL mapping.
 Commented out router stuff because it messed up the PATCH request"""
 from django.urls import include, path
-from django.conf.urls import url, include
+#from django.conf.urls import include, url
 #from rest_framework import routers
 from . import views
 
@@ -11,7 +11,8 @@ from . import views
 
 urlpatterns = [
     #path("", include(router.urls)),
-    url(r"^users/$", views.users, name="user"),
-    url(r"^messages/$", views.messages, name="messages"),
-    path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
+    path("user/<int:user_id>/", views.user, name="user"),
+    #path("users/", views.users, name="user"),
+    path("messages/", views.messages, name="messages"),
+    #path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
 ]

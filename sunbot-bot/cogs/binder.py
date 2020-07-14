@@ -73,7 +73,7 @@ class Binder(commands.Cog):
         if name != "reset":
             if len(name) > 25:
                 raise commands.BadArgument
-        await rest_api.bind_user_param(self.bot, ctx.author.id, pcwarframe=name)  
+        await rest_api.bind_user_param(self.bot, ctx.author.id, ign_warframe_pc=name)  
 
     @bind.command(
         description="`bind ddo` - adds the DDO character name to your entry in the database.", 
@@ -83,7 +83,7 @@ class Binder(commands.Cog):
         if name != "reset":
             if len(name) > 50:
                 raise commands.BadArgument
-        await rest_api.bind_user_param(self.bot, ctx.author.id, ddo=name)
+        await rest_api.bind_user_param(self.bot, ctx.author.id, ign_ddo=name)
 
 def setup(bot):
     bot.add_cog(Binder(bot))
