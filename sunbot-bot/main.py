@@ -50,8 +50,8 @@ async def on_ready():
     if not bot.web:
         bot.web = aiohttp.ClientSession(
             loop=bot.loop,
-            connector=aiohttp.TCPConnector( #https://github.com/aio-libs/aiohttp/issues/2522#issuecomment-344900023
-                verify_ssl=False,
+            connector=aiohttp.TCPConnector( 
+                ssl=False, #https://github.com/aio-libs/aiohttp/issues/2522#issuecomment-344900023
                 limit=1, 
                 ),
             )
