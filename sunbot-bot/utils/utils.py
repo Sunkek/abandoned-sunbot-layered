@@ -106,7 +106,7 @@ def format_settings_value(guild, value):
 def format_info_key(string):
     result = [
         i.capitalize() 
-        if i not in ('ign', 'pc', 'ps4', 'id')
+        if i not in ('ign', 'pc', 'ps4', 'id', "ddo")
         else i.upper()
         for i in string.split('_')
     ]
