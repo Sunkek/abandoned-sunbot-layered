@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.utils import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
@@ -25,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             # Find the existing user entry
             user = User.objects.get(user_id=user_id)
-        except User.DoesNotExist:
+        except ObjectDoesNotExist:
             # Entry not found - create one!
             user = User(user_id=user_id)
         # Update kwargs
@@ -55,7 +56,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                 user_id=User(user_id=data["user_id"]),
                 period=data["period"][:-2]+"01", # The first of the current month
             )
-        except Messages.DoesNotExist:
+        except ObjectDoesNotExist:
             # Entry not found - create one!
             messages = Messages(
                 server_id=data["server_id"],

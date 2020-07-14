@@ -33,7 +33,7 @@ urls = {
 
 async def add_message(bot, **kwargs):
     """Save message data to the database"""
-    async with bot.web.post(
+    async with bot.web.patch(
         urls["messages"], json=kwargs
     ) as resp:
         return resp
