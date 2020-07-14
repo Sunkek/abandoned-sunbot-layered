@@ -19,7 +19,7 @@ class TrackMessages(commands.Cog):
                 self.bot, 
                 guild_id=message.guild.id,
                 channel_id=message.channel.id,
-                member_id=message.author.id,
+                user_id=message.author.id,
                 postcount=1,
                 attachments=len(message.attachments),
                 words=len(message.content.split()),
