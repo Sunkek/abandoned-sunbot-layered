@@ -90,11 +90,7 @@ class SettingsViewSet(viewsets.ModelViewSet):
     serializer_class = GuildSerializer
 
     def list(self, request, *args, **kwargs):
-        settings = Guild.objects.all()
-        print(settings)
-        serializer = self.get_serializer(settings)
-        settings = serializer.data
-        print("SERIALIZER DATA")
+        settings = Guild.objects.all().values()
         print(settings)
         settings = {
             i.pop["guild_id"]:i for i in settings
