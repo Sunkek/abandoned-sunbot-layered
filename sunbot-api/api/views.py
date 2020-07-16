@@ -5,8 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
 
-from .serializers import UserSerializer, MessagesSerializer
-from .models import User, Messages
+from .serializers import UserSerializer, GuildSerializer, MessagesSerializer
+from .models import User, Guild, Messages
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -85,12 +85,31 @@ class MessagesViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
+class SettingsViewSet(viewsets.ModelViewSet):
+    #queryset = Guild.objects.all()
+    serializer_class = GuildSerializer
+
+    def list(self, request, *args, **kwargs):
+        settings = Guild.objects.all()
+        serializer = self.get_serializer(settings)
+        settings = serializer.data
+        print(settings)
+        settings = {
+            i.pop["guild_id"]:i for i in settings
+        }
+        print(settings)
+        return Response(settings)
+
 """Define the allowed request methods for each ModelViewSet"""
 user = UserViewSet.as_view({
     'get': 'retrieve',
     'patch': 'partial_update',
 })
 messages = MessagesViewSet.as_view({
+    'get': 'list',
+    'patch': 'partial_update',
+})
+settings = SettingsViewSet.as_view({
     'get': 'list',
     'patch': 'partial_update',
 })

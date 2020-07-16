@@ -31,6 +31,13 @@ urls = {
     "top_players":f"{host}/api/v1/top/players/",
 }
 
+
+async def get_settings(bot):
+    """Get settings for all servers"""
+    async with bot.web.get(urls["settings"]) as resp:
+        json = await resp.json()
+        return json
+        
 async def add_message(bot, **kwargs):
     """Save message data to the database"""
     async with bot.web.patch(

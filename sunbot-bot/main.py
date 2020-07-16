@@ -13,6 +13,8 @@ import os
 from random import choice, seed
 from datetime import datetime
 
+from utils import rest_api
+
 bot = commands.Bot(
     command_prefix=commands.when_mentioned_or("sb ", "Sb ", "SB "), 
     сase_insensitive=True,
@@ -56,10 +58,8 @@ async def on_ready():
                 ssl=False, 
                 ),
             )
-    """if not bot.settings:
-        async with bot.web.get("api:8080/api/v1/settings") as resp:
-            json = await resp.json()
-            bot.settings = json["settings"]"""
+    if not bot.settings:
+        bot.settings = await rest_api.get_settings(bot)
     if not bot.cogs:
         for cog in cogs:
             try:
@@ -74,10 +74,10 @@ async def on_ready():
 @bot.event 
 async def on_message(message):
     await bot.wait_until_ready()   
-    if bot.user.mentioned_in(message):
+    """if bot.user.mentioned_in(message):
         # Ping reee
         # The emoji is from apoc
-        await message.add_reaction("a:ping:456710949215272981")  
+        await message.add_reaction("a:ping:456710949215272981")"""
     # Without this it will ignore all commands
     if not message.author.bot:
         await bot.process_commands(message)
@@ -133,7 +133,7 @@ async def on_command_error(ctx, error):
 async def on_guild_join(guild):
     desc = f"Name: {guild.name}\nMembers: {len(guild.members)}\nID: {guild.id}\nOwned by: {guild.owner.mention if guild.owner else None}"
     embed = discord.Embed(
-        title="Sunbot joined a new server!",
+        title=f"{bot.user.name} joined a new server!",
         #color=bot.apoc.me.color,
         description=desc
     )
@@ -144,7 +144,7 @@ async def on_guild_join(guild):
 async def on_guild_remove(guild):
     desc = f"Name: {guild.name}\nMembers: {len(guild.members)}\nID: {guild.id}\nOwned by: {guild.owner.mention if guild.owner else None}"
     embed = discord.Embed(
-        title="Sunbot was removed from a server",
+        title=f"{bot.user.name} was removed from a server",
         #color=bot.apoc.me.color,
         description=desc
     )

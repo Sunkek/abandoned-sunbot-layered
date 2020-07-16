@@ -12,3 +12,9 @@ class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
         exclude = ["id"] # Useless primary key field
+
+
+class GuildSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Messages
+        fields = "__all__"
