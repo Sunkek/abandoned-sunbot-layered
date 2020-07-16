@@ -91,6 +91,7 @@ class SettingsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         settings = Guild.objects.all()
+        print(settings)
         serializer = self.get_serializer(settings)
         settings = serializer.data
         print(settings)
