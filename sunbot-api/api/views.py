@@ -86,7 +86,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 class SettingsViewSet(viewsets.ModelViewSet):
-    #queryset = Guild.objects.all()
+    queryset = Guild.objects.all()
     serializer_class = GuildSerializer
 
     def list(self, request, *args, **kwargs):
