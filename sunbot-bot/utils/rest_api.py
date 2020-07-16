@@ -3,11 +3,12 @@
 host = "http://api:8080"
 urls = {
     "user":f"{host}/api/v1/user/",
-
-
-
-
+    
     "settings":f"{host}/api/v1/settings/",
+
+
+
+
 
     "guilds":f"{host}/api/v1/server/",
     
@@ -56,5 +57,12 @@ async def bind_user_param(bot, user_id, **kwargs):
     """Change user parameters"""
     async with bot.web.patch(
         f"{urls['user']}{str(user_id)}/", json=kwargs
+    ) as resp:
+        return resp
+        
+async def set_guild_param(bot, user_id, **kwargs):
+    """Change user parameters"""
+    async with bot.web.patch(
+        f"{urls['settings']}{str(user_id)}/", json=kwargs
     ) as resp:
         return resp

@@ -3,8 +3,8 @@
 import discord
 from discord.ext import commands
 from typing import Optional
-import utils
-import rest_api
+
+from utils import rest_api, utils
 
 class SetGeneral(commands.Cog):
     def __init__(self, bot):
@@ -33,41 +33,25 @@ class SetGeneral(commands.Cog):
         )
         await ctx.send(embed=embed)
        
-    """@commands.command(
+    @commands.command(
         name='setbirthdayfeed', 
-        aliases=['birthdayfeed'],
+        aliases=['sbf'],
         description='Sets up the specified channel as birthday feed. To reset, provide no channel.',
     )
     async def setbirthdayfeed(
         self, 
         ctx, 
-        channel:Optional[discord.TextChannel]=9223372036854775800
+        channel:Optional[discord.TextChannel]=None
     ):
         # Check if there's a channel specified
-        if isinstance(channel, discord.TextChannel):
-            birthday_feed = channel.id
-            channel_log = channel.mention
-        elif type(channel) == int and channel == 9223372036854775800:
-            birthday_feed = channel
-            channel_log = 'none'
-        else:
-            raise commands.BadArgument
-        # Build and send the JSON to the server part of the bot
+        if channel: birthday_feed = channel.id
+        else: birthday_feed = channel
+        # Build and send the JSON to backend
         await rest_api.set_param(
             self.bot, 
-            server_id=ctx.guild.id,
+            guild_id=ctx.guild.id,
             birthday_feed_channel_id=birthday_feed
         )
-        await utils.log(
-            ctx,
-            target='General server settings',
-            channel=self.bot.settings.get(
-                str(ctx.guild.id), 
-                {}
-            ).get('warnings_log_channel_id'),
-            title='Settings changed',
-            details=f'Birthday feed channel set to {channel_log}',
-        )"""
 
 
 def setup(bot):
