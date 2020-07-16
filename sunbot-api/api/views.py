@@ -93,8 +93,8 @@ class SettingsViewSet(viewsets.ModelViewSet):
         settings = Guild.objects.all()
         print(settings)
         serializer = self.get_serializer(settings)
-        print(serializer)
         settings = serializer.data
+        print("SERIALIZER DATA")
         print(settings)
         settings = {
             i.pop["guild_id"]:i for i in settings
