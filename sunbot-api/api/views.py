@@ -91,11 +91,9 @@ class SettingsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         settings = Guild.objects.all().values()
-        print(settings)
         settings = {
             i.pop["guild_id"]:i for i in settings
         }
-        print(settings)
         return Response(settings)
 
 """Define the allowed request methods for each ModelViewSet"""
