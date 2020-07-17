@@ -24,6 +24,8 @@ services:
       - ./sunbot-api:/code
     ports:
       - "8080:8080"
+    env_file:
+      - ./.env.dev
     depends_on:
       - db
       
@@ -33,5 +35,7 @@ services:
     command: python main.py
     volumes:
       - ./sunbot-bot:/code
+    env_file:
+      - ./.env.dev
     depends_on:
       - api
