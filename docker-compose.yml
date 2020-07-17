@@ -20,8 +20,8 @@ services:
     build: sunbot-api/.
     command: gunicorn sunbotapi.wsgi:application --bind 0.0.0.0:8080
     #command: python manage.py runserver 0.0.0.0:8080
-    volumes:
-      - ./sunbot-api:/code
+    #volumes:
+    #  - ./sunbot-api:/code
     ports:
       - "8080:8080"
     env_file:
