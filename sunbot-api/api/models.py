@@ -1,6 +1,6 @@
 """Database models for automatic mgration.
 
-TODO! When Django starts supporting composite primary keys, 
+TODO! When Django starts supporting composite primary keys,
 rewrite them properly!"""
 
 from django.db import models
@@ -17,7 +17,7 @@ class User(models.Model):
 
     def __str__(self):
         return str(self.user_id)
-    
+
     class Meta:
         db_table = "users"
 
@@ -26,8 +26,7 @@ class Guild(models.Model):
     """Settings per guild."""
     guild_id = models.BigIntegerField(primary_key=True)
 
-    birthday_feed_channel_id = models.BigIntegerField(null=True, blank=True)  
-
+    birthday_feed_channel_id = models.BigIntegerField(null=True, blank=True)
 
     track_messages = models.BooleanField(null=True, blank=True, default=False)
     track_reactions = models.BooleanField(null=True, blank=True, default=False)
@@ -70,24 +69,25 @@ class Guild(models.Model):
 
     def __str__(self):
         return str(self.guild_id)
-        
+
     class Meta:
         db_table = "guilds"
+
 
 class Messages(models.Model):
     """Info about user's posts - where and how much."""
     guild_id = models.ForeignKey(
-        Guild, 
-        on_delete=models.CASCADE, 
-        related_name="messages", 
-        db_column="guild_id", # Django adds second "_id" otherwise
+        Guild,
+        on_delete=models.CASCADE,
+        related_name="messages",
+        db_column="guild_id",  # Django adds second "_id" otherwise
     )
     channel_id = models.BigIntegerField()
     user_id = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
-        related_name="messages", 
-        db_column="user_id", # Django adds second "_id" otherwise
+        User,
+        on_delete=models.CASCADE,
+        related_name="messages",
+        db_column="user_id",  # Django adds second "_id" otherwise
     )
     period = models.DateField()
     postcount = models.IntegerField(default=0,)
@@ -96,7 +96,7 @@ class Messages(models.Model):
 
     def __str__(self):
         return f"{self.guild_id}/{self.channel_id} by {self.user_id} for {self.period}"
-        
+
     class Meta:
         db_table = "messages"
         # Composite primary key workaround
