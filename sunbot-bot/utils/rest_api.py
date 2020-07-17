@@ -63,7 +63,7 @@ async def bind_user_param(bot, user_id, **kwargs):
 async def set_guild_param(bot, guild_id, **kwargs):
     """Change guild settings"""
     async with bot.web.patch(
-        f"{urls['settings']}guild_id/", json=kwargs
+        f"{urls['settings']}{guild_id}/", json=kwargs
     ) as resp:
         if guild_id not in bot.settings:
             bot.settings[guild_id] = {}
