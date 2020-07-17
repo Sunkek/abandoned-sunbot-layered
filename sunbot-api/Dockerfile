@@ -1,7 +1,5 @@
 FROM python:3
 
-CMD ["sudo", "apt", "install", "netcat"]
-
 WORKDIR /code
 
 ENV PYTHONUNBUFFERED 1
