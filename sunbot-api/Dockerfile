@@ -14,7 +14,7 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev netcat
+    && apk add postgresql-dev gcc python3-dev musl-dev nmap
 
 # lint
 RUN pip install --upgrade pip
