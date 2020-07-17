@@ -8,7 +8,6 @@ from discord.ext import commands
 import aiohttp
 import socket
 import asyncio
-import json
 import os
 from random import choice, seed
 from datetime import datetime
@@ -41,10 +40,6 @@ for (dirpath, dirnames, filenames) in os.walk(f"{os.getcwd()}/cogs/"):
             ).replace(".py", "").replace("/", ".") .replace("\\", ".") 
             for file in filenames if "pycache" not in file
         ]
-
-# Reading config
-with open("config.json") as cfg:
-    config = json.load(cfg)
         
 @bot.event
 async def on_ready():
@@ -161,4 +156,4 @@ async def reload(ctx, *, ext):
         pass
     bot.load_extension(cog)
 
-bot.run(config["discord_token"])
+bot.run(os.environ.get("DISCORD_TOKEN"))
