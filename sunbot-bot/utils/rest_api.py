@@ -65,8 +65,10 @@ async def set_guild_param(bot, guild_id, **kwargs):
     async with bot.web.patch(
         f"{urls['settings']}guild_id/", json=kwargs
     ) as resp:
+        if guild_id not in bot.settings:
+            bot.settings[guild_id] = {}
         guild = bot.settings[guild_id]
         for key, value in kwargs.items():  
-            if value == "reset": guild[key] = 0
+            if value == "reset": guild[key] = None
             else: guild[key] = value
         return resp
