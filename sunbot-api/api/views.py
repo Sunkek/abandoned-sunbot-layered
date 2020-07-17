@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from .serializers import UserSerializer, GuildSerializer, MessagesSerializer
 from .models import User, Guild, Messages
 
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
