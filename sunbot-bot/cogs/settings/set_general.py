@@ -47,7 +47,7 @@ class SetGeneral(commands.Cog):
         if channel: birthday_feed = channel.id
         else: birthday_feed = channel
         # Build and send the JSON to backend
-        await rest_api.set_param(
+        await rest_api.set_guild_param(
             self.bot, 
             guild_id=ctx.guild.id,
             birthday_feed_channel_id=birthday_feed
