@@ -18,7 +18,7 @@ services:
   api:
     image: api
     build: sunbot-api/.
-    command: gunicorn sunbotapi.wsgi:application --bind 0.0.0.0:8080
+    command: gunicorn sunbotapi.wsgi:application --bind 0.0.0.0:8080 --access-logfile -
     #command: python manage.py runserver 0.0.0.0:8080
     #volumes:
     #  - ./sunbot-api:/code
