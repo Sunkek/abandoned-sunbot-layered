@@ -38,7 +38,7 @@ class Guild(models.Model):
     mod_admin_role_id = models.BigIntegerField(null=True, blank=True)
 
     mute_role_id = models.BigIntegerField(null=True, blank=True)
-  
+
     log_general_channel_id = models.BigIntegerField(null=True, blank=True)
     log_mod_channel_id = models.BigIntegerField(null=True, blank=True)
     log_warnings_channel_id = models.BigIntegerField(null=True, blank=True)
