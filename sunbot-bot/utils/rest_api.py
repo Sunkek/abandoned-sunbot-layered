@@ -60,9 +60,13 @@ async def bind_user_param(bot, user_id, **kwargs):
     ) as resp:
         return resp
         
-async def set_guild_param(bot, user_id, **kwargs):
-    """Change user parameters"""
+async def set_guild_param(bot, guild_id, **kwargs):
+    """Change guild settings"""
     async with bot.web.patch(
-        f"{urls['settings']}{str(user_id)}/", json=kwargs
+        f"{urls['settings']}guild_id/", json=kwargs
     ) as resp:
+        guild = bot.settings[guild_id]
+        for key, value in kwargs.items():  
+            if value == "reset": guild[key] = 0
+            else: guild[key] = value
         return resp
