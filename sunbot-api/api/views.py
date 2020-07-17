@@ -23,8 +23,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, user_id, *args, **kwargs):
         """PATCH requests fall here.
-        Here I'm working from the idea that the entry already exists, 
-        so I just find it and update. Only if it doesn't exist, 
+        Here I'm working from the idea that the entry already exists,
+        so I just find it and update. Only if it doesn't exist,
         I create a new one and save it."""
         data = request.data
         try:
@@ -43,15 +43,16 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(user)
         return Response(serializer.data)
 
+
 class MessagesViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
 
     def partial_update(self, request, *args, **kwargs):
         """PATCH requests fall here.
-        Here I'm working from the idea that the entry already exists, 
-        so I just find it and update the counters. Only if it doesn't exist, 
-        I create a new one and try to save it. If it can't save because 
+        Here I'm working from the idea that the entry already exists,
+        so I just find it and update the counters. Only if it doesn't exist,
+        I create a new one and try to save it. If it can't save because
         there's no member in the database, I create that member."""
         data = request.data
         try:
@@ -60,7 +61,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                 guild_id=data["guild_id"],
                 channel_id=data["channel_id"],
                 user_id=User(user_id=data["user_id"]),
-                period=data["period"][:-2]+"01", # The first of the current month
+                period=data["period"][:-2]+"01",  # The first of the current month
             )
         except ObjectDoesNotExist:
             # Entry not found - create one!
@@ -68,7 +69,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                 guild_id=data["guild_id"],
                 channel_id=data["channel_id"],
                 user_id=User(user_id=data["user_id"]),
-                period=data["period"][:-2]+"01", # The first of the current month
+                period=data["period"][:-2]+"01",  # The first of the current month
             )
         # Update counters
         messages.postcount += data["postcount"]
@@ -85,6 +86,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
+
 class SettingsViewSet(viewsets.ModelViewSet):
     queryset = Guild.objects.all()
     serializer_class = GuildSerializer
@@ -92,14 +94,14 @@ class SettingsViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         settings = Guild.objects.all().values()
         settings = {
-            i.pop["guild_id"]:i for i in settings
+            i.pop["guild_id"]: i for i in settings
         }
         return Response(settings)
 
     def partial_update(self, request, guild_id, *args, **kwargs):
         """PATCH requests fall here.
-        Here I'm working from the idea that the entry already exists, 
-        so I just find it and update. Only if it doesn't exist, 
+        Here I'm working from the idea that the entry already exists,
+        so I just find it and update. Only if it doesn't exist,
         I create a new one and save it."""
         data = request.data
         try:
@@ -117,6 +119,7 @@ class SettingsViewSet(viewsets.ModelViewSet):
         guild.save()
         serializer = self.get_serializer(guild)
         return Response(serializer.data)
+
 
 """Define the allowed request methods for each ModelViewSet"""
 user = UserViewSet.as_view({
