@@ -16,3 +16,5 @@ fi
 # python manage.py migrate
 
 exec "$@"
+
+#chmod +x /entrypoint.sh

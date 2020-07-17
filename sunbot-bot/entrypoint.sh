@@ -7,3 +7,5 @@ echo "Waiting for API..."
   echo "API started"
 
 exec "$@"
+
+#chmod +x /entrypoint.sh

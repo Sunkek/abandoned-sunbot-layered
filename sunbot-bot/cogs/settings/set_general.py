@@ -20,7 +20,7 @@ class SetGeneral(commands.Cog):
         description='Shows current settings for this server.',
     )
     async def showsettings(self, ctx):
-        settings = self.bot.settings[ctx.guild.id]
+        settings = self.bot.settings.get(ctx.guild.id, {})
         desc = '\n'.join([
             f'{utils.format_settings_key(key)}: {utils.format_settings_value(ctx.guild, value)}' 
             for key, value in settings.items()
@@ -29,7 +29,7 @@ class SetGeneral(commands.Cog):
         embed = discord.Embed(
             title=f'Current settings for {ctx.guild.name}',
             color=ctx.author.color,
-            description=desc
+            description=desc or "No custom settings yet!"
         )
         await ctx.send(embed=embed)
        
