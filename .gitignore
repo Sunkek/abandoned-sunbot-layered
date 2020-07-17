@@ -1,4 +1,4 @@
-.env.dev
+.env*
 config.json
 
 .vscode
