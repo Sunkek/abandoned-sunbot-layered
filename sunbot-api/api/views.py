@@ -105,7 +105,6 @@ class SettingsViewSet(viewsets.ModelViewSet):
         so I just find it and update. Only if it doesn't exist,
         I create a new one and save it."""
         data = request.data
-        print(data)
         try:
             # Find the existing guild entry
             guild = Guild.objects.get(guild_id=guild_id)
@@ -120,7 +119,6 @@ class SettingsViewSet(viewsets.ModelViewSet):
         # Submit changes
         guild.save()
         serializer = self.get_serializer(guild)
-        print(serializer.data)
         return Response(serializer.data)
 
 
