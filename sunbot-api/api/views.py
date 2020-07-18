@@ -94,12 +94,10 @@ class SettingsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         settings = list(Guild.objects.all().values())
-        print(settings)
-        result = {
+        settings = {
             i.pop("guild_id"): i for i in settings
         }
-        print(result)
-        return Response(result)
+        return Response(settings)
 
     def partial_update(self, request, guild_id, *args, **kwargs):
         """PATCH requests fall here.
