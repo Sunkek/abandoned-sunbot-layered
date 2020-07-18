@@ -13,7 +13,6 @@ urlpatterns = [
     # path("", include(router.urls)),
     path("user/<int:user_id>/", views.user, name="user"),
     # path("users/", views.users, name="user"),
-    path("settings/<int:guild_id>/", views.settings, name="settings"),
     path("settings/", views.settings, name="settings"),
     path("messages/", views.messages, name="messages"),
     # path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
