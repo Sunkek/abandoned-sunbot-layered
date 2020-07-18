@@ -106,19 +106,20 @@ class SettingsViewSet(viewsets.ModelViewSet):
         I create a new one and save it."""
         data = request.data
         try:
-            # Find the existing user entry
+            # Find the existing guild entry
             guild = Guild.objects.get(guild_id=guild_id)
         except ObjectDoesNotExist:
             # Entry not found - create one!
             guild = Guild(guild_id=guild_id)
         # Update kwargs
         for key, value in data.items():
-            if value == "reset":
-                value = None
+            print(key, value)
+            if value == "reset": value = None
             setattr(user, key, value)
         # Submit changes
         guild.save()
         serializer = self.get_serializer(guild)
+        print(serializer.data)
         return Response(serializer.data)
 
 
