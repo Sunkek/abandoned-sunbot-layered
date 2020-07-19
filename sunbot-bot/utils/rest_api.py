@@ -78,4 +78,5 @@ async def set_guild_param(bot, guild_id, **kwargs):
 async def get_born_today(bot):
     """Get a list of members whose birthday is today"""
     async with bot.web.get(urls['born_today']) as resp:
-        return resp
+        json = await resp.json()
+        return json

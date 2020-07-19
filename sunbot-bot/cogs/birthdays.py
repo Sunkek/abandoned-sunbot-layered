@@ -76,6 +76,7 @@ class Birthdays(commands.Cog):
                 print(birthday_feed)
                 if birthday_feed:
                     guild = self.bot.get_guild(guild)
+                    birthday_feed = guild.get_channel(birthday_feed)
                     guild_birthdays = [
                         m.mention for m in guild.members if m.id in born_today
                     ]
