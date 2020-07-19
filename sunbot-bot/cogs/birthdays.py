@@ -70,12 +70,12 @@ class Birthdays(commands.Cog):
         try:
             seed()
             born_today = await rest_api.get_born_today(self.bot)
-            print(born_today)
             for guild, settings in self.bot.settings.items():
                 birthday_feed = settings.get("birthday_feed_channel_id")
-                print(birthday_feed)
                 if birthday_feed:
+                    print(guild)
                     guild = self.bot.get_guild(guild)
+                    print(guild)
                     birthday_feed = guild.get_channel(birthday_feed)
                     guild_birthdays = [
                         m.mention for m in guild.members if m.id in born_today
