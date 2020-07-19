@@ -3,6 +3,8 @@
 import discord
 from discord.ext import commands, tasks
 from random import seed, choice
+from datetime import datetime
+from asyncio import sleep
 
 from utils import rest_api
         
@@ -89,6 +91,17 @@ class Birthdays(commands.Cog):
                     embed.set_image(url=choice(self.cakes))
                     await birthday_feed.send(embed=embed)
                     
+    @birthday_feed.before_loop
+    async def before_birthday_feed(self):
+        """Wait for 12:00"""
+        await self.bot.wait_until_ready()
+        print(datetime.now())
+        difference = datetime.now() - datetime.now().replace(
+            hour=12, minute=0, second=0
+        )
+        print(difference)
+        print(difference.total_seconds())
+        sleep(difference.total_seconds())
 
 def setup(bot):
     bot.add_cog(Birthdays(bot))
