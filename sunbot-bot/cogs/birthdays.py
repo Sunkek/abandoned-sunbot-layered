@@ -67,29 +67,27 @@ class Birthdays(commands.Cog):
         
     @tasks.loop(hours=24)
     async def birthday_feed(self):
-        try:
-            seed()
-            born_today = await rest_api.get_born_today(self.bot)
-            for guild, settings in self.bot.settings.items():
-                birthday_feed = settings.get("birthday_feed_channel_id")
-                if birthday_feed:
-                    guild = self.bot.get_guild(int(guild))
-                    birthday_feed = guild.get_channel(birthday_feed)
-                    guild_birthdays = [
-                        m.mention for m in guild.members if m.id in born_today
-                    ]
-                    if guild_birthdays:
-                        birthday_members = '\n'.join(guild_birthdays)
-                        desc = f"Congratulations to:\n\n{birthday_members}"
-                        embed = discord.Embed(
-                            title=choice(self.titles),
-                            description=desc,
-                            color=choice(self.colors),
-                        )
-                        embed.set_image(url=choice(self.cakes))
-                        await birthday_feed.send(embed=embed)
-        except Exception as e:
-            print(e)
+        seed()
+        born_today = await rest_api.get_born_today(self.bot)
+        for guild, settings in self.bot.settings.items():
+            birthday_feed = settings.get("birthday_feed_channel_id")
+            if birthday_feed:
+                guild = self.bot.get_guild(int(guild))
+                birthday_feed = guild.get_channel(birthday_feed)
+                guild_birthdays = [
+                    f"{m.mention} ({m.display_name})" 
+                    for m in guild.members if m.id in born_today
+                ]
+                if guild_birthdays:
+                    birthday_members = '\n'.join(guild_birthdays)
+                    desc = f"Congratulations to:\n\n{birthday_members}"
+                    embed = discord.Embed(
+                        title=choice(self.titles),
+                        description=desc,
+                        color=choice(self.colors),
+                    )
+                    embed.set_image(url=choice(self.cakes))
+                    await birthday_feed.send(embed=embed)
                     
 
 def setup(bot):
