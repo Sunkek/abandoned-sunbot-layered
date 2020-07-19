@@ -74,7 +74,7 @@ class Birthdays(commands.Cog):
                 birthday_feed = settings.get("birthday_feed_channel_id")
                 if birthday_feed:
                     print(guild)
-                    guild = self.bot.get_guild(guild)
+                    guild = self.bot.get_guild(int(guild))
                     print(guild)
                     birthday_feed = guild.get_channel(birthday_feed)
                     guild_birthdays = [
