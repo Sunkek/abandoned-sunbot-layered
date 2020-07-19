@@ -73,22 +73,20 @@ class Birthdays(commands.Cog):
             for guild, settings in self.bot.settings.items():
                 birthday_feed = settings.get("birthday_feed_channel_id")
                 if birthday_feed:
-                    print(guild)
                     guild = self.bot.get_guild(int(guild))
-                    print(guild)
                     birthday_feed = guild.get_channel(birthday_feed)
                     guild_birthdays = [
                         m.mention for m in guild.members if m.id in born_today
                     ]
-                    print(guild_birthdays)
                     if guild_birthdays:
                         birthday_members = '\n'.join(guild_birthdays)
                         desc = f"Congratulations to:\n\n{birthday_members}"
                         embed = discord.Embed(
                             title=choice(self.titles),
                             description=desc,
-                            color=choice(self.colors)
+                            color=choice(self.colors),
                         )
+                        print(choice(self.cakes))
                         embed.set_image(choice(self.cakes))
                         await birthday_feed.send(embed=embed)
         except Exception as e:
