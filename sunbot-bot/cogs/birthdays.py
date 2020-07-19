@@ -86,8 +86,7 @@ class Birthdays(commands.Cog):
                             description=desc,
                             color=choice(self.colors),
                         )
-                        cake = choice(self.cakes)
-                        embed.set_image(cake)
+                        embed.set_image(url=choice(self.cakes))
                         await birthday_feed.send(embed=embed)
         except Exception as e:
             print(e)
