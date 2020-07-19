@@ -122,6 +122,16 @@ class SettingsViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class BirthdaysTodayViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        birthdays = list(User.objects.all())
+        birthdays = [i.user_id for i in birthdays if i.birthday]
+        return Response(birthdays)
+
+
 """Define the allowed request methods for each ModelViewSet"""
 user = UserViewSet.as_view({
     'get': 'retrieve',
@@ -134,4 +144,7 @@ messages = MessagesViewSet.as_view({
 settings = SettingsViewSet.as_view({
     'get': 'list',
     'patch': 'partial_update',
+})
+birthdays_today = BirthdaysTodayViewSet.as_view({
+    'get': 'list',
 })
