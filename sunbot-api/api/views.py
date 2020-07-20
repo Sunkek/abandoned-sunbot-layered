@@ -99,7 +99,6 @@ class SettingsViewSet(viewsets.ModelViewSet):
         settings = {
             i.pop("guild_id"): i for i in settings
         }
-        print(settings)
         return Response(settings)
 
     def partial_update(self, request, guild_id, *args, **kwargs):

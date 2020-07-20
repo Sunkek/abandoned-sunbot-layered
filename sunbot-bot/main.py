@@ -54,7 +54,9 @@ async def on_ready():
                 ),
             )
     if not bot.settings:
-        bot.settings = await rest_api.get_settings(bot)
+        settings = await rest_api.get_settings(bot)
+        # Because JSON turned all guild IDs into strings
+        bot.settings = {int(k): v for k, v in settings(items)}
     if not bot.cogs:
         for cog in cogs:
             try:
