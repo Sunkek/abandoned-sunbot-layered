@@ -29,12 +29,14 @@ services:
     depends_on:
       - db
 
-  nginx:
-    build: ./nginx
-    ports:
-      - 1337:80
-    depends_on:
-      - api
+  # We don't really need nginx here - `exposing` a port of API only makes it 
+  # work with the other docker containers from the same network
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #     - 1337:80
+  #   depends_on:
+  #     - api
       
   bot:
     image: bot
