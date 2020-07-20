@@ -157,26 +157,27 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 giver_id=User(user_id=data["giver_id"]),
                 receiver_id=User(user_id=data["receiver_id"]),
                 emoji=data["emoji"],
-                count=data["count"],
                 period=data["period"][:-2]+"01",  # The first of the current month
+                count=data["count"],
             )
         except ObjectDoesNotExist as e:
+            print("ObjectDoesNotExist")
             print(e)
             # Entry not found - create one!
-            messages = Messages(
+            reactions = Reactions(
                 guild_id=Guild(guild_id=data["guild_id"]),
-                channel_id=data["channel_id"],
-                user_id=User(user_id=data["user_id"]),
+                giver_id=User(user_id=data["giver_id"]),
+                receiver_id=User(user_id=data["receiver_id"]),
+                emoji=data["emoji"],
                 period=data["period"][:-2]+"01",  # The first of the current month
             )
         # Update counters
-        messages.postcount += data["postcount"]
-        messages.attachments += data["attachments"]
-        messages.words += data["words"]
+        reactions.count += data["postcount"]
         try:
             # Submit changes
-            messages.save()
+            reactions.save()
         except IntegrityError as e:
+            print("IntegrityError")
             print(e)
             # If there's no member - create one!
             author = User(user_id=request.data["user_id"])
