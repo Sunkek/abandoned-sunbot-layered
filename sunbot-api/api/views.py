@@ -182,10 +182,20 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 print(e.__dict__)
                 print("Cause")
                 print(e.__cause__)
-                # If there's no member - create one!
-                """author = User(user_id=request.data["user_id"])
-                author.save()
-                messages.save()"""
+                if "receiver_id" in e.__cause__:
+                    print("No receiver")
+                    # If there's no member - create one!
+                    receiver = User(user_id=request.data["receiver_id"])
+                    receiver.save()
+                    try:
+                        messages.save()
+                    except IntegrityError as e:
+                        print("No giver")
+                        # If there's no member - create one!
+                        if "giver_id" in e.__cause__:
+                            giver = User(user_id=request.data["giver_id"])
+                            giver.save()
+                            messages.save()
             serializer = self.get_serializer(reactions)
             return Response(serializer.data)
         except Exception as e:
