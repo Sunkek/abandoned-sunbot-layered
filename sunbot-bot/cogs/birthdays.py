@@ -95,13 +95,14 @@ class Birthdays(commands.Cog):
     async def before_birthday_feed(self):
         """Wait for 12:00"""
         await self.bot.wait_until_ready()
-        print(datetime.now())
+        await sleep(5) # To make sure the bot reads settings
         difference = datetime.now() - datetime.now().replace(
-            hour=12, minute=0, second=0
+            hour=12, minute=0, second=0, microsecond=0
         )
         print(difference)
-        print(difference.total_seconds())
-        sleep(difference.total_seconds())
-
+        print(abs(difference))
+        print(abs(difference).total_seconds())
+        await sleep(abs(difference).total_seconds())
+           
 def setup(bot):
     bot.add_cog(Birthdays(bot))
