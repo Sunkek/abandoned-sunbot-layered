@@ -146,7 +146,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(messages)
             print(serializer.data)
             return Response(serializer.data)
-        except Excpetion as e:
+        except Exception as e:
             print(e)
 
 
