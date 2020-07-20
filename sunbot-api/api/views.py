@@ -107,6 +107,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
             I create a new one and try to save it. If it can't save because
             there's no member in the database, I create that member."""
             data = request.data
+            try:
                 # Find the existing message entry
                 messages = Messages.objects.get(
                     guild_id=Guild(guild_id=data["guild_id"]),
@@ -135,6 +136,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                 author.save()
                 messages.save()
             serializer = self.get_serializer(messages)
+            print(serializer.data)
             return Response(serializer.data)
 
 
