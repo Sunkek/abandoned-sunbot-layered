@@ -22,6 +22,7 @@ class TrackReactions(commands.Cog):
                 message = await channel.fetch_message(payload.message_id)
                 giver = guild.get_member(payload.user_id)
                 receiver = message.author
+                print(str(payload.emoji))
                 if str(payload.emoji) in UNICODE_EMOJI:
                     # Stripping skintones and other modifiers
                     emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
