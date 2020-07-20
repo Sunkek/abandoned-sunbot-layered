@@ -185,6 +185,7 @@ class ReactionsViewSet(viewsets.ModelViewSet):
             except IntegrityError as e:
                 print("IntegrityError")
                 print(e)
+                print(e.__dict__)
                 # If there's no member - create one!
                 """author = User(user_id=request.data["user_id"])
                 author.save()
