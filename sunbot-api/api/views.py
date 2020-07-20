@@ -5,6 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
 
+from datetime import datetime
+
 from .serializers import UserSerializer, GuildSerializer, MessagesSerializer
 from .models import User, Guild, Messages
 
@@ -128,7 +130,11 @@ class BirthdaysTodayViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         birthdays = list(User.objects.all())
-        birthdays = [i.user_id for i in birthdays if i.birthday]
+        today = datetime.now()
+        birthdays = [
+            i.user_id for i in birthdays 
+            if i.birthday == datetime.date.today()
+        ]
         return Response(birthdays)
 
 
