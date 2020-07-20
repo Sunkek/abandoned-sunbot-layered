@@ -182,6 +182,8 @@ class ReactionsViewSet(viewsets.ModelViewSet):
             """author = User(user_id=request.data["user_id"])
             author.save()
             messages.save()"""
+        except Exception as e:
+            print(e)
         serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
