@@ -132,7 +132,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
             messages.save()
         except IntegrityError:
             # If there's no member - create one!
-            author = User(user_id=request.data["user_id"])
+            author = User(user_id=data["user_id"])
             author.save()
             messages.save()
         serializer = self.get_serializer(messages)
@@ -185,12 +185,12 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                     receiver = User(user_id=data["receiver_id"])
                     receiver.save()
                 try:
-                    messages.save()
+                    reactions.save()
                 except IntegrityError as e:
                     if "receiver_id" in str(e.__cause__):
                         receiver = User(user_id=data["receiver_id"])
                         receiver.save()
-                    messages.save()
+                    reactions.save()
             serializer = self.get_serializer(reactions)
             return Response(serializer.data)
         except Exception as e:
