@@ -22,12 +22,19 @@ services:
     #command: python manage.py runserver 0.0.0.0:8080
     #volumes:
     #  - ./sunbot-api:/code
-    ports:
-      - "8080:8080"
+  expose:
+    - 8080
     env_file:
       - ./.env.api
     depends_on:
       - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - api
       
   bot:
     image: bot
