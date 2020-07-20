@@ -161,8 +161,6 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                     period=data["period"][:-2]+"01",  # The first of the current month
                 )
             except ObjectDoesNotExist as e:
-                print("ObjectDoesNotExist")
-                print(e)
                 # Entry not found - create one!
                 reactions = Reactions(
                     guild_id=Guild(guild_id=data["guild_id"]),
@@ -176,13 +174,14 @@ class ReactionsViewSet(viewsets.ModelViewSet):
             print(reactions)
             try:
                 # Submit changes
-                print("Saving...")
                 reactions.save()
-                print("Saved")
             except IntegrityError as e:
                 print("IntegrityError")
                 print(e)
+                print("Dict")
                 print(e.__dict__)
+                print("Cause")
+                print(e.__cause__)
                 # If there's no member - create one!
                 """author = User(user_id=request.data["user_id"])
                 author.save()
