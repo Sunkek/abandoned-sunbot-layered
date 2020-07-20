@@ -175,21 +175,20 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 # Submit changes
                 reactions.save()
             except IntegrityError as e:
-                print(e.__cause__.__dict__)
                 # If there's no member - create one!
                 if "giver_id" in str(e.__cause__):
                     print("No giver")
-                    giver = User(user_id=request.data["giver_id"])
+                    giver = User(user_id=data["giver_id"])
                     giver.save()
                 elif "receiver_id" in str(e.__cause__):
                     print("No receiver")
-                    receiver = User(user_id=request.data["receiver_id"])
+                    receiver = User(user_id=data["receiver_id"])
                     receiver.save()
                 try:
                     messages.save()
                 except IntegrityError as e:
                     if "receiver_id" in str(e.__cause__):
-                        receiver = User(user_id=request.data["receiver_id"])
+                        receiver = User(user_id=data["receiver_id"])
                         receiver.save()
                     messages.save()
             serializer = self.get_serializer(reactions)
