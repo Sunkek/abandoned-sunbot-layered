@@ -20,9 +20,7 @@ class SetGeneral(commands.Cog):
         description="Shows current settings for this server.",
     )
     async def showsettings(self, ctx):
-        print(self.bot.settings)
         settings = self.bot.settings.get(ctx.guild.id, {})
-        print(settings)
         desc = '\n'.join([
             f'{utils.format_settings_key(key)}: {utils.format_settings_value(ctx.guild, value)}' 
             for key, value in settings.items()
@@ -62,7 +60,6 @@ class SetGeneral(commands.Cog):
     )
     async def settrackmessages(self, ctx):
         value = not self.bot.settings.get(ctx.guild.id, {}).get("track_messages", False)
-        print(value)
         await rest_api.set_guild_param(
             self.bot, 
             guild_id=ctx.guild.id,
