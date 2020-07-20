@@ -1,6 +1,9 @@
 """Helper functions to address the REST API"""
 
-host = "http://api:8080"
+import os
+
+
+host = f"http://{os.environ.get('API_HOST')}:{os.environ.get('API_PORT')}"
 urls = {
     "user": f"{host}/api/v1/user/",
     
