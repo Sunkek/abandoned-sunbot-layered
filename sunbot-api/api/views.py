@@ -149,43 +149,47 @@ class ReactionsViewSet(viewsets.ModelViewSet):
         so I just find it and update the counters. Only if it doesn't exist,
         I create a new one and try to save it. If it can't save because
         there's no member in the database, I create that member."""
-        data = request.data
         try:
-            # Find the existing message entry
-            reactions = Reactions.objects.get(
-                guild_id=Guild(guild_id=data["guild_id"]),
-                giver_id=User(user_id=data["giver_id"]),
-                receiver_id=User(user_id=data["receiver_id"]),
-                emoji=data["emoji"],
-                period=data["period"][:-2]+"01",  # The first of the current month
-            )
-        except ObjectDoesNotExist as e:
-            print("ObjectDoesNotExist")
-            print(e)
-            # Entry not found - create one!
-            reactions = Reactions(
-                guild_id=Guild(guild_id=data["guild_id"]),
-                giver_id=User(user_id=data["giver_id"]),
-                receiver_id=User(user_id=data["receiver_id"]),
-                emoji=data["emoji"],
-                period=data["period"][:-2]+"01",  # The first of the current month
-            )
-        # Update counters
-        reactions.count += data["count"]
-        try:
-            # Submit changes
-            reactions.save()
-        except IntegrityError as e:
-            print("IntegrityError")
-            print(e)
-            # If there's no member - create one!
-            """author = User(user_id=request.data["user_id"])
-            author.save()
-            messages.save()"""
+            data = request.data
+            try:
+                # Find the existing message entry
+                reactions = Reactions.objects.get(
+                    guild_id=Guild(guild_id=data["guild_id"]),
+                    giver_id=User(user_id=data["giver_id"]),
+                    receiver_id=User(user_id=data["receiver_id"]),
+                    emoji=data["emoji"],
+                    period=data["period"][:-2]+"01",  # The first of the current month
+                )
+            except ObjectDoesNotExist as e:
+                print("ObjectDoesNotExist")
+                print(e)
+                # Entry not found - create one!
+                reactions = Reactions(
+                    guild_id=Guild(guild_id=data["guild_id"]),
+                    giver_id=User(user_id=data["giver_id"]),
+                    receiver_id=User(user_id=data["receiver_id"]),
+                    emoji=data["emoji"],
+                    period=data["period"][:-2]+"01",  # The first of the current month
+                )
+            # Update counters
+            reactions.count += data["count"]
+            print(reactions)
+            try:
+                # Submit changes
+                print("Saving...")
+                reactions.save()
+                print("Saved")
+            except IntegrityError as e:
+                print("IntegrityError")
+                print(e)
+                # If there's no member - create one!
+                """author = User(user_id=request.data["user_id"])
+                author.save()
+                messages.save()"""
+            serializer = self.get_serializer(messages)
+            return Response(serializer.data)
         except Exception as e:
             print(e)
-        serializer = self.get_serializer(messages)
-        return Response(serializer.data)
 
 
 """Define the allowed request methods for each ModelViewSet"""
