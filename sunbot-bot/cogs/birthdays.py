@@ -91,7 +91,7 @@ class Birthdays(commands.Cog):
                     embed.set_image(url=choice(self.cakes))
                     await birthday_feed.send(embed=embed)
                     
-    '''@birthday_feed.before_loop
+    @birthday_feed.before_loop
     async def before_birthday_feed(self):
         """Wait for 10:00"""
         await self.bot.wait_until_ready()
@@ -99,7 +99,7 @@ class Birthdays(commands.Cog):
         difference = datetime.now() - datetime.now().replace(
             hour=10, minute=0, second=0, microsecond=0
         )
-        await sleep(abs(difference).total_seconds())'''
-           
+        await sleep(abs(difference).total_seconds())
+    
 def setup(bot):
     bot.add_cog(Birthdays(bot))

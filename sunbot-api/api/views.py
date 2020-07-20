@@ -87,16 +87,13 @@ class BirthdaysTodayViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def list(self, request, *args, **kwargs):
-        try:
-            birthdays = list(User.objects.all())
+        birthdays = list(User.objects.all())
 
-            birthdays = [
-                i.user_id for i in birthdays 
-                if i.birthday == date.today()
-            ]
-            return Response(birthdays)
-        except Exception as e:
-            print(e)
+        birthdays = [
+            i.user_id for i in birthdays 
+            if i.birthday == date.today()
+        ]
+        return Response(birthdays)
 
 
 class MessagesViewSet(viewsets.ModelViewSet):
