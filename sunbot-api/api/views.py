@@ -130,7 +130,7 @@ class BirthdaysTodayViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         birthdays = list(User.objects.all())
-        today = datetime.now()
+        
         birthdays = [
             i.user_id for i in birthdays 
             if i.birthday == datetime.date.today()
