@@ -99,9 +99,6 @@ class Birthdays(commands.Cog):
         difference = datetime.now() - datetime.now().replace(
             hour=12, minute=0, second=0, microsecond=0
         )
-        print(difference)
-        print(abs(difference))
-        print(abs(difference).total_seconds())
         await sleep(abs(difference).total_seconds())
            
 def setup(bot):
