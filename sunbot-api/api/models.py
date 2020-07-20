@@ -32,6 +32,7 @@ class Guild(models.Model):
     track_reactions = models.BooleanField(null=True, blank=True, default=False)
     track_voice = models.BooleanField(null=True, blank=True, default=False)
     track_games = models.BooleanField(null=True, blank=True, default=False)
+    track_emoji = models.BooleanField(null=True, blank=True, default=False)
 
     mod_junior_role_id = models.BigIntegerField(null=True, blank=True)
     mod_senior_role_id = models.BigIntegerField(null=True, blank=True)
