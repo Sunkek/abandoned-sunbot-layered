@@ -22,8 +22,8 @@ services:
     #command: python manage.py runserver 0.0.0.0:8080
     #volumes:
     #  - ./sunbot-api:/code
-  expose:
-    - 8080
+    expose:
+      - 8080
     env_file:
       - ./.env.api
     depends_on:
