@@ -149,52 +149,49 @@ class ReactionsViewSet(viewsets.ModelViewSet):
         so I just find it and update the counters. Only if it doesn't exist,
         I create a new one and try to save it. If it can't save because
         there's no member in the database, I create that member."""
+        data = request.data
         try:
-            data = request.data
+            # Find the existing message entry
+            reactions = Reactions.objects.get(
+                guild_id=Guild(guild_id=data["guild_id"]),
+                giver_id=User(user_id=data["giver_id"]),
+                receiver_id=User(user_id=data["receiver_id"]),
+                emoji=data["emoji"],
+                period=data["period"][:-2]+"01",  # The first of the current month
+            )
+        except ObjectDoesNotExist as e:
+            # Entry not found - create one!
+            reactions = Reactions(
+                guild_id=Guild(guild_id=data["guild_id"]),
+                giver_id=User(user_id=data["giver_id"]),
+                receiver_id=User(user_id=data["receiver_id"]),
+                emoji=data["emoji"],
+                period=data["period"][:-2]+"01",  # The first of the current month
+            )
+        # Update counters
+        reactions.count += data["count"]
+        try:
+            # Submit changes
+            reactions.save()
+        except IntegrityError as e:
+            # If there's no member - create one!
+            if "giver_id" in str(e.__cause__):
+                print("No giver")
+                giver = User(user_id=data["giver_id"])
+                giver.save()
+            elif "receiver_id" in str(e.__cause__):
+                print("No receiver")
+                receiver = User(user_id=data["receiver_id"])
+                receiver.save()
             try:
-                # Find the existing message entry
-                reactions = Reactions.objects.get(
-                    guild_id=Guild(guild_id=data["guild_id"]),
-                    giver_id=User(user_id=data["giver_id"]),
-                    receiver_id=User(user_id=data["receiver_id"]),
-                    emoji=data["emoji"],
-                    period=data["period"][:-2]+"01",  # The first of the current month
-                )
-            except ObjectDoesNotExist as e:
-                # Entry not found - create one!
-                reactions = Reactions(
-                    guild_id=Guild(guild_id=data["guild_id"]),
-                    giver_id=User(user_id=data["giver_id"]),
-                    receiver_id=User(user_id=data["receiver_id"]),
-                    emoji=data["emoji"],
-                    period=data["period"][:-2]+"01",  # The first of the current month
-                )
-            # Update counters
-            reactions.count += data["count"]
-            try:
-                # Submit changes
                 reactions.save()
             except IntegrityError as e:
-                # If there's no member - create one!
-                if "giver_id" in str(e.__cause__):
-                    print("No giver")
-                    giver = User(user_id=data["giver_id"])
-                    giver.save()
-                elif "receiver_id" in str(e.__cause__):
-                    print("No receiver")
+                if "receiver_id" in str(e.__cause__):
                     receiver = User(user_id=data["receiver_id"])
                     receiver.save()
-                try:
-                    reactions.save()
-                except IntegrityError as e:
-                    if "receiver_id" in str(e.__cause__):
-                        receiver = User(user_id=data["receiver_id"])
-                        receiver.save()
-                    reactions.save()
-            serializer = self.get_serializer(reactions)
-            return Response(serializer.data)
-        except Exception as e:
-            print(e)
+                reactions.save()
+        serializer = self.get_serializer(reactions)
+        return Response(serializer.data)
 
 
 """Define the allowed request methods for each ModelViewSet"""
