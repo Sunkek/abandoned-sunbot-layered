@@ -113,7 +113,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                 guild_id=data["guild_id"],
                 channel_id=data["channel_id"],
                 user_id=User(user_id=data["user_id"]),
-                period=data["period"][:-2]+"01",  # The first of the current month
+                period=data["period"].replace(day=1),  # The first of the current month
             )
             print("Found")
             print(messages)
