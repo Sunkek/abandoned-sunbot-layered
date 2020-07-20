@@ -15,9 +15,9 @@ class SetGeneral(commands.Cog):
         return ctx.author.guild_permissions.administrator
 
     @commands.command(
-        name='showsettings', 
+        name="showsettings", 
         aliases=['settings', 'checksettings', 'ss'],
-        description='Shows current settings for this server.',
+        description="Shows current settings for this server.",
     )
     async def showsettings(self, ctx):
         settings = self.bot.settings.get(ctx.guild.id, {})
@@ -27,16 +27,16 @@ class SetGeneral(commands.Cog):
             if value
         ])
         embed = discord.Embed(
-            title=f'Current settings for {ctx.guild.name}',
+            title=f"Current settings for {ctx.guild.name}",
             color=ctx.author.color,
             description=desc or "No custom settings yet!"
         )
         await ctx.send(embed=embed)
        
     @commands.command(
-        name='setbirthdayfeed', 
-        aliases=['sbf'],
-        description='Sets up the specified channel as birthday feed. To reset, provide no channel.',
+        name="setbirthdayfeed", 
+        aliases=["sbdf"],
+        description="Sets up the specified channel as birthday feed. To reset, provide no channel.",
     )
     async def setbirthdayfeed(
         self, 
@@ -51,6 +51,20 @@ class SetGeneral(commands.Cog):
             self.bot, 
             guild_id=ctx.guild.id,
             birthday_feed_channel_id=birthday_feed
+        )
+        
+    @commands.command(
+        name="settrackmessages", 
+        aliases=["stm"],
+        description="Sets message tracking on or off.",
+    )
+    async def settrackmessages(self, ctx):
+        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_messages", False)
+        print(value)
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_messages=value,
         )
 
 
