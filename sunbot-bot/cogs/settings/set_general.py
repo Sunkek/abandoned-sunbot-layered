@@ -20,7 +20,9 @@ class SetGeneral(commands.Cog):
         description="Shows current settings for this server.",
     )
     async def showsettings(self, ctx):
+        print(self.bot.settings)
         settings = self.bot.settings.get(ctx.guild.id, {})
+        print(settings)
         desc = '\n'.join([
             f'{utils.format_settings_key(key)}: {utils.format_settings_value(ctx.guild, value)}' 
             for key, value in settings.items()
