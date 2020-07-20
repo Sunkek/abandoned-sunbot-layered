@@ -66,6 +66,31 @@ class SetGeneral(commands.Cog):
             track_messages=value,
         )
 
+    @commands.command(
+        name="settrackreactions", 
+        aliases=["str"],
+        description="Sets reaction tracking on or off.",
+    )
+    async def settrackreactions(self, ctx):
+        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_reactions", False)
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_reactions=value,
+        )
+        
+    @commands.command(
+        name="settrackvoice", 
+        aliases=["stv"],
+        description="Sets voice tracking on or off.",
+    )
+    async def settrackvoice(self, ctx):
+        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_voice", False)
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_voice=value,
+        )
 
 def setup(bot):
     bot.add_cog(SetGeneral(bot))

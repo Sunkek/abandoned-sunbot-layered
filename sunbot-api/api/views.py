@@ -7,8 +7,9 @@ from rest_framework.response import Response
 
 from datetime import datetime
 
-from .serializers import UserSerializer, GuildSerializer, MessagesSerializer
-from .models import User, Guild, Messages
+from .serializers import UserSerializer, GuildSerializer, MessagesSerializer, \
+    ReactionsSerializer
+from .models import User, Guild, Messages, Reactions
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -135,7 +136,53 @@ class MessagesViewSet(viewsets.ModelViewSet):
             author.save()
             messages.save()
         serializer = self.get_serializer(messages)
-        print(serializer.data)
+        return Response(serializer.data)
+
+
+class ReactionsViewSet(viewsets.ModelViewSet):
+    queryset = Reactions.objects.all()
+    serializer_class = ReactionsSerializer
+
+    def partial_update(self, request, *args, **kwargs):
+        """PATCH requests fall here.
+        Here I'm working from the idea that the entry already exists,
+        so I just find it and update the counters. Only if it doesn't exist,
+        I create a new one and try to save it. If it can't save because
+        there's no member in the database, I create that member."""
+        data = request.data
+        try:
+            # Find the existing message entry
+            reactions = Reactions.objects.get(
+                guild_id=Guild(guild_id=data["guild_id"]),
+                giver_id=User(user_id=data["giver_id"]),
+                receiver_id=User(user_id=data["receiver_id"]),
+                emoji=data["emoji"],
+                count=data["count"],
+                period=data["period"][:-2]+"01",  # The first of the current month
+            )
+        except ObjectDoesNotExist as e:
+            print(e)
+            # Entry not found - create one!
+            messages = Messages(
+                guild_id=Guild(guild_id=data["guild_id"]),
+                channel_id=data["channel_id"],
+                user_id=User(user_id=data["user_id"]),
+                period=data["period"][:-2]+"01",  # The first of the current month
+            )
+        # Update counters
+        messages.postcount += data["postcount"]
+        messages.attachments += data["attachments"]
+        messages.words += data["words"]
+        try:
+            # Submit changes
+            messages.save()
+        except IntegrityError as e:
+            print(e)
+            # If there's no member - create one!
+            author = User(user_id=request.data["user_id"])
+            author.save()
+            messages.save()
+        serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
 
@@ -152,6 +199,8 @@ birthdays_today = BirthdaysTodayViewSet.as_view({
     'get': 'list',
 })
 messages = MessagesViewSet.as_view({
-    'get': 'list',
+    'patch': 'partial_update',
+})
+reactions = ReactionsViewSet.as_view({
     'patch': 'partial_update',
 })

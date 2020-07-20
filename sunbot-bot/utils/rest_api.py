@@ -11,15 +11,13 @@ urls = {
 
     "born_today": f"{host}/api/v1/birthdays/today",
 
-
-
-
-
-    "guilds":f"{host}/api/v1/server/",
-    
     "messages":f"{host}/api/v1/messages/",
-    "voice":f"{host}/api/v1/voice/",
     "reactions":f"{host}/api/v1/reactions/",
+
+
+
+    
+    "voice":f"{host}/api/v1/voice/",
     "games":f"{host}/api/v1/games/",
 
     "warnings":f"{host}/api/v1/warning/",
@@ -44,14 +42,6 @@ async def get_settings(bot):
         json = await resp.json()
         return json
         
-async def add_message(bot, **kwargs):
-    """Save message data to the database"""
-    async with bot.web.patch(
-        urls["messages"], json=kwargs
-    ) as resp:
-        return resp
-    return
-
 async def get_user_info(bot, user_id):
     """Get user info"""
     async with bot.web.get(f"{urls['user']}{str(user_id)}/") as resp:
@@ -83,3 +73,13 @@ async def get_born_today(bot):
     async with bot.web.get(urls['born_today']) as resp:
         json = await resp.json()
         return json
+        
+async def add_message(bot, **kwargs):
+    """Save message data to the database"""
+    async with bot.web.patch(urls["messages"], json=kwargs) as resp:
+        return resp
+    
+async def add_reaction(bot, **kwargs):
+    """Save reaction data to the database"""
+    async with bot.web.patch(urls['reactions'], json=kwargs) as resp:
+        return resp

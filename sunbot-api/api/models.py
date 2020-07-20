@@ -102,3 +102,36 @@ class Messages(models.Model):
         db_table = "messages"
         # Composite primary key workaround
         unique_together = [["guild_id", "channel_id", "user_id", "period"]]
+
+
+class Reactions(models.Model):
+    """Info about given emoji reactions - who, where and how much."""    
+    guild_id = models.ForeignKey(
+        Guild,
+        on_delete=models.CASCADE,
+        related_name="reactions",
+        db_column="guild_id",  # Django adds second "_id" otherwise
+    )
+    giver_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="reactions_given",
+        db_column="giver_id",  # Django adds second "_id" otherwise
+    )
+    receiver_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="reactions_received",
+        db_column="receiver_id",  # Django adds second "_id" otherwise
+    )
+    emoji = models.CharField(max_length=100, null=True, blank=True)
+    period = models.DateField()
+    count = models.IntegerField(default=0,)
+
+    def __str__(self):
+        return f"{self.giver_id} to {self.receiver_id} - {self.emoji} for {self.period}"
+
+    class Meta:
+        db_table = "reactions"
+        # Composite primary key workaround
+        unique_together = [["guild_id", "giver_id", "receiver_id", "emoji", "period"]]

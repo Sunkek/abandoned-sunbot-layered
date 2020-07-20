@@ -17,5 +17,6 @@ urlpatterns = [
     path("settings/", views.settings, name="settings"),
     path("birthdays/today", views.birthdays_today, name="birthdays_today"),
     path("messages/", views.messages, name="messages"),
+    path("reactions/", views.reactions, name="reactions"),
     # path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
 ]
