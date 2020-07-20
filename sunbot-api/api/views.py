@@ -158,7 +158,6 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 receiver_id=User(user_id=data["receiver_id"]),
                 emoji=data["emoji"],
                 period=data["period"][:-2]+"01",  # The first of the current month
-                count=data["count"],
             )
         except ObjectDoesNotExist as e:
             print("ObjectDoesNotExist")
@@ -171,6 +170,7 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 emoji=data["emoji"],
                 period=data["period"][:-2]+"01",  # The first of the current month
             )
+            print(reactions)
         # Update counters
         reactions.count += data["postcount"]
         try:
