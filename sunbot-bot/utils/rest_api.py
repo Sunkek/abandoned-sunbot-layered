@@ -2,9 +2,11 @@
 
 host = "http://api:8080"
 urls = {
-    "user":f"{host}/api/v1/user/",
+    "user": f"{host}/api/v1/user/",
     
-    "settings":f"{host}/api/v1/settings/",
+    "settings": f"{host}/api/v1/settings/",
+
+    "born_today": f"{host}/api/v1/birthdays/today",
 
 
 
@@ -72,3 +74,9 @@ async def set_guild_param(bot, guild_id, **kwargs):
             if value == "reset": guild[key] = None
             else: guild[key] = value
         return resp
+    
+async def get_born_today(bot):
+    """Get a list of members whose birthday is today"""
+    async with bot.web.get(urls['born_today']) as resp:
+        json = await resp.json()
+        return json

@@ -93,9 +93,9 @@ class SettingsViewSet(viewsets.ModelViewSet):
     serializer_class = GuildSerializer
 
     def list(self, request, *args, **kwargs):
-        settings = Guild.objects.all().values()
+        settings = list(Guild.objects.all().values())
         settings = {
-            i.pop["guild_id"]: i for i in settings
+            i.pop("guild_id"): i for i in settings
         }
         return Response(settings)
 
@@ -106,20 +106,30 @@ class SettingsViewSet(viewsets.ModelViewSet):
         I create a new one and save it."""
         data = request.data
         try:
-            # Find the existing user entry
+            # Find the existing guild entry
             guild = Guild.objects.get(guild_id=guild_id)
         except ObjectDoesNotExist:
             # Entry not found - create one!
             guild = Guild(guild_id=guild_id)
         # Update kwargs
         for key, value in data.items():
-            if value == "reset":
-                value = None
-            setattr(user, key, value)
+            print(key, value)
+            if value == "reset": value = None
+            setattr(guild, key, value)
         # Submit changes
         guild.save()
         serializer = self.get_serializer(guild)
         return Response(serializer.data)
+
+
+class BirthdaysTodayViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def list(self, request, *args, **kwargs):
+        birthdays = list(User.objects.all())
+        birthdays = [i.user_id for i in birthdays if i.birthday]
+        return Response(birthdays)
 
 
 """Define the allowed request methods for each ModelViewSet"""
@@ -134,4 +144,7 @@ messages = MessagesViewSet.as_view({
 settings = SettingsViewSet.as_view({
     'get': 'list',
     'patch': 'partial_update',
+})
+birthdays_today = BirthdaysTodayViewSet.as_view({
+    'get': 'list',
 })
