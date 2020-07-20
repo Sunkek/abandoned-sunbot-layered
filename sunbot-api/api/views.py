@@ -99,6 +99,7 @@ class SettingsViewSet(viewsets.ModelViewSet):
         settings = {
             i.pop("guild_id"): i for i in settings
         }
+        print(settings)
         return Response(settings)
 
     def partial_update(self, request, guild_id, *args, **kwargs):
@@ -130,7 +131,7 @@ class BirthdaysTodayViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         birthdays = list(User.objects.all())
-        
+
         birthdays = [
             i.user_id for i in birthdays 
             if i.birthday == datetime.date.today()
