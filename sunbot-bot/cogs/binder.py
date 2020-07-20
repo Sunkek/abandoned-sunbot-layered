@@ -51,7 +51,7 @@ class Binder(commands.Cog):
         description="`bind steam <steam profile link>` - adds the steam profile to your entry in the database.", 
         name="steam"
     )
-    async def bind_steam(self, ctx, steam="reset"):
+    async def bind_steam(self, ctx, *, steam="reset"):
         # Bring the link to universal format
         if steam != "reset":
             steam = steam.rstrip("/").split("/")
@@ -69,7 +69,7 @@ class Binder(commands.Cog):
         description="`bind pcwarframe` - adds the PC Warframe name to your entry in the database.", 
         name="pcwarframe"
     )
-    async def bind_pcwarframe(self, ctx, name="reset"):
+    async def bind_pcwarframe(self, ctx, *, name="reset"):
         if name != "reset":
             if len(name) > 25:
                 raise commands.BadArgument
@@ -79,7 +79,7 @@ class Binder(commands.Cog):
         description="`bind ddo` - adds the DDO character name to your entry in the database.", 
         name="ddo"
     )
-    async def bind_ddo(self, ctx, name="reset"):
+    async def bind_ddo(self, ctx, *, name="reset"):
         if name != "reset":
             if len(name) > 50:
                 raise commands.BadArgument
