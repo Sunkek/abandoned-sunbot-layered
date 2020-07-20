@@ -170,9 +170,8 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 emoji=data["emoji"],
                 period=data["period"][:-2]+"01",  # The first of the current month
             )
-            print(reactions)
         # Update counters
-        reactions.count += data["postcount"]
+        reactions.count += data["count"]
         try:
             # Submit changes
             reactions.save()
@@ -180,9 +179,9 @@ class ReactionsViewSet(viewsets.ModelViewSet):
             print("IntegrityError")
             print(e)
             # If there's no member - create one!
-            author = User(user_id=request.data["user_id"])
+            """author = User(user_id=request.data["user_id"])
             author.save()
-            messages.save()
+            messages.save()"""
         serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
