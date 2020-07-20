@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
 
-from datetime import datetime
+from datetime import date
 
 from .serializers import UserSerializer, GuildSerializer, MessagesSerializer, \
     ReactionsSerializer
@@ -92,7 +92,7 @@ class BirthdaysTodayViewSet(viewsets.ModelViewSet):
 
             birthdays = [
                 i.user_id for i in birthdays 
-                if i.birthday == datetime.date.today()
+                if i.birthday == date.today()
             ]
             return Response(birthdays)
         except Exception as e:
