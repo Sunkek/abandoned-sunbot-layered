@@ -11,20 +11,21 @@ class TrackMessages(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    """@commands.Cog.listener()
+    @commands.Cog.listener()
     async def on_message(self, message):
-        # I don't want to save info about DMs, also no webhooks
+        # I don't want to save info about DMs and webhooks
         if message.guild and message.guild.get_member(message.author.id):
-            await rest_api.add_message(
-                self.bot, 
-                guild_id=message.guild.id,
-                channel_id=message.channel.id,
-                user_id=message.author.id,
-                postcount=1,
-                attachments=len(message.attachments),
-                words=len(message.content.split()),
-                period=datetime.now().strftime("%Y-%m-%d")
-            )"""
+            if self.bot.settings.get(message.guild.id, {}).get("track_messages"):
+                await rest_api.add_message(
+                    self.bot, 
+                    guild_id=message.guild.id,
+                    channel_id=message.channel.id,
+                    user_id=message.author.id,
+                    postcount=1,
+                    attachments=len(message.attachments),
+                    words=len(message.content.split()),
+                    period=datetime.now().strftime("%Y-%m-%d")
+                )
         
 
 def setup(bot):
