@@ -21,11 +21,13 @@ class TrackEmotes(commands.Cog):
                 emoji = set(re.findall(emoji_pattern, message.content, re.M))
                 for e in emoji:
                     print(e)
+                    e = e.groupdict()['id']
+                    print(e)
                     await rest_api.add_emotes(
                         self.bot, 
                         guild_id=message.guild.id,
                         user_id=message.author.id,
-                        emote=f"<:_:{e.id}>",
+                        emote=f"<:_:{e}>",
                         period=datetime.now().strftime("%Y-%m-%d"),
                         count=1,
                     )
