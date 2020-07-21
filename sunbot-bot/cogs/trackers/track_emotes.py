@@ -17,7 +17,7 @@ class TrackEmotes(commands.Cog):
         # I don't want to save info about DMs and webhooks
         if message.guild and message.guild.get_member(message.author.id):
             if self.bot.settings.get(message.guild.id, {}).get("track_emotes"):
-                p = re.compile("<:[\w+]:[\d+]>")
+                p = re.compile(r"<:[\w+]:[\d+]>")
                 emoji = p.findall(message.content)
                 print(message.content)
                 print(emoji)
