@@ -105,6 +105,19 @@ class SetGeneral(commands.Cog):
             track_voice=value,
         )
         
+    @commands.command(
+        name="settracemotes", 
+        aliases=["ste"],
+        description="Sets custom emote tracking on or off.",
+    )
+    async def settracemotes(self, ctx):
+        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_emotes", False)
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_emotes=value,
+        )
+        
 
 def setup(bot):
     bot.add_cog(SetGeneral(bot))
