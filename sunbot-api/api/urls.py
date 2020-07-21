@@ -20,6 +20,7 @@ urlpatterns = [
     path("reactions/", views.reactions, name="reactions"),
     path("games/", views.games, name="games"),
     path("voice/", views.voice, name="voice"),
+    path("emotes/", views.emotes, name="emotes"),
 
     # path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
 ]

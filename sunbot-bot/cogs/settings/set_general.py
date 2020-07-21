@@ -80,6 +80,19 @@ class SetGeneral(commands.Cog):
         )
         
     @commands.command(
+        name="settrackgames", 
+        aliases=["stg"],
+        description="Sets game tracking on or off.",
+    )
+    async def settrackgames(self, ctx):
+        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_games", False)
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_games=value,
+        )
+        
+    @commands.command(
         name="settrackvoice", 
         aliases=["stv"],
         description="Sets voice tracking on or off.",
@@ -91,6 +104,7 @@ class SetGeneral(commands.Cog):
             guild_id=ctx.guild.id,
             track_voice=value,
         )
+        
 
 def setup(bot):
     bot.add_cog(SetGeneral(bot))

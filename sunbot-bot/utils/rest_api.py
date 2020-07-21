@@ -15,6 +15,7 @@ urls = {
     "reactions":f"{host}/api/v1/reactions/",
     "games":f"{host}/api/v1/games/",
     "voice":f"{host}/api/v1/voice/",
+    "emotes":f"{host}/api/v1/emotes/",
 
 
 
@@ -92,4 +93,9 @@ async def add_game(bot, **kwargs):
 async def add_voice(bot, **kwargs):
     """Save voice session info to the database"""
     async with bot.web.patch(urls["voice"], json=kwargs) as resp:
+        return resp
+
+async def add_emotes(bot, **kwargs):
+    """Save emote usage info to the database"""
+    async with bot.web.patch(urls["emotes"], json=kwargs) as resp:
         return resp

@@ -32,7 +32,7 @@ class Guild(models.Model):
     track_reactions = models.BooleanField(null=True, blank=True, default=False)
     track_voice = models.BooleanField(null=True, blank=True, default=False)
     track_games = models.BooleanField(null=True, blank=True, default=False)
-    track_emoji = models.BooleanField(null=True, blank=True, default=False)
+    track_emotes = models.BooleanField(null=True, blank=True, default=False)
 
     mod_junior_role_id = models.BigIntegerField(null=True, blank=True)
     mod_senior_role_id = models.BigIntegerField(null=True, blank=True)
@@ -186,3 +186,31 @@ class Voice(models.Model):
         db_table = "voice"
         # Composite primary key workaround
         unique_together = [["guild_id", "channel_id", "user_id", "members", "period"]]
+
+
+class Emotes(models.Model):
+    """Info about custom emotes usage - who, when and how much."""
+    guild_id = models.ForeignKey(
+        Guild,
+        on_delete=models.CASCADE,
+        related_name="voice",
+        db_column="guild_id",  # Django adds second "_id" otherwise
+    )
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="voice",
+        db_column="user_id",  # Django adds second "_id" otherwise
+    )
+    emote = models.CharField(max_length=100)
+    period = models.DateField()
+    count = models.IntegerField(default=0,)
+
+
+    def __str__(self):
+        return f"{self.user_id} used {self.emote} {self.count} times at {self.period}"
+
+    class Meta:
+        db_table = "emotes"
+        # Composite primary key workaround
+        unique_together = [["guild_id", "user_id", "emote", "period"]]
