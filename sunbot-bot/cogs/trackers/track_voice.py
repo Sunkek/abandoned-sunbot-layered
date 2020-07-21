@@ -20,7 +20,8 @@ class TrackVoice(commands.Cog):
         for guild in self.bot.guilds:
             if self.bot.settings.get(guild.id, {}).get("track_voice"):
                 for channel in guild.voice_channels:
-                    if channel.members:
+                    # Should be more than 1 member in voice
+                    if channel.members and len(channel.members) > 1:
                         for member in channel.members:
                             await rest_api.add_voice(
                                 self.bot, 
