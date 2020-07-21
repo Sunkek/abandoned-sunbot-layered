@@ -124,7 +124,7 @@ class Reactions(models.Model):
         related_name="reactions_received",
         db_column="receiver_id",  # Django adds second "_id" otherwise
     )
-    emoji = models.CharField(max_length=100, null=True, blank=True)
+    emoji = models.CharField(max_length=100)
     period = models.DateField()
     count = models.IntegerField(default=0,)
 
@@ -135,3 +135,25 @@ class Reactions(models.Model):
         db_table = "reactions"
         # Composite primary key workaround
         unique_together = [["guild_id", "giver_id", "receiver_id", "emoji", "period"]]
+
+
+class Games(models.Model):
+    """Info about played games - who, when and how much."""
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="games",
+        db_column="user_id",  # Django adds second "_id" otherwise
+    )
+    game = models.CharField(max_length=80, null=True, blank=True)
+    period = models.DateField()
+    duration = models.IntegerField(default=0,)
+
+
+    def __str__(self):
+        return f"{self.user_id} played {self.game} for {self.duration} at {self.period}"
+
+    class Meta:
+        db_table = "games"
+        # Composite primary key workaround
+        unique_together = [["user_id", "game", "period"]]

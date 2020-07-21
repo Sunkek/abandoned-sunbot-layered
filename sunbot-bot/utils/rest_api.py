@@ -13,12 +13,12 @@ urls = {
 
     "messages":f"{host}/api/v1/messages/",
     "reactions":f"{host}/api/v1/reactions/",
+    "games":f"{host}/api/v1/games/",
 
 
 
     
     "voice":f"{host}/api/v1/voice/",
-    "games":f"{host}/api/v1/games/",
 
     "warnings":f"{host}/api/v1/warning/",
     
@@ -70,7 +70,7 @@ async def set_guild_param(bot, guild_id, **kwargs):
     
 async def get_born_today(bot):
     """Get a list of members whose birthday is today"""
-    async with bot.web.get(urls['born_today']) as resp:
+    async with bot.web.get(urls["born_today"]) as resp:
         json = await resp.json()
         return json
         
@@ -81,5 +81,10 @@ async def add_message(bot, **kwargs):
     
 async def add_reaction(bot, **kwargs):
     """Save reaction data to the database"""
-    async with bot.web.patch(urls['reactions'], json=kwargs) as resp:
+    async with bot.web.patch(urls["reactions"], json=kwargs) as resp:
+        return resp
+    
+async def add_game(bot, **kwargs):
+    """Save game session info to the database"""
+    async with bot.web.patch(urls["games"], json=kwargs) as resp:
         return resp

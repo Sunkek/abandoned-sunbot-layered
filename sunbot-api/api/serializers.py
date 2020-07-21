@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Guild, Messages, Reactions
+from .models import User, Guild, Messages, Reactions, Games
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,3 +25,10 @@ class ReactionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reactions
         exclude = ["id"]  # Useless primary key field
+
+
+class GamesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Games
+        exclude = ["id"]  # Useless primary key field
+
