@@ -193,13 +193,13 @@ class Emotes(models.Model):
     guild_id = models.ForeignKey(
         Guild,
         on_delete=models.CASCADE,
-        related_name="voice",
+        related_name="emotes",
         db_column="guild_id",  # Django adds second "_id" otherwise
     )
     user_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="voice",
+        related_name="emotes",
         db_column="user_id",  # Django adds second "_id" otherwise
     )
     emote = models.CharField(max_length=100)
