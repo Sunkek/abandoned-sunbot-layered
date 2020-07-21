@@ -253,6 +253,6 @@ messages = MessagesViewSet.as_view({
 reactions = ReactionsViewSet.as_view({
     'patch': 'partial_update',
 })
-game = GamesViewSet.as_view({
+games = GamesViewSet.as_view({
     'patch': 'partial_update',
 })
