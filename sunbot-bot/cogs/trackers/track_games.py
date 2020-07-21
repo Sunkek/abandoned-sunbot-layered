@@ -57,7 +57,7 @@ class TrackGames(commands.Cog):
                     if played > 0:
                         await rest_api.add_game(
                             self.bot, 
-                            member_id=before.id,
+                            user_id=before.id,
                             game=game[0],
                             duration=played,
                             period=datetime.now().strftime('%Y-%m-%d')

@@ -157,3 +157,32 @@ class Games(models.Model):
         db_table = "games"
         # Composite primary key workaround
         unique_together = [["user_id", "game", "period"]]
+
+
+class Voice(models.Model):
+    """Info about voice chat activity - who, when and how much."""
+    guild_id = models.ForeignKey(
+        Guild,
+        on_delete=models.CASCADE,
+        related_name="voice",
+        db_column="guild_id",  # Django adds second "_id" otherwise
+    )
+    channel_id = models.BigIntegerField()
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="voice",
+        db_column="user_id",  # Django adds second "_id" otherwise
+    )
+    members = models.IntegerField(default=1,)
+    period = models.DateField()
+    duration = models.IntegerField(default=0,)
+
+
+    def __str__(self):
+        return f"{self.user_id} voiced with {self.members} for {self.duration} at {self.period}"
+
+    class Meta:
+        db_table = "voice"
+        # Composite primary key workaround
+        unique_together = [["guild_id", "channel_id", "user_id", "members", "period"]]
