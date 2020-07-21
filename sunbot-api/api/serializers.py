@@ -39,7 +39,7 @@ class VoiceSerializer(serializers.ModelSerializer):
         exclude = ["id"]  # Useless primary key field
 
 
-class EmoteSerializer(serializers.ModelSerializer):
+class EmotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Emotes
         exclude = ["id"]  # Useless primary key field
