@@ -102,8 +102,8 @@ class TopCharts(commands.Cog):
         while True:
             try:
                 done, pending = await wait([
-                    self.bot.wait_for("raw_reaction_add", timeout=20.0, check=check)
-                    self.bot.wait_for("raw_reaction_remove", timeout=20.0, check=check)
+                    self.bot.wait_for("raw_reaction_add", timeout=20.0, check=check),
+                    self.bot.wait_for("raw_reaction_remove", timeout=20.0, check=check),
                 ], return_when=FIRST_COMPLETED)
 
                 try:
