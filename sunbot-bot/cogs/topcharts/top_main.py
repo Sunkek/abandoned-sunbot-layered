@@ -46,6 +46,8 @@ class TopCharts(commands.Cog):
     async def top_postcounts(
         self, ctx, channel: Optional[discord.TextChannel]=None, time_range="month"
     ):
+        if time_range not in self.time_ranges:
+            raise commands.BadArgument
         channel = channel.id if channel else channel
         description = await self.topchart(
             ctx, "postcounts", time_range, 
