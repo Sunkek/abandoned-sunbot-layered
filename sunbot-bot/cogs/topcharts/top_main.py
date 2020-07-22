@@ -148,6 +148,8 @@ class TopCharts(commands.Cog):
                     table = utils.format_columns(postcounts, user_ids)
                     embed.description=f"`{table}`"
                     await message.edit(embed=embed)
+                for future in pending:
+                    future.cancel()
                 #except Exception as e:
                 #    print(e)
                 #    break
@@ -155,8 +157,6 @@ class TopCharts(commands.Cog):
                 await message.clear_reactions()
                 break
 
-            for future in pending:
-                future.cancel()
 
 
 def setup(bot):
