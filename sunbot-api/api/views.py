@@ -9,7 +9,8 @@ from rest_framework.response import Response
 from datetime import date
 
 from .serializers import UserSerializer, GuildSerializer, MessagesSerializer, \
-    ReactionsSerializer, GamesSerializer, VoiceSerializer, EmotesSerializer
+    MessagesTopSerializer, ReactionsSerializer, GamesSerializer, \
+    VoiceSerializer, EmotesSerializer
 from .models import User, Guild, Messages, Reactions, Games, Voice, Emotes
 
 
@@ -343,7 +344,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             ).annotate(sum_postcount=Sum("postcount")).order_by("-sum_postcount")
             print(messages)
             page = self.paginate_queryset(messages)
-            serializer = MessagesSerializer(page, many=True)
+            serializer = MessagesTopSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
             return Response(messages)
         except Exception as e:
