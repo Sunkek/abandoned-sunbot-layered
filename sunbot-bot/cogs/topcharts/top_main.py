@@ -82,7 +82,7 @@ class TopCharts(commands.Cog):
             return all((
                 payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
-                str(payload.emoji) in ["⏩", "⏪"],
+                str(payload.emoji) in ["⏪", "⏩"],
             ))
 
         """done, pending = await wait([
@@ -154,6 +154,9 @@ class TopCharts(commands.Cog):
             except TimeoutError:
                 await message.clear_reactions()
                 break
+
+            for future in pending:
+                future.cancel()
 
 
 def setup(bot):
