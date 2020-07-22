@@ -349,7 +349,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
                 serializer = MessagesTopSerializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
 
-            serializer = MessagesTopSerializer(queryset, many=True)
+            serializer = MessagesTopSerializer(messages, many=True)
             return Response(serializer.data)
             
             """page = self.paginate_queryset(messages)
