@@ -328,7 +328,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
 
-    def list(self, request, chart, time_range, *args, **kwargs):
+    def list(self, request, time_range, *args, **kwargs):
         try:
             data = request.data
             print(data)
