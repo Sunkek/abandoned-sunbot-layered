@@ -89,8 +89,8 @@ class TopCharts(commands.Cog):
             ))
 
         """done, pending = await wait([
-                    bot.wait_for('message')
-                    bot.wait_for('reaction_add')
+                    bot.wait_for('raw_reaction_add')
+                    bot.wait_for('raw_reaction_remove')
                 ], return_when=FIRST_COMPLETED)
 
         try:
@@ -107,7 +107,7 @@ class TopCharts(commands.Cog):
                 payload = await self.bot.wait_for(
                     "raw_reaction_add", timeout=20.0, check=check
                 ) 
-                if payload.emoji == "⏩" and top_chart["next"]:
+                if str(payload.emoji) == "⏩" and top_chart["next"]:
                     top_chart = await rest_api.send_get(
                         self.bot, 
                         top_chart["next"], 
