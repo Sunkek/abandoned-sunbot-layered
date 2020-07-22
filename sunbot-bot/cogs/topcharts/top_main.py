@@ -86,9 +86,9 @@ class TopCharts(commands.Cog):
             ))
 
         """done, pending = await wait([
-                    bot.wait_for('raw_reaction_add')
-                    bot.wait_for('raw_reaction_remove')
-                ], return_when=FIRST_COMPLETED)
+            self.bot.wait_for("raw_reaction_add", timeout=20.0, check=check)
+            self.bot.wait_for("raw_reaction_remove", timeout=20.0, check=check)
+        ], return_when=FIRST_COMPLETED)
 
         try:
             stuff = done.pop().result()
@@ -101,49 +101,56 @@ class TopCharts(commands.Cog):
 
         while True:
             try:
-                payload = await self.bot.wait_for(
-                    "raw_reaction_add", timeout=20.0, check=check
-                ) 
-                if str(payload.emoji) == "⏩" and top_chart["next"]:
-                    top_chart = await rest_api.send_get(
-                        self.bot, 
-                        top_chart["next"], 
-                        guild_id=ctx.guild.id,
-                        channel_id=channel,
-                    )
-                    user_ids = [i["user_id"] for i in top_chart["results"]]
-                    postcounts = [i["sum_postcount"] for i in top_chart["results"]]
-                    user_ids, postcounts = zip(*[
-                        (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
-                    ])
-                    user_ids = [
-                        await utils.get_member_name(
-                            self.bot, ctx.guild, i
-                        ) for i in user_ids
-                    ]
-                    table = utils.format_columns(postcounts, user_ids)
-                    embed.description=f"`{table}`"
-                    await message.edit(embed=embed)
-                elif str(payload.emoji) == "⏪" and top_chart["previous"]:
-                    top_chart = await rest_api.send_get(
-                        self.bot, 
-                        top_chart["previous"], 
-                        guild_id=ctx.guild.id,
-                        channel_id=channel,
-                    )
-                    user_ids = [i["user_id"] for i in top_chart["results"]]
-                    postcounts = [i["sum_postcount"] for i in top_chart["results"]]
-                    user_ids, postcounts = zip(*[
-                        (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
-                    ])
-                    user_ids = [
-                        await utils.get_member_name(
-                            self.bot, ctx.guild, i
-                        ) for i in user_ids
-                    ]
-                    table = utils.format_columns(postcounts, user_ids)
-                    embed.description=f"`{table}`"
-                    await message.edit(embed=embed)
+                done, pending = await wait([
+                    self.bot.wait_for("raw_reaction_add", timeout=20.0, check=check)
+                    self.bot.wait_for("raw_reaction_remove", timeout=20.0, check=check)
+                ], return_when=FIRST_COMPLETED)
+
+                try:
+                    payload = done.pop().result()
+                    if str(payload.emoji) == "⏩" and top_chart["next"]:
+                        top_chart = await rest_api.send_get(
+                            self.bot, 
+                            top_chart["next"], 
+                            guild_id=ctx.guild.id,
+                            channel_id=channel,
+                        )
+                        user_ids = [i["user_id"] for i in top_chart["results"]]
+                        postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                        user_ids, postcounts = zip(*[
+                            (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                        ])
+                        user_ids = [
+                            await utils.get_member_name(
+                                self.bot, ctx.guild, i
+                            ) for i in user_ids
+                        ]
+                        table = utils.format_columns(postcounts, user_ids)
+                        embed.description=f"`{table}`"
+                        await message.edit(embed=embed)
+                    elif str(payload.emoji) == "⏪" and top_chart["previous"]:
+                        top_chart = await rest_api.send_get(
+                            self.bot, 
+                            top_chart["previous"], 
+                            guild_id=ctx.guild.id,
+                            channel_id=channel,
+                        )
+                        user_ids = [i["user_id"] for i in top_chart["results"]]
+                        postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                        user_ids, postcounts = zip(*[
+                            (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                        ])
+                        user_ids = [
+                            await utils.get_member_name(
+                                self.bot, ctx.guild, i
+                            ) for i in user_ids
+                        ]
+                        table = utils.format_columns(postcounts, user_ids)
+                        embed.description=f"`{table}`"
+                        await message.edit(embed=embed)
+                except Exception as e:
+                    print(e)
+                    break
             except TimeoutError:
                 await message.clear_reactions()
                 break
