@@ -2,3 +2,4 @@ pycountry
 beautifulsoup4
 lxml
 emoji
+discord.py
