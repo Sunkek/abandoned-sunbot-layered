@@ -77,9 +77,9 @@ class TopCharts(commands.Cog):
         )
         message = await ctx.send(embed=embed)
         if top_chart["next"]:
-            message.add_reaction("⏩")
+            await message.add_reaction("⏩")
         if top_chart["previous"]:
-            message.add_reaction("⏪")
+            await message.add_reaction("⏪")
         
         def check(payload):
             return all(
@@ -106,9 +106,13 @@ class TopCharts(commands.Cog):
                     embed.description=f"`{table}`"
                     await message.edit(embed=embed)
                     if top_chart["next"]:
-                        message.add_reaction("⏩")
+                        await message.add_reaction("⏩")
+                    else:
+                        await message.remove_reaction("⏩", ctx.guild.me)
                     if top_chart["previous"]:
-                        message.add_reaction("⏪")
+                        await message.add_reaction("⏪")
+                    else:
+                        await message.remove_reaction("⏪", ctx.guild.me)
 
 
 def setup(bot):
