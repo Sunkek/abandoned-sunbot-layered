@@ -31,9 +31,10 @@ class TopCharts(commands.Cog):
         description="This is a command group that shows you the top chart of something", 
         name="top", 
         aliases=['t'], 
+        invoke_without_command=True,
     )
     async def top(self, ctx):
-        if not self.invoked_subcommand:
+        if not ctx.command.invoked_subcommand:
             await ctx.invoke(self.bot.get_command("help"), "top")
 
     # Top postcounts
