@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from typing import Optional, Union
 from datetime import datetime, timedelta
+from asyncio import TimeoutError
 
 from utils import utils, rest_api
 
@@ -56,15 +57,17 @@ class TopCharts(commands.Cog):
             guild_id=ctx.guild.id,
             channel_id=channel,
         )
-        print(top_chart)
 
         user_ids = [i["user_id"] for i in top_chart["results"]]
         postcounts = [i["sum_postcount"] for i in top_chart["results"]]
         user_ids, postcounts = zip(*[
             (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
         ])
-        print(user_ids)
-        print(postcounts)
+        user_ids = [
+            utils(utils.get_member_name(
+                self.bot, ctx.guild, i
+            )) for i in user_ids
+        ]
         table = utils.format_columns(postcounts, user_ids)
 
         embed = discord.Embed(
@@ -72,7 +75,41 @@ class TopCharts(commands.Cog):
             color=ctx.author.color,
             description=f"`{table}`", 
         )
-        await ctx.send(embed=embed)
+        message = await ctx.send(embed=embed)
+        if top_chart["next"]:
+            message.add_reaction("⏩")
+        if top_chart["previous"]:
+            message.add_reaction("⏪")
+        
+        def check(payload):
+            return all(
+                payload.author_id == ctx.author.id,
+                payload.message_id == message.id,
+                payload.emoji in ["⏩", "⏪"],
+            )
+        while True:
+            try:
+                payload = await self.bot.wait_for(
+                    "raw_reaction_add", timeout=20.0, check=check
+                ) 
+            except TimeoutError:
+                await message.clear_reactions()
+                break
+            else:
+                if payload.emoji == "⏩" and top_chart["next"]:
+                    top_chart = await rest_api.send_get(
+                        self.bot, 
+                        top_chart["next"], 
+                        guild_id=ctx.guild.id,
+                        channel_id=channel,
+                    )
+                    embed.description=f"`{table}`"
+                    await message.edit(embed=embed)
+                    if top_chart["next"]:
+                        message.add_reaction("⏩")
+                    if top_chart["previous"]:
+                        message.add_reaction("⏪")
+
 
 def setup(bot):
     bot.add_cog(TopCharts(bot))

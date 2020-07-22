@@ -104,3 +104,8 @@ async def get_top(bot, chart, time_range, **kwargs):
     async with bot.web.get(f"{urls['top']}{chart}/{time_range}/", json=kwargs) as resp:
         json = await resp.json()
         return json
+
+async def send_get(bot, url, **kwargs):
+    async with bot.web.get(url, json=kwargs) as resp:
+        json = await resp.json()
+        return json
