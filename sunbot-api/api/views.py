@@ -338,8 +338,8 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             elif data["guild_id"]:
                 messages = messages.filter(guild_id=data["guild_id"])
             messages = messages.values(
-                "user_id", "postcount"
-            ).annotate(sum_postcount=Sum("postcount")).order_by("-sum_postcount")
+                "user_id"
+            ).annotate(postcount=Sum("postcount")).order_by("-sum_postcount")
             print(messages)
             return Response(messages)
         except Exception as e:
