@@ -63,7 +63,7 @@ class TopCharts(commands.Cog):
         table = utils.format_columns(user_ids, postcounts)
 
         embed = discord.Embed(
-            description=f"`{description}`", 
+            description=f"`{table}`", 
             color=ctx.author.color,
             title=f"Top postcounts for {time_range}"
         )
