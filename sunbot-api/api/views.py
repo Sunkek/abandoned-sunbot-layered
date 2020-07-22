@@ -343,7 +343,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
                 "user_id",
             ).annotate(sum_postcount=Sum("postcount")).order_by("-sum_postcount")
             print(messages)
-            return self.paginate_queryset(messages)
+            return self.get_paginator.paginate_queryset(messages)
             """page = self.paginate_queryset(messages)
             serializer = MessagesTopSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)"""
