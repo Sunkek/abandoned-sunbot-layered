@@ -64,7 +64,7 @@ class TopCharts(commands.Cog):
             (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
         ])
         user_ids = [
-            utils.utils.get_member_name(
+            utils.get_member_name(
                 self.bot, ctx.guild, i
             ) for i in user_ids
         ]
