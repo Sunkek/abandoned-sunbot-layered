@@ -340,7 +340,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             elif data["guild_id"]:
                 messages = messages.filter(guild_id=data["guild_id"])
             messages = messages.only("user_id").annotate(
-                postcount=Sum("postcount")
+                sum_postcount=Sum("postcount")
             ).order_by("-sum_postcount")
             print(messages)
             page = self.paginate_queryset(messages)
