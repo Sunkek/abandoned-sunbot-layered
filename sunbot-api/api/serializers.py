@@ -19,7 +19,12 @@ class MessagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
         exclude = ["id"]  # Useless primary key field
-
+        
+class MessagesTopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Messages
+        fields = ["user_id", "sum_postcount"]
+        
 
 class ReactionsSerializer(serializers.ModelSerializer):
     class Meta:
