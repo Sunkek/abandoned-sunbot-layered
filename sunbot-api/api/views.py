@@ -339,24 +339,20 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
                 messages = messages.filter(channel_id=data["channel_id"])
             elif data["guild_id"]:
                 messages = messages.filter(guild_id=data["guild_id"])
-            messages = messages.values(
-                "user_id",
-            ).annotate(sum_postcount=Sum("postcount")).order_by("-sum_postcount")
+            messages = messages.only("user_id").annotate(
+                sum_postcount=Sum("postcount")
+            ).order_by("-sum_postcount")
             print(messages)
             page = self.paginate_queryset(messages)
             print(page)
             if page is not None:
                 serializer = MessagesTopSerializer(page, many=True)
-                print(serializer.validated_data)
-                return self.get_paginated_response(serializer.validated_data)
+                print(serializer.data)
+                return self.get_paginated_response(messages)
 
             serializer = MessagesTopSerializer(messages, many=True)
-            print(serializer.validated_data)
-            return Response(serializer.validated_data)
-            
-            """page = self.paginate_queryset(messages)
-            serializer = MessagesTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)"""
+            print(serializer.data)
+            return Response(serializer.data)
         except Exception as e:
             print(e)
 
