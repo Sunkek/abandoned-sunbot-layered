@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.utils import IntegrityError
+from django.db.models import Sum
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import viewsets, status, serializers
@@ -323,6 +324,22 @@ class EmotesViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class TopPostcountsViewSet(viewsets.ModelViewSet):
+    queryset = Messages.objects.all()
+    serializer_class = MessagesSerializer
+
+    def list(self, request, chart, time_range, *args, **kwargs):
+        data = request.data
+        messages = Messages.objects.values("user_id")).annotate(postcount=Sum("postcount"))
+        if args["guild_id"]:
+            messages = messages.filter(guild_id=args["guild_id"])
+        elif args["channel_id"]:
+            messages = messages.filter(channel_id=args["channel_id"])
+
+        serializer = self.get_serializer(messages)
+        return Response(serializer.data)
+
+
 """Define the allowed request methods for each ModelViewSet"""
 user = UserViewSet.as_view({
     'get': 'retrieve',
@@ -349,4 +366,7 @@ voice = VoiceViewSet.as_view({
 })
 emotes = EmotesViewSet.as_view({
     'patch': 'partial_update',
+})
+top_postcounts = TopPostcountsViewSet.as_view({
+    'get': 'list',
 })

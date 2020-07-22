@@ -17,7 +17,7 @@ urls = {
     "voice":f"{host}/api/v1/voice/",
     "emotes":f"{host}/api/v1/emotes/",
 
-    "top_postcounts":f"{host}/api/v1/top/postcounts/",
+    "top":f"{host}/api/v1/top/",
 
 
     
@@ -101,7 +101,7 @@ async def add_emotes(bot, **kwargs):
         return resp
 
 async def get_top(bot, chart, time_range, **kwargs):
-    async with bot.web.get(f"{urls[chart]}{time_range}/", json=kwargs) as resp:
+    async with bot.web.get(f"{urls["top"]}{chart}/{time_range}/", json=kwargs) as resp:
         json = await resp.json()
         print(json)
         return json
