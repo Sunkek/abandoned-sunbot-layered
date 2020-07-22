@@ -49,15 +49,25 @@ class TopCharts(commands.Cog):
         if time_range not in self.time_ranges:
             raise commands.BadArgument
         channel = channel.id if channel else channel
-        description = await self.topchart(
-            ctx, "postcounts", time_range, 
-            guild_id=ctx.guild.id, channel_id=channel,
+        top_chart = await rest_api.get_top(
+            self.bot, 
+            "postcounts", 
+            time_range,
+            guild_id=ctx.guild_id,
+            channel_id=channel,
         )
-        """embed = discord.Embed(
-            description=description, color=ctx.author.color,
+        print(top_chart)
+
+        user_ids = top_chart["results"][0].keys()
+        postcounts = top_chart["results"][0].values()
+        table = utils.format_columns(user_ids, postcounts)
+
+        embed = discord.Embed(
+            description=f"`{description}`", 
+            color=ctx.author.color,
             title=f"Top postcounts for {time_range}"
         )
-        await ctx.send(embed=embed)"""
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(TopCharts(bot))

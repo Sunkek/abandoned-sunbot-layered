@@ -103,5 +103,4 @@ async def add_emotes(bot, **kwargs):
 async def get_top(bot, chart, time_range, **kwargs):
     async with bot.web.get(f"{urls['top']}{chart}/{time_range}/", json=kwargs) as resp:
         json = await resp.json()
-        print(json)
         return json

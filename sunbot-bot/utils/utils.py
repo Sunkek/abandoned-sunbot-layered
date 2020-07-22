@@ -4,30 +4,15 @@ from datetime import datetime, timedelta
 import discord
 
 def int_convertable(string):
+    """Return True if string is convertable into int"""
     try: 
         int(string)
         return True
     except ValueError:
         return False
 
-def str_to_date(string):
-    timestamp = datetime.strptime(string, '%Y-%m-%dT%H:%M:%S.%fZ')
-    return timestamp.strftime('%Y-%m-%d')
-
-def parse_time_range(time_range):
-    now = datetime.utcnow().replace(hour=1,minute=1,second=1,microsecond=1)
-    if time_range.lower() == "month":
-        start = now - timedelta(days=30)
-        end = now + timedelta(days=1)
-    elif time_range.lower() == "year":
-        start = now - timedelta(days=365)
-        end = now + timedelta(days=1)
-    elif time_range.lower() == "alltime":
-        start = datetime.strptime("01/01/2000", "%d/%m/%Y")
-        end = datetime.strptime("01/01/3000", "%d/%m/%Y")
-    return start, end
-
 def format_seconds(seconds):
+    """Format seconds into easily readable format"""
     years = seconds // (60*60*24*365)
     seconds %= (60*60*24*365)
     days = seconds // (60*60*24)
@@ -43,6 +28,27 @@ def format_seconds(seconds):
     se = f"{int(seconds)}s" if seconds else ''
     return f"{ye}{da}{ho}{mi}{se}".strip()
 
+async def get_member_name(bot, guild, member_id):
+    """Return member's guild nickname if possible, otherwise just name"""
+    try:
+        return guild.get_member(member_id).display_name
+    except AttributeError:
+        member = await bot.fetch_user(member_id)
+        return member.name
+
+def format_columns(columns):
+    """Tabulate columns (lists) into a neatly aligned table"""
+    maxlens = [max(len(str(line)) for line in column) for column in columns]
+    table = []
+    for row in zip(*columns):
+        line = f'{row[0]:.<{maxlens[0]}}'
+        for num, value in enumerate(row[1:-1], 1):
+            line += f'..{value:.^{maxlens[num]}}'
+        line += f'..{row[-1]:.>{maxlens[-1]}}'
+        table.append(line)
+    return '\n'.join(table)
+
+
 def columns_to_table(columns, numerate=False):
     if numerate:
         nums = ['#'] + [i for i in range(1, len(columns[0])-1)] + ['']
@@ -57,13 +63,6 @@ def columns_to_table(columns, numerate=False):
         table.append(line)
     return '`' + '\n'.join(table) + '`'
 
-async def get_member_name(bot, guild, member_id):
-    try:
-        return guild.get_member(member_id).display_name
-    except AttributeError:
-        member = await bot.fetch_user(member_id)
-        return member.name
-
 async def add_name_column(bot, guild, chart):
     return [
         [
@@ -74,16 +73,6 @@ async def add_name_column(bot, guild, chart):
         for item in chart
     ]
 
-def format_columns(columns):
-    maxlens = [max(len(str(line)) for line in column) for column in columns]
-    table = []
-    for row in zip(*columns):
-        line = f'{row[0]:.<{maxlens[0]}}'
-        for num, value in enumerate(row[1:-1], 1):
-            line += f'..{value:.^{maxlens[num]}}'
-        line += f'..{row[-1]:.>{maxlens[-1]}}'
-        table.append(line)
-    return '`' + '\n'.join(table) + '`'
     
 def format_settings_key(string):
     return string.lower().replace('_id', '').replace('_', ' ').capitalize()
