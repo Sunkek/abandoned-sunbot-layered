@@ -66,7 +66,7 @@ class TopCharts(commands.Cog):
         user_ids = [
             utils.utils.get_member_name(
                 self.bot, ctx.guild, i
-            )) for i in user_ids
+            ) for i in user_ids
         ]
         table = utils.format_columns(postcounts, user_ids)
 
