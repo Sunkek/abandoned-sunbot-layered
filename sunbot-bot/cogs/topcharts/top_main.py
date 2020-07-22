@@ -53,7 +53,7 @@ class TopCharts(commands.Cog):
             self.bot, 
             "postcounts", 
             time_range,
-            guild_id=ctx.guild_id,
+            guild_id=ctx.guild.id,
             channel_id=channel,
         )
         print(top_chart)
