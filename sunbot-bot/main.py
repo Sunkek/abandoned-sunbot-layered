@@ -49,7 +49,7 @@ async def on_ready():
         bot.web = aiohttp.ClientSession(
             loop=bot.loop,
             connector=aiohttp.TCPConnector( 
-                family=socket.AF_INET, #https://github.com/aio-libs/aiohttp/issues/2522#issuecomment-354454800
+                family=socket.AF_INET, # https://github.com/aio-libs/aiohttp/issues/2522#issuecomment-354454800
                 ssl=False, 
                 ),
             )

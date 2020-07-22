@@ -17,13 +17,13 @@ urls = {
     "voice":f"{host}/api/v1/voice/",
     "emotes":f"{host}/api/v1/emotes/",
 
+    "top_postcounts":f"{host}/api/v1/top/postcounts/",
 
 
     
 
     "warnings":f"{host}/api/v1/warning/",
     
-    "top_postcounts":f"{host}/api/v1/top/postcounts/",
     "top_wordcounts":f"{host}/api/v1/top/wordcounts/",
     "top_attachments":f"{host}/api/v1/top/attachments/",
 
@@ -99,3 +99,9 @@ async def add_emotes(bot, **kwargs):
     """Save emote usage info to the database"""
     async with bot.web.patch(urls["emotes"], json=kwargs) as resp:
         return resp
+
+async def get_top(bot, chart, time_range, **kwargs):
+    async with bot.web.get(f"{urls[chart]}{time_range}/", json=kwargs) as resp:
+        json = await resp.json()
+        print(json)
+        return json
