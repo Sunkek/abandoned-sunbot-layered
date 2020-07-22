@@ -330,7 +330,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, chart, time_range, *args, **kwargs):
         data = request.data
-        messages = Messages.objects.values("user_id")).annotate(postcount=Sum("postcount"))
+        messages = Messages.objects.values("user_id").annotate(postcount=Sum("postcount"))
         if args["guild_id"]:
             messages = messages.filter(guild_id=args["guild_id"])
         elif args["channel_id"]:
