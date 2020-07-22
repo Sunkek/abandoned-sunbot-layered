@@ -83,7 +83,7 @@ class TopCharts(commands.Cog):
         
         def check(payload):
             return all(
-                payload.author_id == ctx.author.id,
+                payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
                 payload.emoji in ["⏩", "⏪"],
             )
