@@ -328,7 +328,6 @@ class EmotesViewSet(viewsets.ModelViewSet):
 class TopPostcountsViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
-    pagination_class = pagination.PageNumberPagination
 
     def list(self, request, time_range, *args, **kwargs):
         try:
@@ -343,6 +342,9 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
                 "user_id",
             ).annotate(sum_postcount=Sum("postcount")).order_by("-sum_postcount")
             print(messages)
+            page = self.paginate_queryset(messages)
+            serializer = PolicySerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
             return Response(messages)
         except Exception as e:
             print(e)
