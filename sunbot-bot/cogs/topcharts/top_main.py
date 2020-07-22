@@ -155,6 +155,8 @@ class TopCharts(commands.Cog):
                 #    break
             except TimeoutError:
                 await message.clear_reactions()
+                for future in pending:
+                    future.cancel()
                 break
 
 
