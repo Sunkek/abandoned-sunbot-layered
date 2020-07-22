@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from django.db.models import Sum
 from django.core.exceptions import ObjectDoesNotExist
 
-from rest_framework import viewsets, status, serializers
+from rest_framework import viewsets, status, serializers, pagination
 from rest_framework.response import Response
 
 from datetime import date
@@ -328,6 +328,7 @@ class EmotesViewSet(viewsets.ModelViewSet):
 class TopPostcountsViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
+    pagination_class = pagination.PageNumberPagination
 
     def list(self, request, time_range, *args, **kwargs):
         try:
