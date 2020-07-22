@@ -58,8 +58,11 @@ class TopCharts(commands.Cog):
         )
         print(top_chart)
 
-        user_ids = top_chart["results"][0].keys()
-        postcounts = top_chart["results"][0].values()
+        user_ids = [i["user_id"] for i in top_chart["results"]]
+        postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+        user_ids, postcounts = zip(*[
+            (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+        ])
         print(user_ids)
         print(postcounts)
         table = utils.format_columns(postcounts, user_ids)
