@@ -52,6 +52,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class SettingsViewSet(viewsets.ModelViewSet):
     queryset = Guild.objects.all()
     serializer_class = GuildSerializer
+    pagination_class = None
 
     def list(self, request, *args, **kwargs):
         settings = list(Guild.objects.all().values())
@@ -338,8 +339,8 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             elif data["guild_id"]:
                 messages = messages.filter(guild_id=data["guild_id"])
             messages = messages.values(
-                "user_id"
-            ).annotate(postcount=Sum("postcount")).order_by("-sum_postcount")
+                "user_id",
+            ).annotate(sum_postcount=Sum("postcount")).order_by("-sum_postcount")
             print(messages)
             return Response(messages)
         except Exception as e:
