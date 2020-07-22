@@ -85,7 +85,7 @@ class TopCharts(commands.Cog):
             return all((
                 payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
-                payload.emoji in ["⏩", "⏪"],
+                str(payload.emoji) in ["⏩", "⏪"],
             ))
         while True:
             try:
