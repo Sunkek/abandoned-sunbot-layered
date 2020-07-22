@@ -346,10 +346,11 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             page = self.paginate_queryset(messages)
             print(page)
             if page is not None:
-                serializer = self.get_serializer(page, many=True)
+                serializer = MessagesTopSerializer(page, many=True)
+                print(serializer.data)
                 return self.get_paginated_response(messages)
 
-            serializer = self.get_serializer(messages, many=True)
+            serializer = MessagesTopSerializer(messages, many=True)
             print(serializer.data)
             return Response(serializer.data)
         except Exception as e:

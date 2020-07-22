@@ -23,7 +23,7 @@ class MessagesSerializer(serializers.ModelSerializer):
 class MessagesTopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
-        fields = ["user_id", "postcount"]
+        fields = ["user_id", "sum_postcount"]
 
 
 class ReactionsSerializer(serializers.ModelSerializer):
