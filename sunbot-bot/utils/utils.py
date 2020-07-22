@@ -36,7 +36,7 @@ async def get_member_name(bot, guild, member_id):
         member = await bot.fetch_user(member_id)
         return member.name
 
-def format_columns(columns):
+def format_columns(*, columns):
     """Tabulate columns (lists) into a neatly aligned table"""
     maxlens = [max(len(str(line)) for line in column) for column in columns]
     table = []
