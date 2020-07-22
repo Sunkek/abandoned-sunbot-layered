@@ -60,7 +60,7 @@ class TopCharts(commands.Cog):
 
         user_ids = top_chart["results"][0].keys()
         postcounts = top_chart["results"][0].values()
-        table = utils.format_columns(user_ids, postcounts)
+        table = utils.format_columns(postcounts, user_ids)
 
         embed = discord.Embed(
             description=f"`{table}`", 

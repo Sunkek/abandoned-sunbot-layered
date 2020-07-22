@@ -40,7 +40,7 @@ def format_columns(*columns):
     """Tabulate columns (lists) into a neatly aligned table"""
     maxlens = [max(len(str(line)) for line in column) for column in columns]
     table = []
-    for row in zip(*columns):
+    for row in zip(columns):
         line = f'{row[0]:.<{maxlens[0]}}'
         for num, value in enumerate(row[1:-1], 1):
             line += f'..{value:.^{maxlens[num]}}'
