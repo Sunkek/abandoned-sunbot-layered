@@ -82,10 +82,6 @@ class TopCharts(commands.Cog):
             await message.add_reaction("⏪")
         
         def check(payload):
-            print(payload.user_id == ctx.author.id)
-            print(payload.message_id == message.id)
-            print(str(payload.emoji) in ["⏩", "⏪"])
-            print(str(payload.emoji))
             return all((
                 payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
@@ -111,10 +107,6 @@ class TopCharts(commands.Cog):
                 payload = await self.bot.wait_for(
                     "raw_reaction_add", timeout=20.0, check=check
                 ) 
-            except TimeoutError:
-                await message.clear_reactions()
-                break
-            else:
                 if payload.emoji == "⏩" and top_chart["next"]:
                     top_chart = await rest_api.send_get(
                         self.bot, 
@@ -132,6 +124,9 @@ class TopCharts(commands.Cog):
                         await message.add_reaction("⏪")
                     else:
                         await message.remove_reaction("⏪", ctx.guild.me)
+            except TimeoutError:
+                await message.clear_reactions()
+                break
 
 
 def setup(bot):
