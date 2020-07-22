@@ -82,11 +82,11 @@ class TopCharts(commands.Cog):
             await message.add_reaction("⏪")
         
         def check(payload):
-            return all(
+            return all((
                 payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
                 payload.emoji in ["⏩", "⏪"],
-            )
+            ))
         while True:
             try:
                 payload = await self.bot.wait_for(
