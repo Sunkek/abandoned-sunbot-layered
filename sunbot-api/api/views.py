@@ -335,7 +335,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             messages = messages.filter(guild_id=args["guild_id"])
         elif args["channel_id"]:
             messages = messages.filter(channel_id=args["channel_id"])
-
+        messages.order_by("-postcount")
         serializer = self.get_serializer(messages)
         return Response(serializer.data)
 
