@@ -332,14 +332,16 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
         try:
             data = request.data
             print(data)
-            messages = Messages.objects.values("user_id").annotate(postcount=Sum("postcount"))
-            if data["guild_id"]:
-                messages = messages.filter(guild_id=data["guild_id"])
-            elif data["channel_id"]:
+            messages = Messages.objects.all()
+            if data["channel_id"]:
                 messages = messages.filter(channel_id=data["channel_id"])
-            messages.order_by("-postcount")
-            serializer = self.get_serializer(messages)
-            return Response(serializer.data)
+            elif data["guild_id"]:
+                messages = messages.filter(guild_id=data["guild_id"])
+            messages = messages.values(
+                "user_id", "postcount"
+            ).annotate(postcount=Sum("postcount")).order_by("-postcount")
+            print(messages)
+            return Response(messages)
         except Exception as e:
             print(e)
 

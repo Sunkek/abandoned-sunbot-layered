@@ -43,9 +43,14 @@ class TopCharts(commands.Cog):
         name="postcounts", 
         aliases=["pc",],
     )
-    async def top_postcounts(self, ctx, time_range="month"):
-        """Top chart by server only."""
-        description = await self.topchart(ctx, "postcounts", time_range)
+    async def top_postcounts(
+        self, ctx, channel: Optional[discord.TextChannel]=None, time_range="month"
+    ):
+        channel = channel.id if channel else channel
+        description = await self.topchart(
+            ctx, "postcounts", time_range, 
+            guild_id=ctx.guild.id, channel_id=channel,
+        )
         """embed = discord.Embed(
             description=description, color=ctx.author.color,
             title=f"Top postcounts for {time_range}"
