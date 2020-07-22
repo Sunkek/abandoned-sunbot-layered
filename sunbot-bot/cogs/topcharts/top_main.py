@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from typing import Optional, Union
 from datetime import datetime, timedelta
-from asyncio import TimeoutError
+from asyncio import TimeoutError, wait, FIRST_COMPLETED
 
 from utils import utils, rest_api
 
@@ -82,11 +82,30 @@ class TopCharts(commands.Cog):
             await message.add_reaction("⏪")
         
         def check(payload):
+            print(payload.user_id == ctx.author.id)
+            print(payload.message_id == message.id)
+            print(str(payload.emoji) in ["⏩", "⏪"])
+            print(str(payload.emoji))
             return all((
                 payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
                 str(payload.emoji) in ["⏩", "⏪"],
             ))
+
+        """done, pending = await wait([
+                    bot.wait_for('message')
+                    bot.wait_for('reaction_add')
+                ], return_when=FIRST_COMPLETED)
+
+        try:
+            stuff = done.pop().result()
+        except ...:
+            # if any of the tasks died for any reason,
+            #  the exception will be replayed here.
+
+        for future in pending:
+            future.cancel()  # we don't need these anymore"""
+
         while True:
             try:
                 payload = await self.bot.wait_for(
