@@ -39,7 +39,7 @@ class TopCharts(commands.Cog):
 
     # Top postcounts
     @top.command(
-        description="Shows you who posted the most in the current `month/year/alltime`)",
+        description="Shows you who posted the most in the current `month/year/alltime`",
         name="postcounts", 
         aliases=["pc",],
     )

@@ -329,15 +329,18 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
 
     def list(self, request, chart, time_range, *args, **kwargs):
-        data = request.data
-        messages = Messages.objects.values("user_id").annotate(postcount=Sum("postcount"))
-        if args["guild_id"]:
-            messages = messages.filter(guild_id=args["guild_id"])
-        elif args["channel_id"]:
-            messages = messages.filter(channel_id=args["channel_id"])
-        messages.order_by("-postcount")
-        serializer = self.get_serializer(messages)
-        return Response(serializer.data)
+        try:
+            data = request.data
+            messages = Messages.objects.values("user_id").annotate(postcount=Sum("postcount"))
+            if data["guild_id"]:
+                messages = messages.filter(guild_id=data["guild_id"])
+            elif data["channel_id"]:
+                messages = messages.filter(channel_id=data["channel_id"])
+            messages.order_by("-postcount")
+            serializer = self.get_serializer(messages)
+            return Response(serializer.data)
+        except Exception as e:
+            print(e)
 
 
 """Define the allowed request methods for each ModelViewSet"""
