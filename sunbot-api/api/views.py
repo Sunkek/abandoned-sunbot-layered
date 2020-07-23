@@ -337,17 +337,13 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             messages = Messages.objects
             if data["channel_id"]:  #  Top for the channel
                 messages = messages.filter(channel_id=data["channel_id"])
-                total = Messages.objects.aggregate(total=Sum("postcount"))
-                print(total)
             elif data["guild_id"]:  # Top for the guild
                 messages = messages.filter(guild_id=data["guild_id"])
-                total = Messages.objects.aggregate(total=Sum("postcount"))
-                print(total)
+                #total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
             messages = messages.values("user_id").annotate(
                 count=Sum("postcount")
             ).order_by("-count")
-            print({"data":messages, "total":total})
-            page = self.paginate_queryset({"data":messages, "total":total})
+            page = self.paginate_queryset(messages)
             if page is not None:
                 serializer = MessagesTopSerializer(page, many=True)
                 return self.get_paginated_response(serializer.data)

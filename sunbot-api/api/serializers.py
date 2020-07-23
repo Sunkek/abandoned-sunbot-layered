@@ -56,12 +56,13 @@ class EmotesSerializer(serializers.ModelSerializer):
 
 class CustomPageNumberPagination(pagination.PageNumberPagination):
     def get_paginated_response(self, data):
+        print(data)
         return Response({
             "next": self.get_next_link(),
             "previous": self.get_previous_link(),
             "current": self.self.page.number,
             "last": self.page.paginator.num_pages,
             "count": self.page.paginator.count,
-            "total": data["total"],
-            "results": data["data"],
+            "total": data,
+            "results": data,
         })
