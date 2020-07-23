@@ -22,12 +22,12 @@ class MessagesSerializer(serializers.ModelSerializer):
         exclude = ["id"]  # Useless primary key field
         
 class MessagesTopSerializer(serializers.ModelSerializer):
-    sum_postcount = serializers.IntegerField()
+    count = serializers.IntegerField()
     user_id = serializers.IntegerField()
     
     class Meta:
         model = Messages
-        fields = ["user_id", "sum_postcount"]
+        fields = ["user_id", "count"]
 
 
 class ReactionsSerializer(serializers.ModelSerializer):
