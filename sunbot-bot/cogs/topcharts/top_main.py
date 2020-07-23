@@ -69,12 +69,11 @@ class TopCharts(commands.Cog):
             ) for i in user_ids
         ]
         postcounts = list(postcounts)
-        headers = ["POSTCOUNT", "MEMBER"]
+        headers, footers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
         table = utils.format_columns(
             postcounts, user_ids, headers=headers, footers=footers
         )
-
         embed = discord.Embed(
             title=f"Top postcounts for {time_range} {channel_name}",
             color=ctx.author.color,
@@ -112,17 +111,13 @@ class TopCharts(commands.Cog):
                     guild_id=ctx.guild.id,
                     channel_id=channel,
                 )
-                user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["count"] for i in top_chart["results"]]
-                user_ids, postcounts = zip(*[
-                    (i["user_id"], i["count"]) for i in top_chart["results"]
-                ])
                 user_ids = [
                     await utils.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
-                headers = ["POSTCOUNT", "MEMBER"]
+                postcounts = list(postcounts)
+                headers, footers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
@@ -149,7 +144,8 @@ class TopCharts(commands.Cog):
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
-                headers = ["POSTCOUNT", "MEMBER"]
+                postcounts = list(postcounts)
+                headers, footers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
@@ -176,7 +172,8 @@ class TopCharts(commands.Cog):
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
-                headers = ["POSTCOUNT", "MEMBER"]
+                postcounts = list(postcounts)
+                headers, footers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
@@ -205,7 +202,8 @@ class TopCharts(commands.Cog):
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
-                headers = ["POSTCOUNT", "MEMBER"]
+                postcounts = list(postcounts)
+                headers, footers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
