@@ -68,12 +68,12 @@ class TopCharts(commands.Cog):
                 self.bot, ctx.guild, i
             ) for i in user_ids
         ]
+        postcounts = list(postcounts)
         headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
         table = utils.format_columns(
             postcounts, user_ids, headers=headers, footers=footers
         )
-        print(table)
 
         embed = discord.Embed(
             title=f"Top postcounts for {time_range} {channel_name}",
