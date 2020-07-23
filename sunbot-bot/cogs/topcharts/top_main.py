@@ -148,18 +148,18 @@ class TopCharts(commands.Cog):
                         table = utils.format_columns(postcounts, user_ids)
                         embed.description=f"`{table}`"
                         await message.edit(embed=embed)
-                    for future in pending:
-                        future.cancel()
+                    for future in pending: future.cancel()
                 except TimeoutError:
                     print("Inner try/except")
                     await message.clear_reactions()
+                    for future in pending: future.cancel()
                     break
             except TimeoutError:
                 print("Outer try/except")
                 await message.clear_reactions()
+                for future in pending: future.cancel()
                 break
-            for future in pending:
-                future.cancel()
+            for future in pending: future.cancel()
 
 
 
