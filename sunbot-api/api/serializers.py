@@ -62,6 +62,6 @@ class CustomPageNumberPagination(pagination.PageNumberPagination):
             "current": self.self.page.number,
             "last": self.page.paginator.num_pages,
             "count": self.page.paginator.count,
-            "total": self.data["total"],
+            "total": data["total"],
             "results": data["data"],
         })
