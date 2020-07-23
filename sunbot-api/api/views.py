@@ -331,22 +331,25 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
 
     def list(self, request, time_range, *args, **kwargs):
-        data = request.data
-        messages = Messages.objects
-        if data["channel_id"]:  #  Top for the channel
-            messages = messages.filter(channel_id=data["channel_id"])
-        elif data["guild_id"]:  # Top for the guild
-            messages = messages.filter(guild_id=data["guild_id"])
-        messages = messages.values("user_id").annotate(
-            sum_postcount=Sum("postcount")
-        ).order_by("-sum_postcount")
-        print(messages)
-        page = self.paginate_queryset(messages)
-        if page is not None:
-            serializer = MessagesTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = MessagesTopSerializer(messages, many=True)
-        return Response(serializer.data)
+        try:
+            data = request.data
+            messages = Messages.objects
+            if data["channel_id"]:  #  Top for the channel
+                messages = messages.filter(channel_id=data["channel_id"])
+            elif data["guild_id"]:  # Top for the guild
+                messages = messages.filter(guild_id=data["guild_id"])
+            messages = messages.values("user_id").annotate(
+                sum_postcount=Sum("postcount")
+            ).order_by("-sum_postcount")
+            print(messages)
+            page = self.paginate_queryset(messages)
+            if page is not None:
+                serializer = MessagesTopSerializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            serializer = MessagesTopSerializer(messages, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            print(e)
 
 
 """Define the allowed request methods for each ModelViewSet"""
