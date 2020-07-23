@@ -330,6 +330,14 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
     pagination_class = CustomPageNumberPagination
+    
+    def get_paginated_response(self, data):
+        """
+        Return a paginated style `Response` object for the given output data.
+        I just want to add total to my results.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, total)
 
     def list(self, request, time_range, *args, **kwargs):
         try:
