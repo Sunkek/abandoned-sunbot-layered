@@ -332,7 +332,7 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, time_range, *args, **kwargs):
         data = request.data
-        messages = Messages.objects.all()
+        messages = Messages.objects
         if data["channel_id"]:  #  Top for the channel
             messages = messages.filter(channel_id=data["channel_id"])
         elif data["guild_id"]:  # Top for the guild
