@@ -120,6 +120,9 @@ class TopCharts(commands.Cog):
                 ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
+                embed.set_footer(
+                    text=f"Page {top_chart['current']}/{top_chart['last']}"
+                )
                 await message.edit(embed=embed)
             elif str(payload.emoji) == "⏪" and top_chart["previous"]:
                 top_chart = await rest_api.send_get(
@@ -141,6 +144,9 @@ class TopCharts(commands.Cog):
                 ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
+                embed.set_footer(
+                    text=f"Page {top_chart['current']}/{top_chart['last']}"
+                )
                 await message.edit(embed=embed)
             elif str(payload.emoji) == "⏩" and top_chart["next"]:
                 top_chart = await rest_api.send_get(
@@ -162,6 +168,9 @@ class TopCharts(commands.Cog):
                 ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
+                embed.set_footer(
+                    text=f"Page {top_chart['current']}/{top_chart['last']}"
+                )
                 await message.edit(embed=embed)
             elif str(payload.emoji) == "⏭️" and top_chart["current"] != top_chart["last"]:
                 url = top_chart["next"] or top_chart["previous"]
@@ -185,6 +194,9 @@ class TopCharts(commands.Cog):
                 ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
+                embed.set_footer(
+                    text=f"Page {top_chart['current']}/{top_chart['last']}"
+                )
                 await message.edit(embed=embed)
             for future in pending: future.cancel()
 
