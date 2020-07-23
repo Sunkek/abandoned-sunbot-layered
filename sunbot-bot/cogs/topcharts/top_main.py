@@ -57,11 +57,10 @@ class TopCharts(commands.Cog):
             guild_id=ctx.guild.id,
             channel_id=channel,
         )
-        print(top_chart)
         user_ids = [i["user_id"] for i in top_chart["results"]]
-        postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+        postcounts = [i["count"] for i in top_chart["results"]]
         user_ids, postcounts = zip(*[
-            (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+            (i["user_id"], i["count"]) for i in top_chart["results"]
         ])
         user_ids = [
             await utils.get_member_name(
@@ -88,20 +87,6 @@ class TopCharts(commands.Cog):
                 str(payload.emoji) in ["⏮️", "⏪", "⏩", "⏭️"],
             ))
 
-        """done, pending = await wait([
-            self.bot.wait_for("raw_reaction_add", timeout=20.0, check=check)
-            self.bot.wait_for("raw_reaction_remove", timeout=20.0, check=check)
-        ], return_when=FIRST_COMPLETED)
-
-        try:
-            stuff = done.pop().result()
-        except ...:
-            # if any of the tasks died for any reason,
-            #  the exception will be replayed here.
-
-        for future in pending:
-            future.cancel()  # we don't need these anymore"""
-
         while True:
             done, pending = await wait([
                 self.bot.wait_for("raw_reaction_add", check=check),
@@ -123,9 +108,9 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]]
                 user_ids, postcounts = zip(*[
-                    (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                    (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
                     await utils.get_member_name(
@@ -143,9 +128,9 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]]
                 user_ids, postcounts = zip(*[
-                    (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                    (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
                     await utils.get_member_name(
@@ -163,9 +148,9 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]]
                 user_ids, postcounts = zip(*[
-                    (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                    (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
                     await utils.get_member_name(
@@ -185,9 +170,9 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]]
                 user_ids, postcounts = zip(*[
-                    (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                    (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
                     await utils.get_member_name(
