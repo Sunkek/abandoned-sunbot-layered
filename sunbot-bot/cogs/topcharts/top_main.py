@@ -58,7 +58,8 @@ class TopCharts(commands.Cog):
             channel_id=channel,
         )
         user_ids = [i["user_id"] for i in top_chart["results"]]
-        postcounts = [i["count"] for i in top_chart["results"]]
+        postcounts = [i["count"] for i in top_chart["results"]] + \
+            ["", top_chart["total"]]
         user_ids, postcounts = zip(*[
             (i["user_id"], i["count"]) for i in top_chart["results"]
         ])
@@ -66,7 +67,7 @@ class TopCharts(commands.Cog):
             await utils.get_member_name(
                 self.bot, ctx.guild, i
             ) for i in user_ids
-        ]
+        ] + ["", "TOTAL"]
         table = utils.format_columns(postcounts, user_ids)
 
         embed = discord.Embed(
@@ -74,11 +75,10 @@ class TopCharts(commands.Cog):
             color=ctx.author.color,
             description=f"`{table}`", 
         )
+        embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
-        await message.add_reaction("⏮️")
-        await message.add_reaction("⏪")
-        await message.add_reaction("⏩")
-        await message.add_reaction("⏭️")
+        for i in ["⏮️", "⏪", "⏩", "⏭️"]:
+            await message.add_reaction(i)
         
         def check(payload):
             return all((
@@ -108,7 +108,8 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["count"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]] + \
+                    ["", top_chart["total"]]
                 user_ids, postcounts = zip(*[
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
@@ -116,7 +117,7 @@ class TopCharts(commands.Cog):
                     await utils.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
-                ]
+                ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
                 await message.edit(embed=embed)
@@ -128,7 +129,8 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["count"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]] + \
+                    ["", top_chart["total"]]
                 user_ids, postcounts = zip(*[
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
@@ -136,7 +138,7 @@ class TopCharts(commands.Cog):
                     await utils.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
-                ]
+                ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
                 await message.edit(embed=embed)
@@ -148,7 +150,8 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["count"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]] + \
+                    ["", top_chart["total"]]
                 user_ids, postcounts = zip(*[
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
@@ -156,13 +159,13 @@ class TopCharts(commands.Cog):
                     await utils.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
-                ]
+                ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
                 await message.edit(embed=embed)
             elif str(payload.emoji) == "⏭️" and top_chart["current"] != top_chart["last"]:
                 url = top_chart["next"] or top_chart["previous"]
-                url = url.split("?")[0] + "?page=1"
+                url = url.split("?")[0] + f"?page={top_chart['last']}"
                 top_chart = await rest_api.send_get(
                     self.bot, 
                     url, 
@@ -170,7 +173,8 @@ class TopCharts(commands.Cog):
                     channel_id=channel,
                 )
                 user_ids = [i["user_id"] for i in top_chart["results"]]
-                postcounts = [i["count"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]] + \
+                    ["", top_chart["total"]]
                 user_ids, postcounts = zip(*[
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
@@ -178,7 +182,7 @@ class TopCharts(commands.Cog):
                     await utils.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
-                ]
+                ] + ["", "TOTAL"]
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
                 await message.edit(embed=embed)
