@@ -39,6 +39,9 @@ async def get_member_name(bot, guild, member_id):
 def format_columns(*columns, headers=None, footers=None):
     """Tabulate columns (lists) into a neatly aligned table"""
     columns = list(columns)
+    print(columns)
+    print(headers)
+    print(footers)
     for i in range(len(columns)):
         if headers: columns[i] = [headers[i]] + columns[i]
         if footers: columns[i] += [footers[i]]
