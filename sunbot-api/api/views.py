@@ -340,26 +340,23 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
         return self.paginator.get_paginated_response(data, total)
 
     def list(self, request, time_range, *args, **kwargs):
-        try:
-            data = request.data
-            messages = Messages.objects
-            if data["channel_id"]:  #  Top for the channel
-                messages = messages.filter(channel_id=data["channel_id"])
-                total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
-            elif data["guild_id"]:  # Top for the guild
-                messages = messages.filter(guild_id=data["guild_id"])
-                total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
-            messages = messages.values("user_id").annotate(
-                count=Sum("postcount")
-            ).order_by("-count")
-            page = self.paginate_queryset(messages)
-            if page is not None:
-                serializer = MessagesTopSerializer(page, many=True)
-                return self.get_paginated_response(serializer.data, total)
-            serializer = MessagesTopSerializer(messages, many=True)
-            return Response(serializer.data)
-        except Exception as e:
-            print(e)
+        data = request.data
+        messages = Messages.objects
+        if data["channel_id"]:  #  Top for the channel
+            messages = messages.filter(channel_id=data["channel_id"])
+            total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
+        elif data["guild_id"]:  # Top for the guild
+            messages = messages.filter(guild_id=data["guild_id"])
+            total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
+        messages = messages.values("user_id").annotate(
+            count=Sum("postcount")
+        ).order_by("-count")
+        page = self.paginate_queryset(messages)
+        if page is not None:
+            serializer = MessagesTopSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data, total)
+        serializer = MessagesTopSerializer(messages, many=True)
+        return Response(serializer.data)
 
 
 """Define the allowed request methods for each ModelViewSet"""
