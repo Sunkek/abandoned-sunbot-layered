@@ -111,6 +111,8 @@ class TopCharts(commands.Cog):
                     guild_id=ctx.guild.id,
                     channel_id=channel,
                 )
+                user_ids = [i["user_id"] for i in top_chart["results"]]
+                postcounts = [i["count"] for i in top_chart["results"]]
                 user_ids = [
                     await utils.get_member_name(
                         self.bot, ctx.guild, i
