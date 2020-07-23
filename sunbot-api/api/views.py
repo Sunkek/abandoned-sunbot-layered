@@ -10,7 +10,7 @@ from datetime import date
 
 from .serializers import UserSerializer, GuildSerializer, MessagesSerializer, \
     MessagesTopSerializer, ReactionsSerializer, GamesSerializer, \
-    VoiceSerializer, EmotesSerializer
+    VoiceSerializer, EmotesSerializer, CustomPageNumberPagination
 from .models import User, Guild, Messages, Reactions, Games, Voice, Emotes
 
 
@@ -329,18 +329,21 @@ class EmotesViewSet(viewsets.ModelViewSet):
 class TopPostcountsViewSet(viewsets.ModelViewSet):
     queryset = Messages.objects.all()
     serializer_class = MessagesSerializer
+    pagination_class = CustomPageNumberPagination
 
     def list(self, request, time_range, *args, **kwargs):
         data = request.data
         messages = Messages.objects
         if data["channel_id"]:  #  Top for the channel
             messages = messages.filter(channel_id=data["channel_id"])
+            total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
         elif data["guild_id"]:  # Top for the guild
             messages = messages.filter(guild_id=data["guild_id"])
+            total = Messages.objects.aggregate(total=Sum("postcount"))["total"]
         messages = messages.values("user_id").annotate(
             sum_postcount=Sum("postcount")
         ).order_by("-sum_postcount")
-        page = self.paginate_queryset(messages)
+        page = self.paginate_queryset(messages, total)
         if page is not None:
             serializer = MessagesTopSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)

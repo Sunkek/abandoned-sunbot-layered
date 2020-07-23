@@ -57,6 +57,7 @@ class TopCharts(commands.Cog):
             guild_id=ctx.guild.id,
             channel_id=channel,
         )
+        print(top_chart)
         user_ids = [i["user_id"] for i in top_chart["results"]]
         postcounts = [i["sum_postcount"] for i in top_chart["results"]]
         user_ids, postcounts = zip(*[
@@ -75,14 +76,16 @@ class TopCharts(commands.Cog):
             description=f"`{table}`", 
         )
         message = await ctx.send(embed=embed)
+        await message.add_reaction("⏮️")
         await message.add_reaction("⏪")
         await message.add_reaction("⏩")
+        await message.add_reaction("⏭️")
         
         def check(payload):
             return all((
                 payload.user_id == ctx.author.id,
                 payload.message_id == message.id,
-                str(payload.emoji) in ["⏪", "⏩"],
+                str(payload.emoji) in ["⏮️", "⏪", "⏩", "⏭️"],
             ))
 
         """done, pending = await wait([
@@ -109,10 +112,13 @@ class TopCharts(commands.Cog):
             except KeyError:
                 await message.clear_reactions()
                 for future in pending: future.cancel()
-            if str(payload.emoji) == "⏩" and top_chart["next"]:
+                break
+            if str(payload.emoji) == "⏮️" and top_chart["current"] != 1:
+                url = top_chart["next"] or top_chart["previous"]
+                url = url.split("?")[0] + "?page=1"
                 top_chart = await rest_api.send_get(
                     self.bot, 
-                    top_chart["next"], 
+                    url, 
                     guild_id=ctx.guild.id,
                     channel_id=channel,
                 )
@@ -149,6 +155,49 @@ class TopCharts(commands.Cog):
                 table = utils.format_columns(postcounts, user_ids)
                 embed.description=f"`{table}`"
                 await message.edit(embed=embed)
+            elif str(payload.emoji) == "⏩" and top_chart["next"]:
+                top_chart = await rest_api.send_get(
+                    self.bot, 
+                    top_chart["next"], 
+                    guild_id=ctx.guild.id,
+                    channel_id=channel,
+                )
+                user_ids = [i["user_id"] for i in top_chart["results"]]
+                postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                user_ids, postcounts = zip(*[
+                    (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                ])
+                user_ids = [
+                    await utils.get_member_name(
+                        self.bot, ctx.guild, i
+                    ) for i in user_ids
+                ]
+                table = utils.format_columns(postcounts, user_ids)
+                embed.description=f"`{table}`"
+                await message.edit(embed=embed)
+            elif str(payload.emoji) == "⏭️" and top_chart["current"] != top_chart["last"]:
+                url = top_chart["next"] or top_chart["previous"]
+                url = url.split("?")[0] + "?page=1"
+                top_chart = await rest_api.send_get(
+                    self.bot, 
+                    url, 
+                    guild_id=ctx.guild.id,
+                    channel_id=channel,
+                )
+                user_ids = [i["user_id"] for i in top_chart["results"]]
+                postcounts = [i["sum_postcount"] for i in top_chart["results"]]
+                user_ids, postcounts = zip(*[
+                    (i["user_id"], i["sum_postcount"]) for i in top_chart["results"]
+                ])
+                user_ids = [
+                    await utils.get_member_name(
+                        self.bot, ctx.guild, i
+                    ) for i in user_ids
+                ]
+                table = utils.format_columns(postcounts, user_ids)
+                embed.description=f"`{table}`"
+                await message.edit(embed=embed)
+            for future in pending: future.cancel()
 
 
 
