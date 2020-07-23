@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 from typing import Optional
 
-from utils import rest_api, utils
+from utils import rest_api, helpers
 
 class SetGeneral(commands.Cog):
     def __init__(self, bot):
@@ -22,7 +22,7 @@ class SetGeneral(commands.Cog):
     async def showsettings(self, ctx):
         settings = self.bot.settings.get(ctx.guild.id, {})
         desc = '\n'.join([
-            f'{utils.format_settings_key(key)}: {utils.format_settings_value(ctx.guild, value)}' 
+            f'{helpers.format_settings_key(key)}: {helpers.format_settings_value(ctx.guild, value)}' 
             for key, value in settings.items()
             if value
         ])

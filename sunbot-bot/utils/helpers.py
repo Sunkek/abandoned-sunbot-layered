@@ -39,9 +39,6 @@ async def get_member_name(bot, guild, member_id):
 def format_columns(*columns, headers=None, footers=None):
     """Tabulate columns (lists) into a neatly aligned table"""
     columns = list(columns)
-    print(columns)
-    print(headers)
-    print(footers)
     for i in range(len(columns)):
         if headers: columns[i] = [headers[i]] + columns[i]
         if footers: columns[i] += [footers[i]]
@@ -54,32 +51,6 @@ def format_columns(*columns, headers=None, footers=None):
         line += f'..{row[-1]:.>{maxlens[-1]}}'
         table.append(line)
     return '\n'.join(table)
-
-
-def columns_to_table(columns, numerate=False):
-    if numerate:
-        nums = ['#'] + [i for i in range(1, len(columns[0])-1)] + ['']
-        columns = [nums] + columns
-    maxlens = [max(len(str(row)) for row in column) for column in columns]
-    table = []
-    for row in zip(*columns):
-        line = f'{row[0]:.<{maxlens[0]}}'
-        for num, value in enumerate(row[1:-1], 1):
-            line += f'.{value:.^{maxlens[num]}}'
-        line += f'.{row[-1]:.>{maxlens[-1]}}'
-        table.append(line)
-    return '`' + '\n'.join(table) + '`'
-
-async def add_name_column(bot, guild, chart):
-    return [
-        [
-            item['member_id'], 
-            item['count'],
-            await get_member_name(bot, guild, item['member_id'])
-        ] if item['member_id'] != "TOTAL" else ['TOTAL', '', item['count']]
-        for item in chart
-    ]
-
     
 def format_settings_key(string):
     return string.lower().replace('_id', '').replace('_', ' ').capitalize()
@@ -107,6 +78,33 @@ def format_info_key(string):
         for i in string.split('_')
     ]
     return ' '.join(result)
+
+async def parse_top_json(json, ctx):
+        if not json: return
+        for i in json:
+            lists = {}
+            for key, value in i.items():
+                lists[key] = lists.get(key, []).append(value)
+                if key == "user_id":
+                    lists["user_name"] = lists.get("user_name", []).append(
+                        get_member_name(ctx.bot, ctx.guild, value)
+                    )
+        return lists
+        
+
+def columns_to_table(columns, numerate=False):
+    if numerate:
+        nums = ['#'] + [i for i in range(1, len(columns[0])-1)] + ['']
+        columns = [nums] + columns
+    maxlens = [max(len(str(row)) for row in column) for column in columns]
+    table = []
+    for row in zip(*columns):
+        line = f'{row[0]:.<{maxlens[0]}}'
+        for num, value in enumerate(row[1:-1], 1):
+            line += f'.{value:.^{maxlens[num]}}'
+        line += f'.{row[-1]:.>{maxlens[-1]}}'
+        table.append(line)
+    return '`' + '\n'.join(table) + '`'
 
 def parse_topchart_args(args):
     lowered_args = [i.lower() for i in args]

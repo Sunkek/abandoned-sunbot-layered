@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from datetime import datetime
 
-from utils import rest_api, utils
+from utils import rest_api, helpers
 
 
 class Misc(commands.Cog):
@@ -44,7 +44,7 @@ class Misc(commands.Cog):
         )
         # Account creation date
         created = target.created_at
-        ago = utils.format_seconds((datetime.utcnow() - created).total_seconds())
+        ago = helpers.format_seconds((datetime.utcnow() - created).total_seconds())
         created = datetime.strftime(created, "%Y-%m-%d %H:%M:%S")
         embed.add_field(
             name=f'Account created', 
@@ -52,7 +52,7 @@ class Misc(commands.Cog):
         )
         # Server join date
         joined = target.joined_at
-        ago = utils.format_seconds((datetime.utcnow() - joined).total_seconds())
+        ago = helpers.format_seconds((datetime.utcnow() - joined).total_seconds())
         joined = datetime.strftime(joined, "%Y-%m-%d %H:%M:%S")
         embed.add_field(
             name=f'Joined {ctx.guild.name}', 
@@ -64,7 +64,7 @@ class Misc(commands.Cog):
                 value = f'[link](https://steamcommunity.com/profiles/{value})'
             elif key == 'birthday' and value:
                 value = datetime.strptime(value, "%Y-%m-%d").strftime("%d/%m/%Y")
-            key = utils.format_info_key(key)
+            key = helpers.format_info_key(key)
             if value: 
                 result.append(f'{key}: {value}')
         embed.add_field(

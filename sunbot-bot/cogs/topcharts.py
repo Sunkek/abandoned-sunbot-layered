@@ -5,7 +5,7 @@ from typing import Optional, Union
 from datetime import datetime, timedelta
 from asyncio import TimeoutError, wait, FIRST_COMPLETED
 
-from utils import utils, rest_api
+from utils import helpers, rest_api, paginator
 
 
 class TopCharts(commands.Cog):
@@ -34,38 +34,31 @@ class TopCharts(commands.Cog):
     ):
         if time_range not in self.time_ranges:
             raise commands.BadArgument
-        channel_name = f"in {channel.name}" if channel else ""
-        channel = channel.id if channel else channel
         top_chart = await rest_api.get_top(
             self.bot, 
             "postcounts", 
             time_range,
             guild_id=ctx.guild.id,
-            channel_id=channel,
+            channel_id=channel.id if channel else None,
         )
-        user_ids = [i["user_id"] for i in top_chart["results"]]
-        postcounts = [i["count"] for i in top_chart["results"]]
-        user_ids, postcounts = zip(*[
-            (i["user_id"], i["count"]) for i in top_chart["results"]
-        ])
-        user_ids = [
-            await utils.get_member_name(
-                self.bot, ctx.guild, i
-            ) for i in user_ids
-        ]
-        postcounts = list(postcounts)
+        columns = await helpers.parse_top_json(top_chart, ctx)
         headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
-        table = utils.format_columns(
-            postcounts, user_ids, headers=headers, footers=footers
+        table = helpers.format_columns(
+            columns["counts"], columns["user_names"], 
+            headers=headers, footers=footers
         )
+        channel = f"in {channel.name}" if channel else ""
         embed = discord.Embed(
-            title=f"Top postcounts for {time_range} {channel_name}",
+            title=f"Top postcounts for {time_range} {channel}",
             color=ctx.author.color,
             description=f"`{table}`", 
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
+        await paginator.paginate(ctx, message, top_chart)
+
+
         for i in ["⏮️", "⏪", "⏩", "⏭️"]:
             await message.add_reaction(i)
         
@@ -99,14 +92,14 @@ class TopCharts(commands.Cog):
                 user_ids = [i["user_id"] for i in top_chart["results"]]
                 postcounts = [i["count"] for i in top_chart["results"]]
                 user_ids = [
-                    await utils.get_member_name(
+                    await helpers.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
                 headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
-                table = utils.format_columns(
+                table = utihelpersls.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
                 )
                 embed.description=f"`{table}`"
@@ -127,14 +120,14 @@ class TopCharts(commands.Cog):
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
-                    await utils.get_member_name(
+                    await helpers.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
                 headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
-                table = utils.format_columns(
+                table = helpers.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
                 )
                 embed.description=f"`{table}`"
@@ -155,14 +148,14 @@ class TopCharts(commands.Cog):
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
-                    await utils.get_member_name(
+                    await helpers.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
                 headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
-                table = utils.format_columns(
+                table = helpers.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
                 )
                 embed.description=f"`{table}`"
@@ -185,14 +178,14 @@ class TopCharts(commands.Cog):
                     (i["user_id"], i["count"]) for i in top_chart["results"]
                 ])
                 user_ids = [
-                    await utils.get_member_name(
+                    await helpers.get_member_name(
                         self.bot, ctx.guild, i
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
                 headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
-                table = utils.format_columns(
+                table = helpers.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
                 )
                 embed.description=f"`{table}`"
