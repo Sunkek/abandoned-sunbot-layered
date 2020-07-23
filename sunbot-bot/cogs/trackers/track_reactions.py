@@ -11,6 +11,7 @@ from utils import rest_api
 class TrackReactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.ignore_emoji = ["⏮️", "⏪", "⏩", "⏭️"]
         
     @commands.Cog.listener() 
     async def on_raw_reaction_add(self, payload):
@@ -20,6 +21,9 @@ class TrackReactions(commands.Cog):
                 guild = self.bot.get_guild(payload.guild_id)
                 channel = guild.get_channel(payload.channel_id)
                 message = await channel.fetch_message(payload.message_id)
+                # Not the topchart scrollers please
+                if message.embeds and str(payload.emoji) in self.ignore_emoji:
+                    return
                 giver = guild.get_member(payload.user_id)
                 receiver = message.author
                 if str(payload.emoji) in UNICODE_EMOJI:
@@ -43,9 +47,15 @@ class TrackReactions(commands.Cog):
     async def on_raw_reaction_remove(self, payload):
         if payload.guild_id:
             if self.bot.settings.get(payload.guild_id, {}).get("track_reactions"):
+                # Not the topchart scrollers please
+                if message.embeds and str(payload.emoji) in self.ignore_emoji:
+                    return
                 guild = self.bot.get_guild(payload.guild_id)
                 channel = guild.get_channel(payload.channel_id)
                 message = await channel.fetch_message(payload.message_id)
+                # Not the topchart scrollers please
+                if message.embeds and str(payload.emoji) in self.ignore_emoji:
+                    return
                 giver = guild.get_member(payload.user_id)
                 receiver = message.author
                 if str(payload.emoji) in UNICODE_EMOJI:
