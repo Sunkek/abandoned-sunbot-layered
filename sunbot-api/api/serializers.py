@@ -22,7 +22,7 @@ class MessagesSerializer(serializers.ModelSerializer):
         
 class MessagesTopSerializer(serializers.ModelSerializer):
     sum_postcount = serializers.IntegerField()
-    user_id = serializers.BigIntegerField()
+    user_id = serializers.IntegerField()
     
     class Meta:
         model = Messages
