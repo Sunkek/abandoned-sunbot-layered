@@ -68,8 +68,6 @@ class TopCharts(commands.Cog):
                 self.bot, ctx.guild, i
             ) for i in user_ids
         ]
-        print(user_ids)
-        print(postcounts)
         headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
         table = utils.format_columns(
