@@ -20,7 +20,7 @@ class TopCharts(commands.Cog):
         invoke_without_command=True,
     )
     async def top(self, ctx):
-        if not ctx.command.invoked_subcommand:
+        if not ctx.invoked_subcommand:
             await ctx.invoke(self.bot.get_command("help"), "top")
 
     # Top postcounts
