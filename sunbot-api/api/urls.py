@@ -3,7 +3,7 @@ Commented out router stuff because it messed up the PATCH request"""
 from django.urls import include, path
 # from django.conf.urls import include, url
 # from rest_framework import routers
-from . import views
+import views
 
 # router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)
