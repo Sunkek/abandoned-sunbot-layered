@@ -7,32 +7,21 @@ from asyncio import TimeoutError, wait, FIRST_COMPLETED
 
 from utils import utils, rest_api
 
-top = None
 
-
-class TopMessages(commands.Cog):
+class TopCharts(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        top_main = "cogs.topcharts.top_main"
-        if top_main not in bot.cogs.values():
-            bot.load_extension(top_main)
-        top = self.bot.get_command("top")
         self.time_ranges = ('month', 'year', 'alltime')
 
-    async def topchart(
-        self, ctx, chart, time_range, 
-        member_ids=None, guild_id=None, channel_id=None, game=None,
-    ):
-        result = await rest_api.get_top(
-            self.bot, 
-            chart, 
-            time_range,
-            member_ids=member_ids,
-            guild_id=guild_id,
-            channel_id=channel_id,
-            game=game,
-        )
-        return result
+    @commands.group(
+        description="This is a command group that shows you the top chart of something", 
+        name="top", 
+        aliases=['t'], 
+        invoke_without_command=True,
+    )
+    async def top(self, ctx):
+        if not ctx.command.invoked_subcommand:
+            await ctx.invoke(self.bot.get_command("help"), "top")
 
     # Top postcounts
     @top.command(
@@ -216,4 +205,4 @@ class TopMessages(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(TopMessages(bot))
+    bot.add_cog(TopCharts(bot))
