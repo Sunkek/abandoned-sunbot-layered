@@ -69,7 +69,7 @@ class TopCharts(commands.Cog):
             ) for i in user_ids
         ]
         postcounts = list(postcounts)
-        headers, footers = ["POSTCOUNT", "MEMBER"]
+        headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
         table = utils.format_columns(
             postcounts, user_ids, headers=headers, footers=footers
@@ -117,7 +117,7 @@ class TopCharts(commands.Cog):
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
-                headers, footers = ["POSTCOUNT", "MEMBER"]
+                headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
@@ -145,7 +145,7 @@ class TopCharts(commands.Cog):
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
-                headers, footers = ["POSTCOUNT", "MEMBER"]
+                headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
@@ -173,7 +173,7 @@ class TopCharts(commands.Cog):
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
-                headers, footers = ["POSTCOUNT", "MEMBER"]
+                headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
@@ -203,7 +203,7 @@ class TopCharts(commands.Cog):
                     ) for i in user_ids
                 ]
                 postcounts = list(postcounts)
-                headers, footers = ["POSTCOUNT", "MEMBER"]
+                headers = ["POSTCOUNT", "MEMBER"]
                 footers = [top_chart["total"], "TOTAL"]
                 table = utils.format_columns(
                     postcounts, user_ids, headers=headers, footers=footers
