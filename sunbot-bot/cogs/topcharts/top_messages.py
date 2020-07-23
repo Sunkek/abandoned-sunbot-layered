@@ -7,6 +7,8 @@ from asyncio import TimeoutError, wait, FIRST_COMPLETED
 
 from utils import utils, rest_api
 
+top = None
+
 
 class TopMessages(commands.Cog):
     def __init__(self, bot):
@@ -14,7 +16,7 @@ class TopMessages(commands.Cog):
         top_main = "cogs.topcharts.top_main"
         if top_main not in bot.cogs.values():
             bot.load_extension(top_main)
-        self.top = self.bot.get_command("top")
+        top = self.bot.get_command("top")
         self.time_ranges = ('month', 'year', 'alltime')
 
     async def topchart(
@@ -33,7 +35,7 @@ class TopMessages(commands.Cog):
         return result
 
     # Top postcounts
-    @self.top.command(
+    @top.command(
         description="Shows you who posted the most in the current `month/year/alltime`",
         name="postcounts", 
         aliases=["pc",],
