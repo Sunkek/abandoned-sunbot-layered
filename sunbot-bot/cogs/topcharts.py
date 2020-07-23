@@ -21,7 +21,7 @@ class TopCharts(commands.Cog):
     )
     async def top(self, ctx):
         if not ctx.invoked_subcommand:
-            await ctx.invoke(self.bot.get_command("help"), "top")
+            await ctx.invoke(self.bot.get_command("help"), target="top")
 
     # Top postcounts
     @top.command(
