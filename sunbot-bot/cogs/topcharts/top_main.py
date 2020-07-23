@@ -49,6 +49,7 @@ class TopCharts(commands.Cog):
     ):
         if time_range not in self.time_ranges:
             raise commands.BadArgument
+        channel_name = f"in {channel.name}" if channel else ""
         channel = channel.id if channel else channel
         top_chart = await rest_api.get_top(
             self.bot, 
@@ -71,7 +72,7 @@ class TopCharts(commands.Cog):
         table = utils.format_columns(postcounts, user_ids)
 
         embed = discord.Embed(
-            title=f"Top postcounts for {time_range}",
+            title=f"Top postcounts for {time_range} in {channel_name}",
             color=ctx.author.color,
             description=f"`{table}`", 
         )
