@@ -41,9 +41,10 @@ def format_columns(*columns, headers=None, footers=None):
     print(columns)
     print(headers)
     print(footers)
+    columns = list(columns)
     for i in range(len(columns)):
-        if headers: columns[i] = [headers[num]] + columns[i]
-        if footers: columns[i] += [footers[num]]
+        if headers: columns[i] = [headers[i]] + columns[i]
+        if footers: columns[i] += [footers[i]]
     maxlens = [max(len(str(line)) for line in column) for column in columns]
     table = []
     for row in zip(*columns):
