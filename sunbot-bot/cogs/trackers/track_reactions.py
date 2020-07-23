@@ -47,9 +47,6 @@ class TrackReactions(commands.Cog):
     async def on_raw_reaction_remove(self, payload):
         if payload.guild_id:
             if self.bot.settings.get(payload.guild_id, {}).get("track_reactions"):
-                # Not the topchart scrollers please
-                if message.embeds and str(payload.emoji) in self.ignore_emoji:
-                    return
                 guild = self.bot.get_guild(payload.guild_id)
                 channel = guild.get_channel(payload.channel_id)
                 message = await channel.fetch_message(payload.message_id)
