@@ -84,7 +84,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 "SELECT emotes.emote as emote, sum(emotes.count) as message_count, "
                 "sum(reactions.count) as reaction_count, "
                 "sum(emotes.count)+sum(reactions.count) as total_count "
-                "FROM emotes JOIN reactions ON emotes.emote = reactions.emote "
+                "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
                 "AND emotes.period = reactions.period AND "
                 "emotes.guild_id = reactions.guild_id) "
                 f"WHERE emotes.guild_id={data['guild_id']} OR "
