@@ -85,11 +85,13 @@ async def parse_top_json(json, ctx):
     for i in json:
         lists = {}
         for key, value in i.items():
+            print(key, value)
             lists[key] = lists.get(key, []).append(value)
             if key == "user_id":
                 lists["user_name"] = lists.get("user_name", []).append(
                     await get_member_name(ctx.bot, ctx.guild, value)
                 )
+            print(lists)
     return lists
         
 

@@ -42,7 +42,7 @@ async def paginate(ctx, message, data, headers, footers):
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
-                columns["counts"], columns["user_names"], 
+                columns["count"], columns["user_names"], 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
@@ -62,7 +62,7 @@ async def paginate(ctx, message, data, headers, footers):
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
-                columns["counts"], columns["user_names"], 
+                columns["count"], columns["user_names"], 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
@@ -82,7 +82,7 @@ async def paginate(ctx, message, data, headers, footers):
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
-                columns["counts"], columns["user_names"], 
+                columns["count"], columns["user_names"], 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
@@ -104,7 +104,7 @@ async def paginate(ctx, message, data, headers, footers):
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
-                columns["counts"], columns["user_names"], 
+                columns["count"], columns["user_names"], 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
