@@ -72,43 +72,48 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         data = request.data
 
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM (
-                SELECT 
-                    emotes.emote as emote, 
-                    sum(emotes.count) as message_count, 
-                    sum(reactions.count) as reaction_count, 
-                    sum(emotes.count) + sum(reactions.count) as total_count 
-                FROM emotes 
-                INNER JOIN reactions 
-                    ON emotes.emote = reactions.emote 
-                        AND emotes.period = reactions.period 
-                        AND emotes.guild_id = reactions.guild_id 
-                WHERE emotes.guild_id=%s OR reactions.guild_id=%s 
-                GROUP BY emote
-                UNION ALL 
-                    SELECT 
-                        emotes.emote as emote, 
-                        sum(emotes.count) as message_count, 
-                        0 as reaction_count, 
-                        sum(emotes.count) as total_count
-                    FROM emotes 
-                    LEFT JOIN reactions  
-                        ON emotes.period = reactions.period 
-                            AND emotes.guild_id = reactions.guild_id 
-                    WHERE reactions.emote IS NULL AND reactions.guild_id=%s 
-                GROUP BY emote
-                UNION ALL 
-                    SELECT 
-                        reactions.emote as emote, 
-                        0 as message_count, 
-                        sum(reactions.count) as reaction_count, 
-                        sum(reactions.count) as total_count 
-                    FROM reactions 
-                    LEFT JOIN emotes 
-                        ON emotes.period = reactions.period 
-                            AND emotes.guild_id = reactions.guild_id 
-                        WHERE emotes.emote IS NULL AND emotes.guild_id=%s
-                GROUP BY emote) as table ORDER BY total_count DESC""",
+        cursor.execute("""
+            SELECT * FROM (
+            SELECT 
+                emotes.emote as emote, 
+                sum(emotes.count) as message_count, 
+                sum(reactions.count) as reaction_count, 
+                sum(emotes.count) + sum(reactions.count) as total_count 
+            FROM emotes 
+            INNER JOIN reactions 
+            ON emotes.emote = reactions.emote AND 
+                emotes.period = reactions.period AND 
+                emotes.guild_id = reactions.guild_id 
+            WHERE emotes.guild_id=%s OR 
+                reactions.guild_id=%s 
+            GROUP BY emote
+            UNION ALL 
+            SELECT 
+                emotes.emote as emote, 
+                sum(emotes.count) as message_count, 
+                0 as reaction_count, 
+                sum(emotes.count) as total_count
+            FROM emotes 
+            LEFT JOIN reactions  
+            ON emotes.period = reactions.period AND
+                emotes.guild_id = reactions.guild_id 
+            WHERE reactions.emote IS NULL AND 
+                reactions.guild_id=%s 
+            GROUP BY emote
+            UNION ALL 
+            SELECT 
+                reactions.emote as emote, 
+                0 as message_count, 
+                sum(reactions.count) as reaction_count, 
+                sum(reactions.count) as total_count 
+            FROM reactions 
+            LEFT JOIN emotes 
+                ON emotes.period = reactions.period AND
+                    emotes.guild_id = reactions.guild_id 
+            WHERE emotes.emote IS NULL AND 
+                emotes.guild_id=%s
+            GROUP BY emote) AS t
+            ORDER BY total_count DESC""",
             [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
         )
         result = dictfetchall(cursor)
