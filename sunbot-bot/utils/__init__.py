@@ -1,3 +1,3 @@
 """Utility functions"""
 
-import helpers, paginator, rest_api
+from . import helpers, paginator, rest_api
