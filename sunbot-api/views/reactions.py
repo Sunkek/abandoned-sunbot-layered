@@ -25,7 +25,7 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 guild_id=Guild(guild_id=data["guild_id"]),
                 giver_id=User(user_id=data["giver_id"]),
                 receiver_id=User(user_id=data["receiver_id"]),
-                emoji=data["emoji"],
+                emote=data["emote"],
                 period=data["period"][:-2]+"01",  # The first of the current month
             )
         except ObjectDoesNotExist as e:
@@ -34,7 +34,7 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 guild_id=Guild(guild_id=data["guild_id"]),
                 giver_id=User(user_id=data["giver_id"]),
                 receiver_id=User(user_id=data["receiver_id"]),
-                emoji=data["emoji"],
+                emote=data["emote"],
                 period=data["period"][:-2]+"01",  # The first of the current month
             )
         # Update counters
