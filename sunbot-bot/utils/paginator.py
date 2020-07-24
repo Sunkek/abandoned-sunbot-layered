@@ -5,7 +5,7 @@ from asyncio import wait, TimeoutError, FIRST_COMPLETED
 
 from . import rest_api, helpers
 
-async def paginate(ctx, message, data, headers, footers):
+async def paginate(ctx, message, data, headers=None, footers=None):
     for i in ["⏮️", "⏪", "⏩", "⏭️"]:
         await message.add_reaction(i)
         

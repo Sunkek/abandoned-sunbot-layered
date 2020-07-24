@@ -74,15 +74,15 @@ class TopCharts(commands.Cog):
         print(top_chart)
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         print(columns)
-        headers = ["TOTAL USES", "MESSAGES", "REACTIONS", "EMOTE"]
+        headers = ["TOTAL", "MESSAGES", "REACTIONS", "EMOTE"]
         table = helpers.format_columns(
-            columns["total"], columns["messages"], 
-            columns["reactions"], columns["emote"], 
+            columns["total_count"], columns["message_count"], 
+            columns["reactions_count"], columns["emote"], 
             headers=headers,
         )
         print(table)
         embed = discord.Embed(
-            title=f"Top postcounts for {time_range}",
+            title=f"Top used emotes for {time_range}",
             color=ctx.author.color,
             description=f"`{table}`", 
         )
