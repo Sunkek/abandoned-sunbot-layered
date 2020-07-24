@@ -107,8 +107,8 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                             AND emotes.guild_id = reactions.guild_id) 
                         WHERE (emotes.emote IS NULL AND emotes.guild_id=%s))
             as table 
-            GROUP BY emote 
-            ORDER BY total_count DESC""",
+            GROUP BY table.emote 
+            ORDER BY table.total_count DESC""",
             [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
         )
         result = dictfetchall(cursor)
