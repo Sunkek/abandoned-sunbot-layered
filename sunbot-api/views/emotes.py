@@ -86,7 +86,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 emotes.guild_id = reactions.guild_id 
             WHERE emotes.guild_id=%s OR 
                 reactions.guild_id=%s 
-            GROUP BY emote
+            GROUP BY emotes.emote
             UNION ALL 
             SELECT 
                 emotes.emote as emote, 
@@ -99,7 +99,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 emotes.guild_id = reactions.guild_id 
             WHERE reactions.emote IS NULL AND 
                 reactions.guild_id=%s 
-            GROUP BY emote
+            GROUP BY emotes.emote
             UNION ALL 
             SELECT 
                 reactions.emote as emote, 
@@ -112,7 +112,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     emotes.guild_id = reactions.guild_id 
             WHERE emotes.emote IS NULL AND 
                 emotes.guild_id=%s
-            GROUP BY emote) AS t
+            GROUP BY reactions.emote) AS t
             ORDER BY t.total_count DESC""",
             [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
         )
