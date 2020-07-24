@@ -1,5 +1,6 @@
 from django.db.utils import IntegrityError
 from django.db.models import Sum
+from django.db import connection
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import viewsets
@@ -73,6 +74,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
             ).filter(guild_id=data["guild_id"]).values("emote").annotate(
                 reaction_count=Sum("count")
             ).order_by("-count")
+            in_reactions.model=Emotes
             
             print(in_messages)
             print(in_reactions)
