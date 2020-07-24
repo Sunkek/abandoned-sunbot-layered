@@ -61,20 +61,30 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
     def list(self, request, time_range, *args, **kwargs):
         try:
             data = request.data
-            in_messages = Emotes.objects.filter(guild_id=data["guild_id"])
+
+            in_messages = Emotes.objects.filter(
+                guild_id=data["guild_id"]
+            ).values("emote").annotate(
+                message_count=Sum("count")
+            ).order_by("-count")
+
             in_reactions = Reactions.objects.filter(
                 emote__contains=":_:"
-            ).filter(guild_id=data["guild_id"])
+            ).filter(guild_id=data["guild_id"]).values("emote").annotate(
+                reaction_count=Sum("count")
+            ).order_by("-count")
             
-            in_messages = in_messages.values("emote").annotate(
-                count=Sum("count")
-            ).order_by("-count")
-            in_reactions = in_reactions.values("emote").annotate(
-                count=Sum("count")
-            ).order_by("-count")
             print(in_messages)
             print(in_reactions)
-            print(in_messages | in_reactions)
+
+            emotes = Emotes.objects.raw(
+                f"SELECT emote, sum(count) as count FROM emotes "
+                f"WHERE guild_id={data['guild_id']} "
+                f"GROUP BY emote ORDER BY count DESC"
+            )
+
+            print(emotes)
+
             page = self.paginate_queryset(in_messages | in_reactions)
             if page is not None:
                 serializer = EmotesTopSerializer(page, many=True)
