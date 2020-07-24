@@ -77,7 +77,7 @@ class TopCharts(commands.Cog):
         headers = ["TOTAL", "MESSAGES", "REACTIONS", "EMOTE"]
         table = helpers.format_columns(
             columns["total_count"], columns["message_count"], 
-            columns["reactions_count"], columns["emote"], 
+            columns["reaction_count"], columns["emote"], 
             headers=headers,
         )
         print(table)
