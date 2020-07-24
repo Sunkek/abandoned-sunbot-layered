@@ -81,7 +81,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 return self.get_paginated_response(serializer.data)
             serializer = EmotesTopSerializer(in_messages | in_reactions, many=True)
             return Response(serializer.data)
-        except Exception as e:
+        except Exception as e: 
             print(e)
 
 
