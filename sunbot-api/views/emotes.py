@@ -60,6 +60,15 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPageNumberPagination
     
     def list(self, request, time_range, *args, **kwargs):
+
+        def dictfetchall(cursor):
+            """Return all rows from a cursor as a dict"""
+            columns = [col[0] for col in cursor.description]
+            return [
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
+            
         try:
             data = request.data
 
@@ -77,10 +86,10 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 f"reactions.guild_id={data['guild_id']} "
                 "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC"
             )
-            print(cursor)
+            print(dictfetchall(cursor))
             page = self.paginate_queryset(cursor)
             if page is not None:
-                serializer = EmotesTopSerializer(cursor, many=True)
+                serializer = EmotesTopSerializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
             serializer = EmotesTopSerializer(cursor, many=True)
             cursor.close()
