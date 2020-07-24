@@ -81,9 +81,9 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
 
             cursor = connection.cursor()
             cursor.execute(
-                "SELECT emotes.emote as emote, sum(emote.count) as message_count, "
+                "SELECT emotes.emote as emote, sum(emotes.count) as message_count, "
                 "sum(reactions.count) as reaction_count, "
-                "sum(emote.count)+sum(reactions.count) as total_count "
+                "sum(emotes.count)+sum(reactions.count) as total_count "
                 "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
                 "AND emotes.period = reactions.period AND "
                 "emotes.guild_id = reactions.guild_id)"
