@@ -91,7 +91,9 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         0 as reaction_count, 
                         sum(emotes.count) as total_count
                     FROM emotes 
-                    LEFT JOIN reactions 
+                    LEFT JOIN reactions  
+                        ON (emotes.period = reactions.period 
+                            AND emotes.guild_id = reactions.guild_id) 
                     WHERE (reactions.emote IS NULL AND reactions.guild_id=%s) 
                 UNION ALL 
                     SELECT 
@@ -101,6 +103,8 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         sum(reactions.count) as total_count 
                     FROM reactions 
                     LEFT JOIN emotes 
+                        ON (emotes.period = reactions.period 
+                            AND emotes.guild_id = reactions.guild_id) 
                         WHERE (emotes.emote IS NULL AND emotes.guild_id=%s)) 
             GROUP BY emote 
             ORDER BY total_count DESC""",
