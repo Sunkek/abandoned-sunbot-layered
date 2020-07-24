@@ -1,7 +1,9 @@
 """Misc helper functions"""
 
 from datetime import datetime, timedelta
+
 import discord
+import collections
 
 def int_convertable(string):
     """Return True if string is convertable into int"""
@@ -83,12 +85,12 @@ async def parse_top_json(json, ctx):
     """Turn the backend response into result lists"""
     if not json: return
     for i in json:
-        lists = {}
+        lists = collections.defaultdict(list)
         for key, value in i.items():
             print(key, value)
-            lists[key] = lists.get(key, []).append(value)
+            lists[key].append(value)
             if key == "user_id":
-                lists["user_name"] = lists.get("user_name", []).append(
+                lists["user_name"].append(
                     await get_member_name(ctx.bot, ctx.guild, value)
                 )
             print(lists)

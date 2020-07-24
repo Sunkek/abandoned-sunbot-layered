@@ -47,7 +47,7 @@ class TopCharts(commands.Cog):
         headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
         table = helpers.format_columns(
-            columns["count"], columns["user_names"], 
+            columns["count"], columns["user_name"], 
             headers=headers, footers=footers
         )
         print(table)
