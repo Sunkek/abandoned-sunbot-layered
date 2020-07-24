@@ -40,7 +40,7 @@ async def paginate(ctx, message, data, headers, footers):
                 ctx.bot, url,
                 guild_id=ctx.guild.id, channel_id=channel,
             )
-            columns = await helpers.parse_top_json(data, ctx)
+            columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
                 columns["counts"], columns["user_names"], 
                 headers=headers, footers=footers
@@ -60,7 +60,7 @@ async def paginate(ctx, message, data, headers, footers):
                 ctx.bot, data["previous"],
                 guild_id=ctx.guild.id, channel_id=channel,
             )
-            columns = await helpers.parse_top_json(data, ctx)
+            columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
                 columns["counts"], columns["user_names"], 
                 headers=headers, footers=footers
@@ -80,7 +80,7 @@ async def paginate(ctx, message, data, headers, footers):
                 ctx.bot, data["next"],
                 guild_id=ctx.guild.id, channel_id=channel,
             )
-            columns = await helpers.parse_top_json(data, ctx)
+            columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
                 columns["counts"], columns["user_names"], 
                 headers=headers, footers=footers
@@ -102,7 +102,7 @@ async def paginate(ctx, message, data, headers, footers):
                 ctx.bot, url,
                 guild_id=ctx.guild.id, channel_id=channel,
             )
-            columns = await helpers.parse_top_json(data, ctx)
+            columns = await helpers.parse_top_json(data["results"], ctx)
             table = helpers.format_columns(
                 columns["counts"], columns["user_names"], 
                 headers=headers, footers=footers

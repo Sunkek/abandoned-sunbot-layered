@@ -42,7 +42,7 @@ class TopCharts(commands.Cog):
             channel_id=channel.id if channel else None,
         )
         print(top_chart)
-        columns = await helpers.parse_top_json(top_chart, ctx)
+        columns = await helpers.parse_top_json(top_chart["results"], ctx)
         print(columns)
         headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
