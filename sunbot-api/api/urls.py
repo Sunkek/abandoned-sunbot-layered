@@ -24,6 +24,7 @@ urlpatterns = [
     path("emotes/", views.emotes, name="emotes"),
 
     path("top/postcounts/<str:time_range>/", views.top_postcounts, name="top_postcounts"),
+    path("top/emotes/<str:time_range>/", views.top_emotes, name="top_emotes"),
 
     # path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
 ]
