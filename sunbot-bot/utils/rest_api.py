@@ -2,7 +2,6 @@
 
 import os
 
-
 host = f"http://{os.environ.get('API_HOST')}:{os.environ.get('API_PORT')}"
 urls = {
     "user": f"{host}/api/v1/user/",
@@ -18,8 +17,6 @@ urls = {
     "emotes":f"{host}/api/v1/emotes/",
 
     "top":f"{host}/api/v1/top/",
-
-
     
 
     "warnings":f"{host}/api/v1/warning/",
@@ -101,11 +98,13 @@ async def add_emotes(bot, **kwargs):
         return resp
 
 async def get_top(bot, chart, time_range, **kwargs):
+    """Request a topchart"""
     async with bot.web.get(f"{urls['top']}{chart}/{time_range}/", json=kwargs) as resp:
         json = await resp.json()
         return json
 
 async def send_get(bot, url, **kwargs):
+    """Send a GET request to the provided URL"""
     async with bot.web.get(url, json=kwargs) as resp:
         json = await resp.json()
         return json

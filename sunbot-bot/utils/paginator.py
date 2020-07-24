@@ -1,3 +1,5 @@
+"""Pagination logic for topcharts"""
+
 from discord import Embed
 from asyncio import wait, TimeoutError, FIRST_COMPLETED
 
@@ -32,11 +34,12 @@ async def paginate(ctx, message, data, headers, footers):
         if str(payload.emoji) == "⏮️" and data["current"] != 1:
             url = data["next"] or data["previous"]
             url = url.split("?")[0] + "?page=1"
+            channel = ctx.kwargs.get("channel")
+            if channel: channel = channel.id
             data = await rest_api.send_get(
                 ctx.bot, url,
-                guild_id=ctx.guild.id, channel_id=ctx.kwargs.get("channel"),
+                guild_id=ctx.guild.id, channel_id=channel,
             )
-            
             columns = await helpers.parse_top_json(data, ctx)
             table = helpers.format_columns(
                 columns["counts"], columns["user_names"], 
@@ -51,9 +54,11 @@ async def paginate(ctx, message, data, headers, footers):
 
         # Previous page            
         elif str(payload.emoji) == "⏪" and data["previous"]:
+            channel = ctx.kwargs.get("channel")
+            if channel: channel = channel.id
             data = await rest_api.send_get(
                 ctx.bot, data["previous"],
-                guild_id=ctx.guild.id, channel_id=ctx.kwargs.get("channel"),
+                guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data, ctx)
             table = helpers.format_columns(
@@ -69,9 +74,11 @@ async def paginate(ctx, message, data, headers, footers):
 
         # Next page
         elif str(payload.emoji) == "⏩" and data["next"]:
+            channel = ctx.kwargs.get("channel")
+            if channel: channel = channel.id
             data = await rest_api.send_get(
                 ctx.bot, data["next"],
-                guild_id=ctx.guild.id, channel_id=ctx.kwargs.get("channel"),
+                guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data, ctx)
             table = helpers.format_columns(
@@ -89,9 +96,11 @@ async def paginate(ctx, message, data, headers, footers):
         elif str(payload.emoji) == "⏭️" and data["current"] != data["last"]:
             url = data["next"] or data["previous"]
             url = url.split("?")[0] + f"?page={data['last']}"
+            channel = ctx.kwargs.get("channel")
+            if channel: channel = channel.id
             data = await rest_api.send_get(
                 ctx.bot, url,
-                guild_id=ctx.guild.id, channel_id=ctx.kwargs.get("channel"),
+                guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data, ctx)
             table = helpers.format_columns(

@@ -80,16 +80,17 @@ def format_info_key(string):
     return ' '.join(result)
 
 async def parse_top_json(json, ctx):
-        if not json: return
-        for i in json:
-            lists = {}
-            for key, value in i.items():
-                lists[key] = lists.get(key, []).append(value)
-                if key == "user_id":
-                    lists["user_name"] = lists.get("user_name", []).append(
-                        get_member_name(ctx.bot, ctx.guild, value)
-                    )
-        return lists
+    """Turn the backend response into result lists"""
+    if not json: return
+    for i in json:
+        lists = {}
+        for key, value in i.items():
+            lists[key] = lists.get(key, []).append(value)
+            if key == "user_id":
+                lists["user_name"] = lists.get("user_name", []).append(
+                    await get_member_name(ctx.bot, ctx.guild, value)
+                )
+    return lists
         
 
 def columns_to_table(columns, numerate=False):
