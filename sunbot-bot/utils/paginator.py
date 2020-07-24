@@ -3,7 +3,7 @@
 from discord import Embed
 from asyncio import wait, TimeoutError, FIRST_COMPLETED
 
-import rest_api, helpers
+from . import rest_api, helpers
 
 async def paginate(ctx, message, data, headers, footers):
     for i in ["⏮️", "⏪", "⏩", "⏭️"]:
