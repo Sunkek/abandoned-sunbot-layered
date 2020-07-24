@@ -78,11 +78,12 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC"
             )
             print(cursor)
-            page = self.paginate_queryset(cursor.fetchall())
+            page = self.paginate_queryset(cursor)
             if page is not None:
-                serializer = EmotesTopSerializer(page, many=True)
+                serializer = EmotesTopSerializer(cursor, many=True)
                 return self.get_paginated_response(serializer.data)
-            serializer = EmotesTopSerializer(in_messages | in_reactions, many=True)
+            serializer = EmotesTopSerializer(cursor, many=True)
+            cursor.close()
             return Response(serializer.data)
         except Exception as e: 
             print(e)
