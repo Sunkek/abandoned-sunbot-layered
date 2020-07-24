@@ -105,7 +105,8 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     LEFT JOIN emotes 
                         ON (emotes.period = reactions.period 
                             AND emotes.guild_id = reactions.guild_id) 
-                        WHERE (emotes.emote IS NULL AND emotes.guild_id=%s)) 
+                        WHERE (emotes.emote IS NULL AND emotes.guild_id=%s))
+            as table 
             GROUP BY emote 
             ORDER BY total_count DESC""",
             [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
