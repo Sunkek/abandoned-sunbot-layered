@@ -71,13 +71,16 @@ class TopCharts(commands.Cog):
             self.bot, "emotes", time_range,
             guild_id=ctx.guild.id,
         )
+        print(top_chart)
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
+        print(columns)
         headers = ["TOTAL USES", "MESSAGES", "REACTIONS", "EMOTE"]
         table = helpers.format_columns(
             columns["total"], columns["messages"], 
             columns["reactions"], columns["emote"], 
             headers=headers,
         )
+        print(table)
         embed = discord.Embed(
             title=f"Top postcounts for {time_range}",
             color=ctx.author.color,
