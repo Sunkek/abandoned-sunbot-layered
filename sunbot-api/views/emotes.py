@@ -81,12 +81,18 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
 
             cursor = connection.cursor()
             cursor.execute(
-                f"SELECT emote, sum(count) as count FROM emotes "
+                "SELECT emotes.emote as emote, sum(emote.count) as message_count, "
+                "sum(reactions.count) as reaction_count, "
+                "sum(emote.count)+sum(reactions.count) as total_count "
+                "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
+                "AND emotes.period = reactions.period AND "
+                "emotes.guild_id = reactions.guild_id)"
                 f"WHERE guild_id={data['guild_id']} "
-                f"GROUP BY emote ORDER BY count DESC"
+                "GROUP BY emote ORDER BY total_count DESC"
             )
             print(cursor.fetchone())
 
+            print(in_messages | in_reactions)
 
             page = self.paginate_queryset(in_messages | in_reactions)
             if page is not None:
