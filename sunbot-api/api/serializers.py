@@ -55,9 +55,11 @@ class EmotesSerializer(serializers.ModelSerializer):
 
 
 class EmotesTopSerializer(serializers.ModelSerializer):
-    count = serializers.IntegerField()
     emote = serializers.CharField()
+    message_count = serializers.IntegerField()
+    reaction_count = serializers.IntegerField()
+    total_count = serializers.IntegerField()
     
     class Meta:
         model = Messages
-        fields = ["emote", "count"]
+        fields = ["emote", "message_count", "reaction_count", "total_count"]
