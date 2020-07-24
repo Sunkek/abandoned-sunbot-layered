@@ -82,8 +82,8 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 f"WHERE guild_id={data['guild_id']} "
                 f"GROUP BY emote ORDER BY count DESC"
             )
-
-            print(emotes)
+            for i in emotes[:10]:
+                print(i)
 
             page = self.paginate_queryset(in_messages | in_reactions)
             if page is not None:
