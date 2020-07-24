@@ -77,8 +77,16 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
             print(in_messages)
             print(in_reactions)
 
+            cursor = connection.cursor()
+            cursor.execute(
+                f"SELECT id, emote, sum(count) as count FROM emotes "
+                f"WHERE guild_id={data['guild_id']} "
+                f"GROUP BY emote ORDER BY count DESC"
+            )
+            print(cursor.fetchone())
+
             emotes = Emotes.objects.raw(
-                f"SELECT emote, sum(count) as count FROM emotes "
+                f"SELECT id, emote, sum(count) as count FROM emotes "
                 f"WHERE guild_id={data['guild_id']} "
                 f"GROUP BY emote ORDER BY count DESC"
             )
