@@ -5,7 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from api.serializers import EmotesSerializer
+from api.serializers import EmotesSerializer, EmotesTopSerializer
+from api.pagination import CustomPageNumberPagination
 from api.models import User, Guild, Emotes, Reactions
 
 
@@ -61,7 +62,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         data = request.data
         in_messages = Emotes.objects.filter(guild_id=data["guild_id"])
         in_reactions = Reactions.objects.filter(
-            emoji__contains=":_:"
+            emote__contains=":_:"
         ).filter(guild_id=data["guild_id"])
         
         in_messages = in_messages.values("emote").annotate(
