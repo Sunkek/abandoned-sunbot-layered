@@ -82,17 +82,19 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
                 "AND emotes.period = reactions.period AND "
                 "emotes.guild_id = reactions.guild_id) "
-                f"WHERE emotes.guild_id={data['guild_id']} OR "
-                f"reactions.guild_id={data['guild_id']} "
-                "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC"
+                "WHERE emotes.guild_id=%s OR "
+                "reactions.guild_id=%s "
+                "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC",
+                [data['guild_id'], data['guild_id'],]
             )
-            print(dictfetchall(cursor))
             page = self.paginate_queryset(dictfetchall(cursor))
             if page is not None:
                 serializer = EmotesTopSerializer(page, many=True)
+                print(serializer.data)
                 return self.get_paginated_response(serializer.data)
             serializer = EmotesTopSerializer(dictfetchall(cursor), many=True)
             cursor.close()
+            print(serializer.data)
             return Response(serializer.data)
         except Exception as e: 
             print(e)
