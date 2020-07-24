@@ -124,7 +124,7 @@ class Reactions(models.Model):
         related_name="reactions_received",
         db_column="receiver_id",  # Django adds second "_id" otherwise
     )
-    emoji = models.CharField(max_length=100)
+    emote = models.CharField(max_length=100)
     period = models.DateField()
     count = models.IntegerField(default=0,)
 

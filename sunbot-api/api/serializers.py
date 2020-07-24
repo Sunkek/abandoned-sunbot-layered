@@ -20,6 +20,7 @@ class MessagesSerializer(serializers.ModelSerializer):
         model = Messages
         exclude = ["id"]  # Useless primary key field
         
+
 class MessagesTopSerializer(serializers.ModelSerializer):
     count = serializers.IntegerField()
     user_id = serializers.IntegerField()
@@ -51,3 +52,12 @@ class EmotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Emotes
         exclude = ["id"]  # Useless primary key field
+
+
+class EmotesTopSerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField()
+    emote = serializers.CharField()
+    
+    class Meta:
+        model = Messages
+        fields = ["emote", "count"]

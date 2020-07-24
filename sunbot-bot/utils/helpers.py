@@ -87,7 +87,10 @@ async def parse_top_json(json, ctx):
     lists = collections.defaultdict(list)
     for i in json:
         for key, value in i.items():
-            lists[key].append(value)
+            if key == "emote":
+                lists[key].append(f"`{value}`")
+            else:
+                lists[key].append(value)
             if key == "user_id":
                 lists["user_name"].append(
                     await get_member_name(ctx.bot, ctx.guild, value)

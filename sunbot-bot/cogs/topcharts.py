@@ -35,9 +35,7 @@ class TopCharts(commands.Cog):
         if time_range not in self.time_ranges:
             raise commands.BadArgument
         top_chart = await rest_api.get_top(
-            self.bot, 
-            "postcounts", 
-            time_range,
+            self.bot, "postcounts", time_range,
             guild_id=ctx.guild.id,
             channel_id=channel.id if channel else None,
         )
@@ -57,6 +55,37 @@ class TopCharts(commands.Cog):
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
         await paginator.paginate(ctx, message, top_chart, headers, footers)
+
+    # Top postcounts
+    @top.command(
+        description="Shows you the most used emotes for the current `month/year/alltime`",
+        name="emotes", 
+        aliases=["e",],
+    )
+    async def top_emotes(
+        self, ctx, time_range="month"
+    ):
+        if time_range not in self.time_ranges:
+            raise commands.BadArgument
+        top_chart = await rest_api.get_top(
+            self.bot, "emotes", time_range,
+            guild_id=ctx.guild.id,
+        )
+        columns = await helpers.parse_top_json(top_chart["results"], ctx)
+        headers = ["TOTAL USES", "MESSAGES", "REACTIONS", "EMOTE"]
+        table = helpers.format_columns(
+            columns["total"], columns["messages"], 
+            columns["reactions"], columns["emote"], 
+            headers=headers,
+        )
+        embed = discord.Embed(
+            title=f"Top postcounts for {time_range}",
+            color=ctx.author.color,
+            description=f"`{table}`", 
+        )
+        embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
+        message = await ctx.send(embed=embed)
+        await paginator.paginate(ctx, message, top_chart, headers)
 
 def setup(bot):
     bot.add_cog(TopCharts(bot))

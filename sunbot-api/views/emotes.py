@@ -1,4 +1,5 @@
 from django.db.utils import IntegrityError
+from django.db.models import Sum
 from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import viewsets
@@ -51,7 +52,39 @@ class EmotesViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class TopEmotesViewSet(viewsets.ModelViewSet):
+    queryset = Emotes.objects.all()
+    serializer_class = EmotesSerializer
+    pagination_class = CustomPageNumberPagination
+    
+    def list(self, request, time_range, *args, **kwargs):
+        data = request.data
+        in_messages = Emotes.objects.filter(guild_id=data["guild_id"])
+        in_reactions = Reactions.objects.filter(
+            emoji__contains=":_:"
+        ).filter(guild_id=data["guild_id"])
+        
+        in_messages = in_messages.values("emote").annotate(
+            count=Sum("count")
+        ).order_by("-count")
+        in_reactions = in_reactions.values("emote").annotate(
+            count=Sum("count")
+        ).order_by("-count")
+        print(in_messages)
+        print(in_reactions)
+        print(in_messages + in_reactions)
+        page = self.paginate_queryset(in_messages + in_reactions)
+        if page is not None:
+            serializer = EmotesTopSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = EmotesTopSerializer(in_messages + in_reactions, many=True)
+        return Response(serializer.data)
+
+
 """Define the allowed request methods for each ModelViewSet"""
 emotes = EmotesViewSet.as_view({
     'patch': 'partial_update',
+})
+top_emotes = TopEmotesViewSet.as_view({
+    'get': 'list',
 })
