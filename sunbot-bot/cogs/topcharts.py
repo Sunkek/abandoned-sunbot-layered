@@ -41,16 +41,13 @@ class TopCharts(commands.Cog):
             guild_id=ctx.guild.id,
             channel_id=channel.id if channel else None,
         )
-        print(top_chart)
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
-        print(columns)
         headers = ["POSTCOUNT", "MEMBER"]
         footers = [top_chart["total"], "TOTAL"]
         table = helpers.format_columns(
             columns["count"], columns["user_name"], 
             headers=headers, footers=footers
         )
-        print(table)
         channel = f"in {channel.name}" if channel else ""
         embed = discord.Embed(
             title=f"Top postcounts for {time_range} {channel}",

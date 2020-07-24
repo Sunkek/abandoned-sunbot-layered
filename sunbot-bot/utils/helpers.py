@@ -84,16 +84,14 @@ def format_info_key(string):
 async def parse_top_json(json, ctx):
     """Turn the backend response into result lists"""
     if not json: return
+    lists = collections.defaultdict(list)
     for i in json:
-        lists = collections.defaultdict(list)
         for key, value in i.items():
-            print(key, value)
             lists[key].append(value)
             if key == "user_id":
                 lists["user_name"].append(
                     await get_member_name(ctx.bot, ctx.guild, value)
                 )
-            print(lists)
     return lists
         
 
