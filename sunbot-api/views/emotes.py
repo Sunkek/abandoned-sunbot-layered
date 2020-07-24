@@ -63,25 +63,11 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         try:
             data = request.data
 
-            in_messages = Emotes.objects.filter(
-                guild_id=data["guild_id"]
-            ).values("emote").annotate(
-                message_count=Sum("count")
-            ).order_by("-count")
-
-            in_reactions = Reactions.objects.filter(
-                emote__contains=":_:"
-            ).filter(guild_id=data["guild_id"]).values("emote").annotate(
-                reaction_count=Sum("count")
-            ).order_by("-count")
-            in_reactions.model = Emotes
-            
-            print(in_messages)
-            print(in_reactions)
-
             cursor = connection.cursor()
             cursor.execute(
-                "SELECT emotes.emote as emote, sum(emotes.count) as message_count, "
+                "SELECT CASE WHEN emotes.emote IS NULL THEN reactions.emote "
+                "ELSE emotes.emote END as emote, "
+                "sum(emotes.count) as message_count, "
                 "sum(reactions.count) as reaction_count, "
                 "sum(emotes.count)+sum(reactions.count) as total_count "
                 "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
@@ -92,11 +78,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC"
             )
             print(cursor)
-            print(cursor.fetchone())
-
-            print(in_messages | in_reactions)
-
-            page = self.paginate_queryset(in_messages | in_reactions)
+            page = self.paginate_queryset(cursor.fetchall())
             if page is not None:
                 serializer = EmotesTopSerializer(page, many=True)
                 return self.get_paginated_response(serializer.data)
