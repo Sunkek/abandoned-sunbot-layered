@@ -90,6 +90,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 f"WHERE guild_id={data['guild_id']} "
                 "GROUP BY emote ORDER BY total_count DESC"
             )
+            print(cursor)
             print(cursor.fetchone())
 
             print(in_messages | in_reactions)
