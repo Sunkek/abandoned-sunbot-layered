@@ -40,15 +40,15 @@ async def get_member_name(bot, guild, member_id):
 
 def format_columns(*columns, headers=None, footers=None):
     """Tabulate columns (lists) into a neatly aligned table"""
-    print(columns)
     columns = list(columns)
-    print(columns)
     for i in range(len(columns)):
-        print(i)
         if headers: columns[i] = [headers[i]] + columns[i]
         if footers: columns[i] += [footers[i]]
     maxlens = [max(len(str(line)) for line in column) for column in columns]
-    print(maxlens)
+    if headers:
+        for i in range(len(headers)):
+            if headers[i] == "EMOTE":
+                maxlens[i] = 5
     table = []
     for row in zip(*columns):
         line = f'{row[0]:.<{maxlens[0]}}'
