@@ -80,10 +80,10 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     sum(emotes.count) + sum(reactions.count) as total_count 
                 FROM emotes 
                 INNER JOIN reactions 
-                    ON (emotes.emote = reactions.emote 
+                    ON emotes.emote = reactions.emote 
                         AND emotes.period = reactions.period 
-                        AND emotes.guild_id = reactions.guild_id) 
-                WHERE (emotes.guild_id=%s OR reactions.guild_id=%s) 
+                        AND emotes.guild_id = reactions.guild_id 
+                WHERE emotes.guild_id=%s OR reactions.guild_id=%s 
                 GROUP BY emote
                 UNION ALL 
                     SELECT 
@@ -93,9 +93,9 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         sum(emotes.count) as total_count
                     FROM emotes 
                     LEFT JOIN reactions  
-                        ON (emotes.period = reactions.period 
-                            AND emotes.guild_id = reactions.guild_id) 
-                    WHERE (reactions.emote IS NULL AND reactions.guild_id=%s) 
+                        ON emotes.period = reactions.period 
+                            AND emotes.guild_id = reactions.guild_id 
+                    WHERE reactions.emote IS NULL AND reactions.guild_id=%s 
                 GROUP BY emote
                 UNION ALL 
                     SELECT 
@@ -105,11 +105,10 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         sum(reactions.count) as total_count 
                     FROM reactions 
                     LEFT JOIN emotes 
-                        ON (emotes.period = reactions.period 
-                            AND emotes.guild_id = reactions.guild_id) 
-                        WHERE (emotes.emote IS NULL AND emotes.guild_id=%s)
-                GROUP BY emote) as table 
-            ORDER BY total_count DESC""",
+                        ON emotes.period = reactions.period 
+                            AND emotes.guild_id = reactions.guild_id 
+                        WHERE emotes.emote IS NULL AND emotes.guild_id=%s
+                GROUP BY emote) as table ORDER BY total_count DESC""",
             [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
         )
         result = dictfetchall(cursor)
