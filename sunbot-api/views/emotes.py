@@ -69,35 +69,30 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 for row in cursor.fetchall()
             ]
             
-        try:
-            data = request.data
+        data = request.data
 
-            cursor = connection.cursor()
-            cursor.execute(
-                "SELECT CASE WHEN emotes.emote IS NULL THEN reactions.emote "
-                "ELSE emotes.emote END as emote, "
-                "sum(emotes.count) as message_count, "
-                "sum(reactions.count) as reaction_count, "
-                "sum(emotes.count)+sum(reactions.count) as total_count "
-                "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
-                "AND emotes.period = reactions.period AND "
-                "emotes.guild_id = reactions.guild_id) "
-                "WHERE emotes.guild_id=%s OR "
-                "reactions.guild_id=%s "
-                "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC",
-                [data['guild_id'], data['guild_id'],]
-            )
-            page = self.paginate_queryset(dictfetchall(cursor))
-            if page is not None:
-                serializer = EmotesTopSerializer(page, many=True)
-                print(serializer.data)
-                return self.get_paginated_response(serializer.data)
-            serializer = EmotesTopSerializer(dictfetchall(cursor), many=True)
-            cursor.close()
-            print(serializer.data)
-            return Response(serializer.data)
-        except Exception as e: 
-            print(e)
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT CASE WHEN emotes.emote IS NULL THEN reactions.emote "
+            "ELSE emotes.emote END as emote, "
+            "sum(emotes.count) as message_count, "
+            "sum(reactions.count) as reaction_count, "
+            "sum(emotes.count)+sum(reactions.count) as total_count "
+            "FROM emotes JOIN reactions ON (emotes.emote = reactions.emote "
+            "AND emotes.period = reactions.period AND "
+            "emotes.guild_id = reactions.guild_id) "
+            "WHERE emotes.guild_id=%s OR "
+            "reactions.guild_id=%s "
+            "GROUP BY emotes.emote, reactions.emote ORDER BY total_count DESC",
+            [data['guild_id'], data['guild_id'],]
+        )
+        page = self.paginate_queryset(dictfetchall(cursor))
+        if page is not None:
+            serializer = EmotesTopSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = EmotesTopSerializer(dictfetchall(cursor), many=True)
+        cursor.close()
+        return Response(serializer.data)
 
 
 """Define the allowed request methods for each ModelViewSet"""
