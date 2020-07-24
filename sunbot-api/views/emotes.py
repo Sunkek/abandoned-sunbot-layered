@@ -74,11 +74,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         cursor = connection.cursor()
         cursor.execute("""SELECT * FROM (
                 SELECT 
-                    CASE 
-                        WHEN emotes.emote IS NULL 
-                        THEN reactions.emote 
-                        ELSE emotes.emote 
-                    END as emote, 
+                    emotes.emote as emote, 
                     sum(emotes.count) as message_count, 
                     sum(reactions.count) as reaction_count, 
                     sum(emotes.count) + sum(reactions.count) as total_count 
@@ -87,24 +83,26 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     ON (emotes.emote = reactions.emote 
                         AND emotes.period = reactions.period 
                         AND emotes.guild_id = reactions.guild_id) 
-                WHERE emotes.guild_id=%s OR reactions.guild_id=%s
-                UNION ALL
+                WHERE (emotes.guild_id=%s OR reactions.guild_id=%s) 
+                UNION ALL 
                     SELECT 
                         emotes.emote as emote, 
                         sum(emotes.count) as message_count, 
+                        0 as reaction_count, 
                         sum(emotes.count) as total_count
-                    FROM emotes
-                    LEFT JOIN reactions
-                    WHERE reactions.emote = NULL AND reactions.guild_id=%s
-                UNION ALL
+                    FROM emotes 
+                    LEFT JOIN reactions 
+                    WHERE (reactions.emote = NULL AND reactions.guild_id=%s) 
+                UNION ALL 
                     SELECT 
                         reactions.emote as emote, 
+                        0 as message_count, 
                         sum(reactions.count) as reaction_count, 
-                        sum(reactions.count) as total_count
-                    FROM reactions
-                    LEFT JOIN emotes
-                        WHERE emotes.emote = NULL AND emotes.guild_id=%s)
-            GROUP BY emote
+                        sum(reactions.count) as total_count 
+                    FROM reactions 
+                    LEFT JOIN emotes 
+                        WHERE (emotes.emote = NULL AND emotes.guild_id=%s)) 
+            GROUP BY emote 
             ORDER BY total_count DESC""",
             [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
         )
