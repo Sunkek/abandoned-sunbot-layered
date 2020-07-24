@@ -38,7 +38,7 @@ class TrackReactions(commands.Cog):
                     guild_id=guild.id,
                     giver_id=giver.id,
                     receiver_id=receiver.id,
-                    emoji=emoji,
+                    emote=emoji,
                     count=1,
                     period=datetime.now().strftime("%Y-%m-%d")
                 )
@@ -67,7 +67,7 @@ class TrackReactions(commands.Cog):
                     guild_id=guild.id,
                     giver_id=giver.id,
                     receiver_id=receiver.id,
-                    emoji=emoji,
+                    emote=emoji,
                     count=-1,
                     period=datetime.now().strftime("%Y-%m-%d")
                 )

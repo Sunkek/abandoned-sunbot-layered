@@ -50,8 +50,8 @@ class Guild(models.Model):
     ad_reminder_disboard = models.BooleanField(null=True, blank=True, default=False)
     ad_reminder_disforge = models.BooleanField(null=True, blank=True, default=False)
 
-    karma_positive_emoji = models.CharField(max_length=40, null=True, blank=True)
-    karma_negative_emoji = models.CharField(max_length=40, null=True, blank=True)
+    karma_positive_emote = models.CharField(max_length=40, null=True, blank=True)
+    karma_negative_emote = models.CharField(max_length=40, null=True, blank=True)
 
     warnings_timeout_days = models.PositiveSmallIntegerField(null=True, blank=True)
     warnings_before_mute = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -62,7 +62,7 @@ class Guild(models.Model):
     welcome_message_embed = models.CharField(max_length=4000, null=True, blank=True)
 
     verification_message_id = models.BigIntegerField(null=True, blank=True)
-    verification_emoji = models.CharField(max_length=40, null=True, blank=True)
+    verification_emote = models.CharField(max_length=40, null=True, blank=True)
     unverified_role_id = models.BigIntegerField(null=True, blank=True)
     verified_role_id = models.BigIntegerField(null=True, blank=True)
     verified_message = models.CharField(max_length=2000, null=True, blank=True)
@@ -105,7 +105,7 @@ class Messages(models.Model):
 
 
 class Reactions(models.Model):
-    """Info about given emoji reactions - who, where and how much."""    
+    """Info about given emote reactions - who, where and how much."""    
     guild_id = models.ForeignKey(
         Guild,
         on_delete=models.CASCADE,
@@ -129,12 +129,12 @@ class Reactions(models.Model):
     count = models.IntegerField(default=0,)
 
     def __str__(self):
-        return f"{self.giver_id} to {self.receiver_id} - {self.emoji} for {self.period}"
+        return f"{self.giver_id} to {self.receiver_id} - {self.emote} for {self.period}"
 
     class Meta:
         db_table = "reactions"
         # Composite primary key workaround
-        unique_together = [["guild_id", "giver_id", "receiver_id", "emoji", "period"]]
+        unique_together = [["guild_id", "giver_id", "receiver_id", "emote", "period"]]
 
 
 class Games(models.Model):
