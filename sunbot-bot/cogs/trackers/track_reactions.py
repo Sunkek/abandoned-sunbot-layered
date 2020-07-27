@@ -31,7 +31,8 @@ class TrackReactions(commands.Cog):
                     emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
                 else: 
                     # Just turn it into string
-                    emoji = str(payload.emoji)
+                    emoji = str(payload.emoji).split(":")
+                    emoji = f"{emoji[0]}:_:{emoji[2]}"
 
                 await rest_api.add_reaction(
                     self.bot, 
