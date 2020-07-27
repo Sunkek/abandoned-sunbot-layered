@@ -11,7 +11,6 @@ async def paginate(
 ):
     for i in ["⏮️", "⏪", "⏩", "⏭️"]:
         await message.add_reaction(i)
-    print(data)
         
     def check(payload):
         return all((

@@ -61,7 +61,7 @@ class TrackReactions(commands.Cog):
                 else: 
                     # Just turn it into string
                     emoji = str(payload.emoji)
-
+                print(f"ADDING {emoji}")
                 await rest_api.add_reaction(
                     self.bot, 
                     guild_id=guild.id,

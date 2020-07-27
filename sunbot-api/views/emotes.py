@@ -111,11 +111,9 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
             page = self.paginate_queryset(result)
             if page is not None:
                 serializer = EmotesTopSerializer(page, many=True)
-                print(serializer.data)
                 return self.get_paginated_response(serializer.data)
             serializer = EmotesTopSerializer(result, many=True)
             cursor.close()
-            print(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             print(e)
