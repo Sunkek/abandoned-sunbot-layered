@@ -5,7 +5,7 @@ from asyncio import wait, TimeoutError, FIRST_COMPLETED
 
 from . import rest_api, helpers
 
-async def paginate(ctx, message, data, headers=None, footers=None):
+async def paginate(ctx, message, data, column_keys, headers=None, footers=None):
     for i in ["⏮️", "⏪", "⏩", "⏭️"]:
         await message.add_reaction(i)
     print(data)
@@ -42,8 +42,9 @@ async def paginate(ctx, message, data, headers=None, footers=None):
                 guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
+            use_columns = [columns[i] for i in column_keys]
             table = helpers.format_columns(
-                columns["count"], columns["user_name"], 
+                *use_columns, 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
@@ -62,8 +63,9 @@ async def paginate(ctx, message, data, headers=None, footers=None):
                 guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
+            use_columns = [columns[i] for i in column_keys]
             table = helpers.format_columns(
-                columns["count"], columns["user_name"], 
+                *use_columns, 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
@@ -82,8 +84,9 @@ async def paginate(ctx, message, data, headers=None, footers=None):
                 guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
+            use_columns = [columns[i] for i in column_keys]
             table = helpers.format_columns(
-                columns["count"], columns["user_name"], 
+                *use_columns, 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
@@ -104,8 +107,9 @@ async def paginate(ctx, message, data, headers=None, footers=None):
                 guild_id=ctx.guild.id, channel_id=channel,
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
+            use_columns = [columns[i] for i in column_keys]
             table = helpers.format_columns(
-                columns["count"], columns["user_name"], 
+                *use_columns, 
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]

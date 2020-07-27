@@ -41,9 +41,10 @@ class TopCharts(commands.Cog):
         )
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         headers = ["POSTCOUNT", "MEMBER"]
+        column_keys = ["count", "user_name"]
         footers = [top_chart["total"], "TOTAL"]
         table = helpers.format_columns(
-            columns["count"], columns["user_name"], 
+            *column_keys,
             headers=headers, footers=footers
         )
         channel = f"in {channel.name}" if channel else ""
@@ -54,7 +55,9 @@ class TopCharts(commands.Cog):
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
-        await paginator.paginate(ctx, message, top_chart, headers, footers)
+        await paginator.paginate(
+            ctx, message, top_chart, column_keys, headers=headers, footers=footers
+        )
 
     # Top postcounts
     @top.command(
@@ -73,9 +76,9 @@ class TopCharts(commands.Cog):
         )
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         headers = ["TOTAL", "MESSAGES", "REACTIONS", "EMOTE"]
+        column_keys = ["total_count", "message_count", "reaction_count", "emote"]
         table = helpers.format_columns(
-            columns["total_count"], columns["message_count"], 
-            columns["reaction_count"], columns["emote"], 
+            *column_keys, 
             headers=headers,
         )
         embed = discord.Embed(
@@ -85,7 +88,9 @@ class TopCharts(commands.Cog):
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
-        await paginator.paginate(ctx, message, top_chart, headers)
+        await paginator.paginate(
+            ctx, message, top_chart, column_keys, headers=headers
+        )
 
 def setup(bot):
     bot.add_cog(TopCharts(bot))
