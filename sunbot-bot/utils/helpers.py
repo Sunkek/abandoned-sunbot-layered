@@ -42,8 +42,8 @@ def format_columns(*columns, headers=None, footers=None):
     """Tabulate columns (lists) into a neatly aligned table"""
     columns = list(columns)
     for i in range(len(columns)):
-        if headers: 
-            columns[i] = [headers[i]] + columns[i]
+        if type(columns[i]) != list: columns[i] = list(columns[i])
+        if headers: columns[i] = [headers[i]] + columns[i]
         if footers: columns[i] += [footers[i]]
     maxlens = [max(len(str(line)) for line in column) for column in columns]
     if headers:
