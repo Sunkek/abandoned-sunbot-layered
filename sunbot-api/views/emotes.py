@@ -94,6 +94,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     0 AS msg_count,
                     count AS rct_count
                 FROM reactions  
+                WHERE emote LIKE '%:_:%'
             ) AS t
             WHERE guild_id = %s
             GROUP BY emote
