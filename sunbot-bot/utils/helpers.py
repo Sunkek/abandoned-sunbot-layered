@@ -104,7 +104,7 @@ async def parse_top_json(json, ctx):
     return lists
 
 def make_guild_emote_list(ctx):
-    return [str(emoji) for emoji in ctx.guild.emojis]
+    return [":_:".join(str(emoji).split(":")[0,2]) for emoji in ctx.guild.emojis]
 
 
 def columns_to_table(columns, numerate=False):
