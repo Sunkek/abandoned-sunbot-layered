@@ -43,8 +43,9 @@ class TopCharts(commands.Cog):
         headers = ["POSTCOUNT", "MEMBER"]
         column_keys = ["count", "user_name"]
         footers = [top_chart["total"], "TOTAL"]
+        use_columns = [columns[i] for i in column_keys]
         table = helpers.format_columns(
-            *column_keys,
+            *use_columns, 
             headers=headers, footers=footers
         )
         channel = f"in {channel.name}" if channel else ""
@@ -77,8 +78,9 @@ class TopCharts(commands.Cog):
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         headers = ["TOTAL", "MESSAGES", "REACTIONS", "EMOTE"]
         column_keys = ["total_count", "message_count", "reaction_count", "emote"]
+        use_columns = [columns[i] for i in column_keys]
         table = helpers.format_columns(
-            *column_keys, 
+            *use_columns, 
             headers=headers,
         )
         embed = discord.Embed(
