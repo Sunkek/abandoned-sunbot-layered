@@ -8,6 +8,7 @@ from . import rest_api, helpers
 async def paginate(ctx, message, data, headers=None, footers=None):
     for i in ["⏮️", "⏪", "⏩", "⏭️"]:
         await message.add_reaction(i)
+    print(data)
         
     def check(payload):
         return all((
