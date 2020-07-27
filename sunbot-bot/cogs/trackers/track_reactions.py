@@ -32,7 +32,6 @@ class TrackReactions(commands.Cog):
                 else: 
                     # Just turn it into string
                     emoji = str(payload.emoji)
-                print(f"ADDING {emoji}")
 
                 await rest_api.add_reaction(
                     self.bot, 
@@ -61,8 +60,8 @@ class TrackReactions(commands.Cog):
                     emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
                 else: 
                     # Just turn it into string
-                    emoji = str(payload.emoji)
-                print(f"REMOVING {emoji}")
+                    emoji = str(payload.emoji).split(":")
+                    emoji = f"{emoji[0]}:_:{emoji[1]}"
                 await rest_api.add_reaction(
                     self.bot, 
                     guild_id=guild.id,
