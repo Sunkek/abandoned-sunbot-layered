@@ -72,7 +72,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         try:
             data = request.data
             #target_pool = ", ".join(data["target_pool"])
-            placeholders= ', '.join(['%s']*len(data["target_pool"])
+            placeholders= ", ".join(["%s"]*len(data["target_pool"]))
 
             cursor = connection.cursor()
             cursor.execute(f"""
