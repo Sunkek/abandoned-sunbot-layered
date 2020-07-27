@@ -98,7 +98,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     FROM reactions 
                     WHERE emote LIKE %s
                 ) AS t
-                WHERE guild_id = %i
+                WHERE guild_id = %s
                 GROUP BY emote
                 ORDER BY total_count DESC""",
                 ["<:_:%", data['guild_id'],]
