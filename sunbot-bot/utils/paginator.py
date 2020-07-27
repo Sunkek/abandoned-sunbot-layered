@@ -51,7 +51,7 @@ async def paginate(
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
-            embed.description=f"`{table}`".rstrip('``')
+            embed.description=f"`{table}`"
             embed.set_footer(
                 text=f"Page {data['current']}/{data['last']}"
             )
@@ -73,7 +73,7 @@ async def paginate(
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
-            embed.description=f"`{table}`".rstrip('``')
+            embed.description=f"`{table}`"
             embed.set_footer(
                 text=f"Page {data['current']}/{data['last']}"
             )
@@ -95,7 +95,7 @@ async def paginate(
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
-            embed.description=f"`{table}`".rstrip('``')
+            embed.description=f"`{table}`"
             embed.set_footer(
                 text=f"Page {data['current']}/{data['last']}"
             )
@@ -119,7 +119,7 @@ async def paginate(
                 headers=headers, footers=footers
             )
             embed = message.embeds[0]
-            embed.description=f"`{table}`".rstrip('``')
+            embed.description=f"`{table}`"
             embed.set_footer(
                 text=f"Page {data['current']}/{data['last']}"
             )
