@@ -68,48 +68,51 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 dict(zip(columns, row))
                 for row in cursor.fetchall()
             ]
-            
-        data = request.data
+        
+        try:
+            data = request.data
 
-        cursor = connection.cursor()
-        cursor.execute("""
-            SELECT 
-                emote,
-                sum(msg_count) as message_count,
-                sum(rct_count) as reaction_count,
-                sum(msg_count) + sum(rct_count) as total_count
-            FROM (
+            cursor = connection.cursor()
+            cursor.execute("""
                 SELECT 
                     emote,
-                    period,
-                    guild_id,
-                    count AS msg_count,
-                    0 AS rct_count
-                FROM emotes
-                UNION ALL
-                SELECT 
-                    emote,
-                    period,
-                    guild_id,
-                    0 AS msg_count,
-                    count AS rct_count
-                FROM reactions 
-                WHERE emote LIKE '%:_:%'
-            ) AS t
-            WHERE guild_id = ?
-            GROUP BY emote
-            ORDER BY total_count DESC""",
-            [data['guild_id'],]
-        )
-        result = dictfetchall(cursor)
-        print(result)
-        page = self.paginate_queryset(result)
-        if page is not None:
-            serializer = EmotesTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = EmotesTopSerializer(result, many=True)
-        cursor.close()
-        return Response(serializer.data)
+                    sum(msg_count) as message_count,
+                    sum(rct_count) as reaction_count,
+                    sum(msg_count) + sum(rct_count) as total_count
+                FROM (
+                    SELECT 
+                        emote,
+                        period,
+                        guild_id,
+                        count AS msg_count,
+                        0 AS rct_count
+                    FROM emotes
+                    UNION ALL
+                    SELECT 
+                        emote,
+                        period,
+                        guild_id,
+                        0 AS msg_count,
+                        count AS rct_count
+                    FROM reactions 
+                    WHERE emote LIKE '%:_:%'
+                ) AS t
+                WHERE guild_id = ?
+                GROUP BY emote
+                ORDER BY total_count DESC""",
+                [data['guild_id'],]
+            )
+            result = dictfetchall(cursor)
+            print(result)
+            page = self.paginate_queryset(result)
+            if page is not None:
+                serializer = EmotesTopSerializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            serializer = EmotesTopSerializer(result, many=True)
+            cursor.close()
+            return Response(serializer.data)
+        except Exception as e:
+            print(e)
 
 
 """Define the allowed request methods for each ModelViewSet"""
