@@ -31,7 +31,7 @@ class Owner(commands.Cog):
         )
         embed = discord.Embed(
             title=f"{self.bot.user.name} has joined these servers", 
-            description=guild_list, 
+            description=f"`{guild_list}`", 
             colour=ctx.author.color
             )
         await ctx.send(embed=embed)
