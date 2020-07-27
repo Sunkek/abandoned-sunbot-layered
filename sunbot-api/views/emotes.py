@@ -94,12 +94,12 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                     0 AS msg_count,
                     count AS rct_count
                 FROM reactions 
-                WHERE emote LIKE '%:_:%'
+                WHERE emote LIKE ?
             ) AS t
-            WHERE guild_id = %s
+            WHERE guild_id = ?
             GROUP BY emote
             ORDER BY total_count DESC""",
-            [data['guild_id'],]
+            ["%:_:%", data['guild_id'],]
         )
         result = dictfetchall(cursor)
         print(result)
