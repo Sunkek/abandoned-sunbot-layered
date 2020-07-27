@@ -59,8 +59,8 @@ class TrackReactions(commands.Cog):
                     # Stripping skintones and other modifiers
                     emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
                 else: 
-                    # Strip <> and emoji name because it can change, use _ instead
-                    emoji = f"<:_:{payload.emoji.id}>"
+                    # Just turn it into string
+                    emoji = str(payload.emoji)
 
                 await rest_api.add_reaction(
                     self.bot, 
