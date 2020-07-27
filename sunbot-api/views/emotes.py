@@ -71,7 +71,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         
         try:
             data = request.data
-            target_pool = " ".join(data["target_pool"])
+            target_pool = ", ".join(data["target_pool"])
 
             cursor = connection.cursor()
             cursor.execute("""
