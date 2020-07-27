@@ -6,7 +6,7 @@ from discord.ext import commands
 import re
 from typing import Optional
 
-from utils import int_convertable
+from utils.helpers import int_convertable
 
 def parse_foreign_emoji(content):
     """This will try to find any "<foreign_emoji=number>" substrings and turn them 
