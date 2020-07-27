@@ -63,7 +63,6 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
 
         def dictfetchall(cursor):
             """Return all rows from a cursor as a dict"""
-            print(cursor.description)
             columns = [col[0] for col in cursor.description]
             return [
                 dict(zip(columns, row))
@@ -104,7 +103,6 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 ["<:_:%", data['guild_id'],]
             )
             result = dictfetchall(cursor)
-            print(result)
             page = self.paginate_queryset(result)
             if page is not None:
                 serializer = EmotesTopSerializer(page, many=True)
