@@ -40,6 +40,7 @@ async def paginate(ctx, message, data, column_keys, headers=None, footers=None):
             data = await rest_api.send_get(
                 ctx.bot, url,
                 guild_id=ctx.guild.id, channel_id=channel,
+                target_pool=target_pool
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             use_columns = [columns[i] for i in column_keys]
@@ -61,6 +62,7 @@ async def paginate(ctx, message, data, column_keys, headers=None, footers=None):
             data = await rest_api.send_get(
                 ctx.bot, data["previous"],
                 guild_id=ctx.guild.id, channel_id=channel,
+                target_pool=target_pool
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             use_columns = [columns[i] for i in column_keys]
@@ -82,6 +84,7 @@ async def paginate(ctx, message, data, column_keys, headers=None, footers=None):
             data = await rest_api.send_get(
                 ctx.bot, data["next"],
                 guild_id=ctx.guild.id, channel_id=channel,
+                target_pool=target_pool
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             use_columns = [columns[i] for i in column_keys]
@@ -105,6 +108,7 @@ async def paginate(ctx, message, data, column_keys, headers=None, footers=None):
             data = await rest_api.send_get(
                 ctx.bot, url,
                 guild_id=ctx.guild.id, channel_id=channel,
+                target_pool=target_pool
             )
             columns = await helpers.parse_top_json(data["results"], ctx)
             use_columns = [columns[i] for i in column_keys]

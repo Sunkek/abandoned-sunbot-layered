@@ -71,9 +71,10 @@ class TopCharts(commands.Cog):
     ):
         if time_range not in self.time_ranges:
             raise commands.BadArgument
+        target_pool = helpers.make_guild_emote_list(ctx)
         top_chart = await rest_api.get_top(
             self.bot, "emotes", time_range,
-            guild_id=ctx.guild.id,
+            guild_id=ctx.guild.id, target_pool=target_pool,
         )
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         headers = ["TOTAL", "MESSAGES", "REACTIONS", "EMOTE"]
@@ -81,7 +82,7 @@ class TopCharts(commands.Cog):
         use_columns = [columns[i] for i in column_keys]
         table = helpers.format_columns(
             *use_columns, 
-            headers=headers,
+            headers=headers, 
         )
         embed = discord.Embed(
             title=f"Top used emotes for {time_range}",
@@ -91,7 +92,8 @@ class TopCharts(commands.Cog):
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
         await paginator.paginate(
-            ctx, message, top_chart, column_keys, headers=headers
+            ctx, message, top_chart, column_keys, 
+            headers=headers, target_pool=target_pool,
         )
 
 def setup(bot):

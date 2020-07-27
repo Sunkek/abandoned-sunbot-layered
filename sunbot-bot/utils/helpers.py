@@ -111,7 +111,10 @@ async def parse_top_json(json, ctx):
                     await get_member_name(ctx.bot, ctx.guild, value)
                 )
     return lists
-        
+
+def make_guild_emote_list(ctx):
+    return [f"<:_:{emoji.id}>" for emoji in ctx.guild.emojis]
+
 
 def columns_to_table(columns, numerate=False):
     if numerate:
