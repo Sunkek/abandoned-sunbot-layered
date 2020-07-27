@@ -27,7 +27,7 @@ class TrackEmotes(commands.Cog):
                             self.bot, 
                             guild_id=message.guild.id,
                             user_id=message.author.id,
-                            emote=f"<{'a'*e[0]}:_:{e[2]}>",
+                            emote=f"<{'a'*bool(e[0])}:_:{e[2]}>",
                             period=datetime.now().strftime("%Y-%m-%d"),
                             count=1,
                         )

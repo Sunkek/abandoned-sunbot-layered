@@ -93,7 +93,7 @@ async def parse_top_json(json, ctx):
     lists = collections.defaultdict(list)
     for i in json:
         for key, value in i.items():
-            if key == "emote":
+            if key == "emote":  # Excape codeblock for emotes
                 lists[key].append(f"`{value}`")
             else:
                 lists[key].append(value)
