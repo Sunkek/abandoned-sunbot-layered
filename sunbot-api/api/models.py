@@ -4,6 +4,7 @@ TODO! When Django starts supporting composite primary keys,
 rewrite them properly!"""
 
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 
 class User(models.Model):
@@ -33,6 +34,20 @@ class Guild(models.Model):
     track_voice = models.BooleanField(null=True, blank=True, default=False)
     track_games = models.BooleanField(null=True, blank=True, default=False)
     track_emotes = models.BooleanField(null=True, blank=True, default=False)
+    
+    activity_per_message = models.IntegerField(null=True, blank=True)
+    activity_min_message_words = models.IntegerField(null=True, blank=True)
+    activity_multi_per_word = models.IntegerField(null=True, blank=True)
+    activity_per_attachment = models.IntegerField(null=True, blank=True)
+    activity_per_reaction = models.IntegerField(null=True, blank=True)
+    activity_per_voice_minute = models.IntegerField(null=True, blank=True)
+    activity_multi_per_voice_member = models.IntegerField(null=True, blank=True)
+
+    activity_channels_x0 = ArrayField(models.BigIntegerField(null=True, blank=True))
+    activity_channels_x05 = ArrayField(models.BigIntegerField(null=True, blank=True))
+    activity_channels_x2 = ArrayField(models.BigIntegerField(null=True, blank=True))
+
+    activity_cooldown = models.IntegerField(null=True, blank=True)
 
     mod_junior_role_id = models.BigIntegerField(null=True, blank=True)
     mod_senior_role_id = models.BigIntegerField(null=True, blank=True)
