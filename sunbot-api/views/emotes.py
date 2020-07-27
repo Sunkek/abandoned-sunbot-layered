@@ -71,6 +71,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
         
         try:
             data = request.data
+            target_pool = " ".join(data["target_pool"])
 
             cursor = connection.cursor()
             cursor.execute("""
@@ -87,7 +88,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         count AS msg_count,
                         0 AS rct_count
                     FROM emotes
-                    WHERE emote IN %s
+                    WHERE emote IN (%s)
                     UNION ALL
                     SELECT 
                         emote,
@@ -96,12 +97,12 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         0 AS msg_count,
                         count AS rct_count
                     FROM reactions 
-                    WHERE emote IN %s
+                    WHERE emote IN (%s)
                 ) AS t
                 WHERE guild_id = %s
                 GROUP BY emote
                 ORDER BY total_count DESC""",
-                [(*data["target_pool"]), (*data["target_pool"]), data['guild_id'],]
+                [target_pool, target_pool, data['guild_id'],]
             )
             result = dictfetchall(cursor)
             page = self.paginate_queryset(result)
