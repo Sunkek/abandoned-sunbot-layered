@@ -61,17 +61,11 @@ async def paginate(ctx, message, data, headers=None, footers=None):
                 ctx.bot, data["previous"],
                 guild_id=ctx.guild.id, channel_id=channel,
             )
-            print("DATA")
-            print(data)
             columns = await helpers.parse_top_json(data["results"], ctx)
-            print("COLUMNS")
-            print(columns)
             table = helpers.format_columns(
                 columns["count"], columns["user_name"], 
                 headers=headers, footers=footers
             )
-            print("TABLE")
-            print(table)
             embed = message.embeds[0]
             embed.description=f"`{table}`"
             embed.set_footer(
@@ -87,17 +81,11 @@ async def paginate(ctx, message, data, headers=None, footers=None):
                 ctx.bot, data["next"],
                 guild_id=ctx.guild.id, channel_id=channel,
             )
-            print("DATA")
-            print(data)
             columns = await helpers.parse_top_json(data["results"], ctx)
-            print("COLUMNS")
-            print(columns)
             table = helpers.format_columns(
                 columns["count"], columns["user_name"], 
                 headers=headers, footers=footers
             )
-            print("TABLE")
-            print(table)
             embed = message.embeds[0]
             embed.description=f"`{table}`"
             embed.set_footer(
