@@ -26,7 +26,9 @@ class Owner(commands.Cog):
             (guild.id, len(guild.members), guild.name)
             for guild in self.bot.guilds
         ]
-        guild_list = helpers.format_columns(list(zip(*guild_list)), headers=headers)
+        guild_list = helpers.format_columns(
+            *zip(*guild_list), headers=headers
+        )
         embed = discord.Embed(
             title=f"{self.bot.user.name} has joined these servers", 
             description=guild_list, 
