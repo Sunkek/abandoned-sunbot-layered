@@ -30,8 +30,9 @@ class TrackReactions(commands.Cog):
                     # Stripping skintones and other modifiers
                     emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
                 else: 
-                    # Strip emoji name because it can change, use _ instead
-                    emoji = f"<:_:{payload.emoji.id}>"
+                    # Just turn it into string
+                    emoji = str(payload.emoji)
+                print(f"ADDING {emoji}")
 
                 await rest_api.add_reaction(
                     self.bot, 
@@ -61,7 +62,7 @@ class TrackReactions(commands.Cog):
                 else: 
                     # Just turn it into string
                     emoji = str(payload.emoji)
-                print(f"ADDING {emoji}")
+                print(f"REMOVING {emoji}")
                 await rest_api.add_reaction(
                     self.bot, 
                     guild_id=guild.id,

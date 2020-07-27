@@ -22,7 +22,7 @@ class TrackEmotes(commands.Cog):
                 if emoji:
                     guild_emoji_ids = [e.id for e in message.guild.emojis]
                 for e in emoji:
-                    if e[2] in guild_emoji_ids:
+                    if int(e[2]) in guild_emoji_ids:
                         print(f"ADDING <{'a'*e[0]}:_:{e[2]}>")
                         await rest_api.add_emotes(
                             self.bot, 
