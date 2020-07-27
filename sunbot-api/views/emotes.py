@@ -73,45 +73,32 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
 
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT * FROM (
             SELECT 
-                emotes.emote as emote, 
-                sum(emotes.count) as message_count, 
-                sum(reactions.count) as reaction_count, 
-                sum(emotes.count) + sum(reactions.count) as total_count 
-            FROM emotes 
-            INNER JOIN reactions 
-            ON emotes.emote = reactions.emote AND 
-                emotes.period = reactions.period AND 
-                emotes.guild_id = reactions.guild_id 
-            WHERE emotes.guild_id=%s
-            GROUP BY emotes.emote
-            UNION ALL 
-
-            SELECT 
-                emotes.emote as emote, 
-                sum(emotes.count) as message_count, 
-                0 as reaction_count, 
-                sum(emotes.count) as total_count
-            FROM emotes 
-            LEFT JOIN reactions  
-            ON reactions.emote IS NULL
-            WHERE reactions.guild_id=%s 
-            GROUP BY emotes.emote
-            UNION ALL 
-            
-            SELECT 
-                reactions.emote as emote, 
-                0 as message_count, 
-                sum(reactions.count) as reaction_count, 
-                sum(reactions.count) as total_count 
-            FROM reactions 
-            LEFT JOIN emotes 
-            ON emotes.emote IS NULL
-            WHERE emotes.guild_id=%s
-            GROUP BY reactions.emote) AS t
-            ORDER BY t.total_count DESC""",
-            [data['guild_id'], data['guild_id'],data['guild_id'],data['guild_id'],]
+                emote,
+                sum(msg_count) as message_count,
+                sum(rct_count) as reaction_count,
+                sum(msg_count) + sum(rct_count) as total_count
+            FROM (
+                SELECT 
+                    emote,
+                    period,
+                    guild_id,
+                    count AS msg_count,
+                    0 AS rct_count
+                FROM emotes
+                UNION ALL
+                SELECT 
+                    emote,
+                    period,
+                    guild_id,
+                    0 AS msg_count,
+                    count AS rct_count
+                FROM reactions  
+            ) AS t
+            WHERE guild_id = %s
+            GROUP BY emote
+            ORDER BY total_count DESC""",
+            [data['guild_id'],]
         )
         result = dictfetchall(cursor)
         print(result)
