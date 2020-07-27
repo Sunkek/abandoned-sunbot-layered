@@ -101,7 +101,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                 WHERE guild_id = %s
                 GROUP BY emote
                 ORDER BY total_count DESC""",
-                [data["target_pool"], data["target_pool"], data['guild_id'],]
+                [(*data["target_pool"]), (*data["target_pool"]), data['guild_id'],]
             )
             result = dictfetchall(cursor)
             page = self.paginate_queryset(result)
