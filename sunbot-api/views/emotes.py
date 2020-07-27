@@ -88,7 +88,7 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         count AS msg_count,
                         0 AS rct_count
                     FROM emotes
-                    WHERE emote IN (%s)
+                    WHERE emote IN (%s) AND guild_id = %s
                     UNION ALL
                     SELECT 
                         emote,
@@ -97,20 +97,21 @@ class TopEmotesViewSet(viewsets.ModelViewSet):
                         0 AS msg_count,
                         count AS rct_count
                     FROM reactions 
-                    WHERE emote IN (%s)
+                    WHERE emote IN (%s) AND guild_id = %s
                 ) AS t
-                WHERE guild_id = %s
                 GROUP BY emote
                 ORDER BY total_count DESC""",
-                [target_pool, target_pool, data['guild_id'],]
+                [target_pool, data['guild_id'], target_pool, data['guild_id'],]
             )
             result = dictfetchall(cursor)
             page = self.paginate_queryset(result)
             if page is not None:
                 serializer = EmotesTopSerializer(page, many=True)
+                print(serializer.data)
                 return self.get_paginated_response(serializer.data)
             serializer = EmotesTopSerializer(result, many=True)
             cursor.close()
+            print(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             print(e)
