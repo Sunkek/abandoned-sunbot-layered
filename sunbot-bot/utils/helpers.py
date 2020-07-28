@@ -61,7 +61,7 @@ def format_columns(*columns, headers=None, footers=None):
     return '\n'.join(table)
     
 def format_settings_key(string):
-    result = string.lower().replace("activity", " ").replace("track", " ")
+    result = string.lower().replace("activity", "").replace("track", "")
     result = result.replace("_id", "").replace("_", " ").capitalize()
     return f'`{result}`'
     
