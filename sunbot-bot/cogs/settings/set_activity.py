@@ -125,6 +125,20 @@ class SetActivity(commands.Cog):
             guild_id=ctx.guild.id,
             activity_multi_per_voice_member=amount,
         )
+        
+    @commands.command(
+        name="setactivitychannelx0", 
+        aliases=["sac0"],
+        description="Add or remove the selected channel(s) to/from the list of channels which reward no activity points",
+    )
+    async def setactivitychannelx0(self, ctx, channels:discord.Channel):
+        targets = [ch.id for ch in channels]            
+        await rest_api.set_guild_param_list(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            setting="activity_channels_x0",
+            targets=targets,
+        )
 
     """activity_channels_x0 = ArrayField(models.BigIntegerField(null=True, blank=True))
     activity_channels_x05 = ArrayField(models.BigIntegerField(null=True, blank=True))

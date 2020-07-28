@@ -65,6 +65,14 @@ async def set_guild_param(bot, guild_id, **kwargs):
             if value == "reset": guild[key] = None
             else: guild[key] = value
         return resp
+
+async def set_guild_param_list(bot, guild_id, setting, targets):
+    was_set = bot.settings.get(guild_id, {}).get(setting)
+    new_elements = set(targets).difference(was_set)
+    new_setting = {
+        setting: list(set(was_set).difference(targets).union(new_elements))
+    }
+    await set_guild_param(bot, guild_id, **new_setting)
     
 async def get_born_today(bot):
     """Get a list of members whose birthday is today"""

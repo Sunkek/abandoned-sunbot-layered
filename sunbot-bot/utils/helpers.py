@@ -64,19 +64,36 @@ def format_settings_key(string):
     return string.lower().replace('_id', '').replace('_', ' ').capitalize()
     
 def format_settings_value(guild, value):
-    result = ''
-    if int_convertable(value) and not type(value) == bool:
-        value = int(value)
-        result = guild.get_channel(value)
-    if not result:
-        result = guild.get_role(value)
-    if not result:
-        result = guild.get_member(value)
-    if result:
-        result = result.mention
+    if type(value) == list:
+        result = []
+        for i in value:
+            formatted_value = ""
+            if int_convertable(i) and not type(i) == bool:
+                i = int(i)
+                formatted_value = guild.get_channel(i)
+            if not formatted_value:
+                formatted_value = guild.get_role(i)
+            if not formatted_value:
+                formatted_value = guild.get_member(i)
+            if result:
+                formatted_value = formatted_value.mention
+            else:
+                formatted_value = i
+            result.append(formatted_value)
     else:
-        result = value
-    return result
+        result = ""        
+        if int_convertable(value) and not type(value) == bool:
+            value = int(value)
+            result = guild.get_channel(value)
+        if not result:
+            result = guild.get_role(value)
+        if not result:
+            result = guild.get_member(value)
+        if result:
+            result = result.mention
+        else:
+            result = value
+        return result
 
 def format_info_key(string):
     result = [

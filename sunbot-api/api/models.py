@@ -229,3 +229,28 @@ class Emotes(models.Model):
         db_table = "emotes"
         # Composite primary key workaround
         unique_together = [["guild_id", "user_id", "emote", "period"]]
+
+class Activity(models.Model):
+    """Info about members activity by guild"""
+    guild_id = models.ForeignKey(
+        Guild,
+        on_delete=models.CASCADE,
+        related_name="messages",
+        db_column="guild_id",  # Django adds second "_id" otherwise
+    )
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="messages",
+        db_column="user_id",  # Django adds second "_id" otherwise
+    )
+    period = models.DateField()
+    activity = models.IntegerField(default=0,)
+
+    def __str__(self):
+        return f"{self.guild_id} by {self.user_id} for {self.period}"
+
+    class Meta:
+        db_table = "activity"
+        # Composite primary key workaround
+        unique_together = [["guild_id", "user_id", "period"]]
