@@ -61,7 +61,9 @@ def format_columns(*columns, headers=None, footers=None):
     return '\n'.join(table)
     
 def format_settings_key(string):
-    return f'`{string.lower().replace("_id", "").replace("_", " ").replace("activity", " ").replace("track", " ").capitalize()}`'
+    result = string.lower().replace("activity", " ").replace("track", " ")
+    result = result.replace("_id", "").replace("_", " ").capitalize()
+    return f'`{result}`'
     
 def format_settings_value(guild, value):
     if type(value) == list:
