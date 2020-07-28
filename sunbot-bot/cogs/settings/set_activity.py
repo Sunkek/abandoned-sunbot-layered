@@ -1,7 +1,7 @@
 """Setting util for uncategorizable things"""
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, commands.Greedy
 from typing import Union
 
 from utils import rest_api, helpers
@@ -129,10 +129,13 @@ class SetActivity(commands.Cog):
     @commands.command(
         name="setactivitychannelx0", 
         aliases=["sac0"],
-        description="Add or remove the selected channel(s) to/from the list of channels which reward no activity points",
+        description="Add or remove the selected channel(s) to/from the list of channels which reward no activity points. You can mention text channels or use their IDs, but for voice channels it's only IDs",
     )
-    async def setactivitychannelx0(self, ctx, channels:Union[discord.TextChannel, int]):
-        targets = [ch.id for ch in channels]            
+    async def setactivitychannelx0(
+        self, ctx, channels:commands.Greedy[Union[discord.TextChannel, int]]
+    ):
+        targets = [ch.id for ch in channels if type(ch) != int else ch]
+        print(targets)          
         await rest_api.set_guild_param_list(
             self.bot, 
             guild_id=ctx.guild.id,
