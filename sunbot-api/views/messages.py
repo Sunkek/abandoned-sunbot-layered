@@ -9,7 +9,7 @@ from api.serializers import MessagesSerializer, MessagesTopSerializer
 from api.pagination import CustomPageNumberPagination
 from api.models import User, Guild, Messages
 
-from utils import helpers
+from utils import activity_functions
 
 
 class MessagesViewSet(viewsets.ModelViewSet):
@@ -52,6 +52,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
             author.save()
             messages.save()
         serializer = self.get_serializer(messages)
+        activity_functions.add_message_activity(data, Guild.objects.get(data["guild_id"]))
         return Response(serializer.data)
 
 
@@ -86,7 +87,6 @@ class TopPostcountsViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data, total)
         serializer = MessagesTopSerializer(messages, many=True)
         # Add activity points
-        helpers.add_message_activity(data, Guild.objects.get(data["guild_id"]))
         return Response(serializer.data)
 
 

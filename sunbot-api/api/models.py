@@ -255,6 +255,7 @@ class Activity(models.Model):
     )
     period = models.DateField()
     activity = models.IntegerField(default=0,)
+    last_active = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.guild_id} by {self.user_id} for {self.period}"
