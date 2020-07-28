@@ -43,14 +43,17 @@ class Guild(models.Model):
     activity_per_voice_minute = models.IntegerField(null=True, blank=True)
     activity_multi_per_voice_member = models.IntegerField(null=True, blank=True)
 
-    activity_channels_x0 = ArrayField(models.BigIntegerField(
-        null=True, blank=True), null=True, blank=True
+    activity_channels_x0 = ArrayField(
+        models.BigIntegerField(null=True, blank=True), 
+        null=True, blank=True, default=list,
     )
-    activity_channels_x05 = ArrayField(models.BigIntegerField(
-        null=True, blank=True), null=True, blank=True
+    activity_channels_x05 = ArrayField(
+        models.BigIntegerField(null=True, blank=True), 
+        null=True, blank=True, default=list,
     )
-    activity_channels_x2 = ArrayField(models.BigIntegerField(
-        null=True, blank=True), null=True, blank=True
+    activity_channels_x2 = ArrayField(
+        models.BigIntegerField(null=True, blank=True), 
+        null=True, blank=True, default=list,
     )
 
     activity_cooldown = models.IntegerField(null=True, blank=True)
