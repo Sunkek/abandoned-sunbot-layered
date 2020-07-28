@@ -47,7 +47,7 @@ class SetActivity(commands.Cog):
         aliases=["sampw"],
         description="Each message activity points will be multiplied for this value as many times as there are words in the message. Min `1`, max `5`",
     )
-    async def setactivitymultiplierperword(self, ctx, amount: int=1):
+    async def setactivitymultiplierperword(self, ctx, amount: float=1):
         if amount > 5 or amount < 1:
             raise commands.BadArgument
         await rest_api.set_guild_param(
@@ -117,7 +117,7 @@ class SetActivity(commands.Cog):
         aliases=["sampvm"],
         description="Each voice activity points will be multiplied for this value as many times as there are members in chat. Min `1`, max `5`",
     )
-    async def setactivitymultiplierpervoicemember(self, ctx, amount: int=1):
+    async def setactivitymultiplierpervoicemember(self, ctx, amount: float=1):
         if amount > 5 or amount < 1:
             raise commands.BadArgument
         await rest_api.set_guild_param(
