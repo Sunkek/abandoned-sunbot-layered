@@ -31,7 +31,7 @@ def add_message_activity(message, guild):
 
     if all([
         guild.activity_per_message,
-        message.words >= guild.activity_min_message_words,
+        message.words >= guild.activity_min_message_words or message.attachmetns,
         message.channel_id not in guild.activity_channels_x0,
         datetime.now() > activity.last_active + timedelta(seconds=guild.activity_cooldown)
     ]):

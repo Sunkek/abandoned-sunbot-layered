@@ -22,38 +22,41 @@ class MessagesViewSet(viewsets.ModelViewSet):
         so I just find it and update the counters. Only if it doesn't exist,
         I create a new one and try to save it. If it can't save because
         there's no member in the database, I create that member."""
-        data = request.data
         try:
-            # Find the existing message entry
-            messages = Messages.objects.get(
-                guild_id=Guild(guild_id=data["guild_id"]),
-                channel_id=data["channel_id"],
-                user_id=User(user_id=data["user_id"]),
-                period=data["period"][:-2]+"01",  # The first of the current month
-            )
-        except ObjectDoesNotExist:
-            # Entry not found - create one!
-            messages = Messages(
-                guild_id=Guild(guild_id=data["guild_id"]),
-                channel_id=data["channel_id"],
-                user_id=User(user_id=data["user_id"]),
-                period=data["period"][:-2]+"01",  # The first of the current month
-            )
-        # Update counters
-        messages.postcount += data["postcount"]
-        messages.attachments += data["attachments"]
-        messages.words += data["words"]
-        try:
-            # Submit changes
-            messages.save()
-        except IntegrityError:
-            # If there's no member - create one!
-            author = User(user_id=data["user_id"])
-            author.save()
-            messages.save()
-        serializer = self.get_serializer(messages)
-        activity_functions.add_message_activity(data, Guild.objects.get(data["guild_id"]))
-        return Response(serializer.data)
+            data = request.data
+            try:
+                # Find the existing message entry
+                messages = Messages.objects.get(
+                    guild_id=Guild(guild_id=data["guild_id"]),
+                    channel_id=data["channel_id"],
+                    user_id=User(user_id=data["user_id"]),
+                    period=data["period"][:-2]+"01",  # The first of the current month
+                )
+            except ObjectDoesNotExist:
+                # Entry not found - create one!
+                messages = Messages(
+                    guild_id=Guild(guild_id=data["guild_id"]),
+                    channel_id=data["channel_id"],
+                    user_id=User(user_id=data["user_id"]),
+                    period=data["period"][:-2]+"01",  # The first of the current month
+                )
+            # Update counters
+            messages.postcount += data["postcount"]
+            messages.attachments += data["attachments"]
+            messages.words += data["words"]
+            try:
+                # Submit changes
+                messages.save()
+            except IntegrityError:
+                # If there's no member - create one!
+                author = User(user_id=data["user_id"])
+                author.save()
+                messages.save()
+            serializer = self.get_serializer(messages)
+            activity_functions.add_message_activity(data, Guild.objects.get(data["guild_id"]))
+            return Response(serializer.data)
+        except Exception as e:
+            print(e)
 
 
 class TopPostcountsViewSet(viewsets.ModelViewSet):
