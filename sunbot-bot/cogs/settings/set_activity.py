@@ -2,7 +2,7 @@
 
 import discord
 from discord.ext import commands
-from typing import Optional
+from typing import Union
 
 from utils import rest_api, helpers
 
@@ -131,7 +131,7 @@ class SetActivity(commands.Cog):
         aliases=["sac0"],
         description="Add or remove the selected channel(s) to/from the list of channels which reward no activity points",
     )
-    async def setactivitychannelx0(self, ctx, channels:discord.Channel):
+    async def setactivitychannelx0(self, ctx, channels:Union[discord.TextChannel, int]):
         targets = [ch.id for ch in channels]            
         await rest_api.set_guild_param_list(
             self.bot, 
