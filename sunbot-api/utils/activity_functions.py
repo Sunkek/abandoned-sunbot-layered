@@ -23,23 +23,20 @@ def get_or_init_activity(data):
         )
     return activity
 
-def add_message_activity(message, guild):
-    print("MESSAGE")
-    print(message)
-    print("GUILD")
-    print(guild)
-    
+def add_message_activity(message, guild):    
     activity = get_or_init_activity(message)
+    if datetime.now() > activity.last_active + \
+        timedelta(seconds=guild.activity_cooldown) and \
+        message["channel_id"] not in guild.activity_channels_x0:
 
-    if all([
-        guild.activity_per_message,
-        message.words >= guild.activity_min_message_words or message.attachmetns,
-        message.channel_id not in guild.activity_channels_x0,
-        datetime.now() > activity.last_active + timedelta(seconds=guild.activity_cooldown)
-    ]):
-        amount = guild.activity_per_message * \
-            guild.activity_multi_per_word ** message.words + \
-            guild.activity_per_attachment * message.attachmetns
+        amount = 0
+        if guild.activity_per_message and \
+            message["words"] >= guild.activity_min_message_words:
+
+            amount += guild.activity_per_message * \
+                guild.activity_multi_per_word ** message["words"]
+        if message["attachmetns"] and guild.activity_per_attachment:
+            amount += guild.activity_per_attachment * message["attachmetns"]
         if message["channel_id"] in guild.activity_channels_x05:
             amount *= 0.5
         elif message["channel_id"] in guild.activity_channels_x2:
