@@ -93,7 +93,7 @@ def format_settings_value(guild, value):
             result = result.mention
         else:
             result = value
-        return result
+    return result
 
 def format_info_key(string):
     result = [
