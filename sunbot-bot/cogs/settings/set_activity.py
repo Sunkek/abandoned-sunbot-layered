@@ -143,10 +143,40 @@ class SetActivity(commands.Cog):
             setting="activity_channels_x0",
             targets=targets,
         )
-
-    """activity_channels_x0 = ArrayField(models.BigIntegerField(null=True, blank=True))
-    activity_channels_x05 = ArrayField(models.BigIntegerField(null=True, blank=True))
-    activity_channels_x2 = ArrayField(models.BigIntegerField(null=True, blank=True))"""
+        
+    @commands.command(
+        name="setactivitychannelx05", 
+        aliases=["sac05"],
+        description="Add or remove the selected channel(s) to/from the list of channels which reward 1/2 of all activity points. You can mention text channels or use their IDs, but for voice channels it's only IDs",
+    )
+    async def setactivitychannelx05(
+        self, ctx, channels:Greedy[Union[discord.TextChannel, int]]
+    ):
+        targets = [ch.id if type(ch) != int else ch for ch in channels]
+        print(targets)          
+        await rest_api.set_guild_param_list(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            setting="activity_channels_x05",
+            targets=targets,
+        )
+        
+    @commands.command(
+        name="setactivitychannelx2", 
+        aliases=["sac2"],
+        description="Add or remove the selected channel(s) to/from the list of channels which reward double activity points. You can mention text channels or use their IDs, but for voice channels it's only IDs",
+    )
+    async def setactivitychannelx2(
+        self, ctx, channels:Greedy[Union[discord.TextChannel, int]]
+    ):
+        targets = [ch.id if type(ch) != int else ch for ch in channels]
+        print(targets)          
+        await rest_api.set_guild_param_list(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            setting="activity_channels_x2",
+            targets=targets,
+        )
 
 def setup(bot):
     bot.add_cog(SetActivity(bot))
