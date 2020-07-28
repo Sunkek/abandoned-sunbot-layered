@@ -235,13 +235,13 @@ class Activity(models.Model):
     guild_id = models.ForeignKey(
         Guild,
         on_delete=models.CASCADE,
-        related_name="messages",
+        related_name="activity",
         db_column="guild_id",  # Django adds second "_id" otherwise
     )
     user_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="messages",
+        related_name="activity",
         db_column="user_id",  # Django adds second "_id" otherwise
     )
     period = models.DateField()
