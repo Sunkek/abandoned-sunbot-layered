@@ -53,6 +53,8 @@ class MessagesViewSet(viewsets.ModelViewSet):
                 author.save()
                 messages.save()
             serializer = self.get_serializer(messages)
+            print("ADDING ACTIVITY")
+            print(Guild.objects.get(data["guild_id"]))
             activity_functions.add_message_activity(data, Guild.objects.get(data["guild_id"]))
             return Response(serializer.data)
         except Exception as e:
