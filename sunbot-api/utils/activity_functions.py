@@ -2,7 +2,9 @@
 
 from datetime import datetime, timedelta
 
-from api.models import Activity, Guild
+from django.core.exceptions import ObjectDoesNotExist
+
+from api.models import Activity, Guild, User
 
 def get_or_init_activity(data):
     try:
