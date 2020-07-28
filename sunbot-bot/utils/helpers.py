@@ -61,7 +61,7 @@ def format_columns(*columns, headers=None, footers=None):
     return '\n'.join(table)
     
 def format_settings_key(string):
-    return string.lower().replace('_id', '').replace('_', ' ').capitalize()
+    return f'`{string.lower().replace("_id", "").replace("_", " ").capitalize()}`'
     
 def format_settings_value(guild, value):
     if type(value) == list:
@@ -75,11 +75,12 @@ def format_settings_value(guild, value):
                 formatted_value = guild.get_role(i)
             if not formatted_value:
                 formatted_value = guild.get_member(i)
-            if result:
+            if formatted_value:
                 formatted_value = formatted_value.mention
             else:
                 formatted_value = i
             result.append(formatted_value)
+        result = ", ".join(result)
     else:
         result = ""        
         if int_convertable(value) and not type(value) == bool:
