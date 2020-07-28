@@ -111,7 +111,7 @@ def format_settings(settings, ctx, include=[], ignore=[]):
             {format_settings_value(ctx.guild, value)}"
         for key, value in settings.items()
         if value \
-            and any([i in key for i in include] if include else True) \
+            and any([i in key for i in include] if include else [True]) \
             and all([i not in key for i in ignore])])
 
 async def parse_top_json(json, ctx):
