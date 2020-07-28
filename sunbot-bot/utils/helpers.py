@@ -69,12 +69,11 @@ def format_settings_value(guild, value):
         for i in value:
             formatted_value = ""
             if int_convertable(i) and not type(i) == bool:
-                i = int(i)
-                formatted_value = guild.get_channel(i)
+                formatted_value = guild.get_channel(int(i))
             if not formatted_value:
-                formatted_value = guild.get_role(i)
+                formatted_value = guild.get_role(int(i))
             if not formatted_value:
-                formatted_value = guild.get_member(i)
+                formatted_value = guild.get_member(int(i))
             if formatted_value:
                 formatted_value = formatted_value.mention
             else:
@@ -84,12 +83,11 @@ def format_settings_value(guild, value):
     else:
         result = ""        
         if int_convertable(value) and not type(value) == bool:
-            value = int(value)
-            result = guild.get_channel(value)
+            result = guild.get_channel(int(value))
         if not result:
-            result = guild.get_role(value)
+            result = guild.get_role(int(value))
         if not result:
-            result = guild.get_member(value)
+            result = guild.get_member(int(value))
         if result:
             result = result.mention
         else:
