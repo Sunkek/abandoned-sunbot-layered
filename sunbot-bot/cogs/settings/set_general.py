@@ -20,17 +20,24 @@ class SetGeneral(commands.Cog):
         description="Shows current settings for this server.",
     )
     async def showsettings(self, ctx):
+
         settings = self.bot.settings.get(ctx.guild.id, {})
-        desc = '\n'.join([
-            f'{helpers.format_settings_key(key)}: {helpers.format_settings_value(ctx.guild, value)}' 
-            for key, value in settings.items()
-            if value
-        ])
+        trackers = helpers.format_settings(
+            settings, ctx, include=["track"], ignore=[]
+        )
+        activity = helpers.format_settings(
+            settings, ctx, include=["activity"], ignore=[]
+        )
+        desc = helpers.format_settings(
+            settings, ctx, include=[], ignore=["track", "activity"]
+        )
         embed = discord.Embed(
             title=f"Current settings for {ctx.guild.name}",
             color=ctx.author.color,
             description=desc or "No custom settings yet!"
         )
+        if trackers: embed.add_field(name="Trackers", value=trackers)
+        if activity: embed.add_field(name="Activity", value=activity)
         await ctx.send(embed=embed)
        
     @commands.command(

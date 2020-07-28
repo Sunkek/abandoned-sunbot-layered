@@ -104,6 +104,15 @@ def format_info_key(string):
         for i in string.split('_')
     ]
     return ' '.join(result)
+    
+def format_settings(settings, ctx, include=[], ignore=[]):
+    return "\n".join([
+        f"{format_settings_key(key)}: \
+            {format_settings_value(ctx.guild, value)}"
+        for key, value in settings.items()
+        if value \
+            and any([i in key for i in include] if include else True) \
+            and all([i not in key for i in ignore])])
 
 async def parse_top_json(json, ctx):
     """Turn the backend response into result lists"""
