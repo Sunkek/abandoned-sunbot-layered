@@ -9,7 +9,7 @@ from api.serializers import MessagesSerializer, MessagesTopSerializer
 from api.pagination import CustomPageNumberPagination
 from api.models import User, Guild, Messages
 
-from views import helpers
+from utils import helpers
 
 
 class MessagesViewSet(viewsets.ModelViewSet):
