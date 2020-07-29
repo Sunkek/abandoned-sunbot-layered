@@ -26,7 +26,7 @@ def get_or_init_activity(data):
 def add_message_activity(message, guild):    
     activity = get_or_init_activity(message)
     if datetime.now() > activity.last_active + \
-        timedelta(seconds=guild.activity_cooldown) and \
+        timedelta(seconds=guild.activity_cooldown or 0) and \
         message["channel_id"] not in guild.activity_channels_x0:
 
         amount = 0
