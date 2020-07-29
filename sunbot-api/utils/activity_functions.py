@@ -27,9 +27,9 @@ def add_message_activity(message, guild):
     if not guild.activity_per_message or not guild.activity_per_attachment:
         return
     activity = get_or_init_activity(message)
-    if datetime.now() >= (activity.last_active + \
-        timedelta(seconds=guild.activity_cooldown or 0)) or datetime.now() \
-        and message["channel_id"] not in guild.activity_channels_x0:
+    if datetime.now() >= (activity.last_active or datetime.now() + \
+        timedelta(seconds=guild.activity_cooldown or 0)) and \
+        message["channel_id"] not in guild.activity_channels_x0:
 
         amount = 0
         if guild.activity_per_message and \
