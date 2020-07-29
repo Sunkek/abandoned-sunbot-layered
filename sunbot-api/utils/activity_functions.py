@@ -1,6 +1,6 @@
 """Some helper functions"""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -27,7 +27,7 @@ def add_message_activity(message, guild):
     if not guild.activity_per_message or not guild.activity_per_attachment:
         return
     activity = get_or_init_activity(message)
-    if datetime.now(tzinfo=datetime.timezone.utc) >= \
+    if datetime.now(tzinfo=timezone.utc) >= \
         (activity.last_active or datetime.strptime("01-01-2000", "%d-%m-%Y") + \
         timedelta(seconds=guild.activity_cooldown or 0)) and \
         message["channel_id"] not in guild.activity_channels_x0:
