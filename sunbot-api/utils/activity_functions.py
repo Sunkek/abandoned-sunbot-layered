@@ -37,8 +37,8 @@ def add_message_activity(message, guild):
 
             amount += guild.activity_per_message * \
                 guild.activity_multi_per_word ** message["words"]
-        if message["attachmetns"] and guild.activity_per_attachment:
-            amount += guild.activity_per_attachment * message["attachmetns"]
+        if message["attachments"] and guild.activity_per_attachment:
+            amount += guild.activity_per_attachment * message["attachments"]
         if message["channel_id"] in guild.activity_channels_x05:
             amount *= 0.5
         elif message["channel_id"] in guild.activity_channels_x2:
