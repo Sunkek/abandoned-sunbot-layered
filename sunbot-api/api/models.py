@@ -37,11 +37,11 @@ class Guild(models.Model):
     
     activity_per_message = models.IntegerField(null=True, blank=True)
     activity_min_message_words = models.IntegerField(null=True, blank=True)
-    activity_multi_per_word = models.IntegerField(null=True, blank=True)
+    activity_multi_per_word = models.FloatField(null=True, blank=True)
     activity_per_attachment = models.IntegerField(null=True, blank=True)
     activity_per_reaction = models.IntegerField(null=True, blank=True)
     activity_per_voice_minute = models.IntegerField(null=True, blank=True)
-    activity_multi_per_voice_member = models.IntegerField(null=True, blank=True)
+    activity_multi_per_voice_member = models.FloatField(null=True, blank=True)
 
     activity_channels_x0 = ArrayField(
         models.BigIntegerField(null=True, blank=True), 

@@ -44,6 +44,6 @@ def add_message_activity(message, guild):
             amount *= 0.5
         elif message["channel_id"] in guild.activity_channels_x2:
             amount *= 2
-        activity.activity = amount
+        activity.activity += amount
         if activity.activity:
             activity.save()
