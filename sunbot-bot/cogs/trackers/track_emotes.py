@@ -15,7 +15,9 @@ class TrackEmotes(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         # I don't want to save info about DMs and webhooks
-        if message.guild and message.guild.get_member(message.author.id):
+        if message.guild and message.guild.get_member(message.author.id) and \
+            not message.author.bot:
+            
             if self.bot.settings.get(message.guild.id, {}).get("track_emotes"):
                 emoji_pattern = "<(?P<animated>a?):(?P<name>[a-zA-Z0-9_]{2,32}):(?P<id>[0-9]{18,22})>"
                 emoji = set(re.findall(emoji_pattern, message.content, re.M))

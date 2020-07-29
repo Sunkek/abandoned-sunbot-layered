@@ -25,6 +25,8 @@ class TrackReactions(commands.Cog):
                 if message.embeds and str(payload.emoji) in self.ignore_emoji:
                     return
                 giver = guild.get_member(payload.user_id)
+                if giver.bot: 
+                    return
                 receiver = message.author
                 if str(payload.emoji) in UNICODE_EMOJI:
                     # Stripping skintones and other modifiers
@@ -55,6 +57,8 @@ class TrackReactions(commands.Cog):
                 if message.embeds and str(payload.emoji) in self.ignore_emoji:
                     return
                 giver = guild.get_member(payload.user_id)
+                if giver.bot: 
+                    return
                 receiver = message.author
                 if str(payload.emoji) in UNICODE_EMOJI:
                     # Stripping skintones and other modifiers

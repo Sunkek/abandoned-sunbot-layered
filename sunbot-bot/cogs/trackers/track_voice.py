@@ -22,15 +22,16 @@ class TrackVoice(commands.Cog):
                 for channel in guild.voice_channels:
                     if channel.members:
                         for member in channel.members:
-                            await rest_api.add_voice(
-                                self.bot, 
-                                guild_id=guild.id,
-                                channel_id=channel.id,
-                                user_id=member.id,
-                                members=len(channel.members),
-                                duration=60,
-                                period=datetime.now().strftime("%Y-%m-%d")
-                            )
+                            if not member.bot:
+                                await rest_api.add_voice(
+                                    self.bot, 
+                                    guild_id=guild.id,
+                                    channel_id=channel.id,
+                                    user_id=member.id,
+                                    members=len(channel.members),
+                                    duration=60,
+                                    period=datetime.now().strftime("%Y-%m-%d")
+                                )
 
 def setup(bot):
     bot.add_cog(TrackVoice(bot))
