@@ -35,7 +35,7 @@ def add_message_activity(message, guild):
             message["words"] >= guild.activity_min_message_words:
 
             amount += guild.activity_per_message * \
-                guild.activity_multi_per_word ** message["words"]
+                guild.activity_multi_per_word * message["words"]
         if message["attachments"] and guild.activity_per_attachment:
             amount += guild.activity_per_attachment * message["attachments"]
         if message["channel_id"] in guild.activity_channels_x05:
@@ -67,6 +67,6 @@ def add_voice_activity(voice, guild):
         timedelta(seconds=guild.activity_cooldown or 0)):
 
         activity.activity += guild.activity_per_voice_minute * \
-            guild.activity_multi_per_voice_member ** (voice["members"] - 1)
+            guild.activity_multi_per_voice_member * (voice["members"] - 1)
         if activity.activity:
             activity.save()
