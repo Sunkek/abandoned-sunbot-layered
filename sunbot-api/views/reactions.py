@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from api.serializers import ReactionsSerializer
 from api.models import User, Guild, Reactions
 
+from utils import activity_functions
 
 class ReactionsViewSet(viewsets.ModelViewSet):
     queryset = Reactions.objects.all()
@@ -60,6 +61,9 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 else: raise e
                 reactions.save()
         serializer = self.get_serializer(reactions)
+        activity_functions.add_reaction_activity(
+            data, Guild.objects.get(guild_id=data["guild_id"])
+        )
         return Response(serializer.data)
 
 """Define the allowed request methods for each ModelViewSet"""
