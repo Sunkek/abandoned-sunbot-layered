@@ -11,14 +11,14 @@ def get_or_init_activity(data):
         # Find the existing activity entry
         activity = Activity.objects.get(
             guild_id=Guild(guild_id=data["guild_id"]),
-            user_id=User(user_id=data.get("user_id", data["giver_id"])),
+            user_id=User(user_id=data.get("user_id", data.get("giver_id")),
             period=datetime.now().strftime("%Y-%m-01"),  # The first of the current month
         )
     except ObjectDoesNotExist:
         # Entry not found - create one!
         activity = Activity(
             guild_id=Guild(guild_id=data["guild_id"]),
-            user_id=User(user_id=data.get("user_id", data["giver_id"])),
+            user_id=User(user_id=data.get("user_id", data.get("giver_id")),
             period=datetime.now().strftime("%Y-%m-01"),  # The first of the current month
         )
     return activity
