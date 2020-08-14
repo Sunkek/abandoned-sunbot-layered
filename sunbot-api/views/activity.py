@@ -9,8 +9,6 @@ from api.serializers import ActivitySerializer, ActivityTopSerializer
 from api.pagination import CustomPageNumberPagination
 from api.models import User, Guild, Activity
 
-from utils import activity_functions
-
 
 class TopActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
