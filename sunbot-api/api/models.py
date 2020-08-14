@@ -70,7 +70,7 @@ class Guild(models.Model):
     log_karma_channel_id = models.BigIntegerField(null=True, blank=True)
 
     ad_reminder_channel_id = models.BigIntegerField(null=True, blank=True)
-    ad_reminder_ping_role_id = models.BigIntegerField(null=True, blank=True)
+    ad_reminder_role_id = models.BigIntegerField(null=True, blank=True)
     ad_reminder_disboard = models.BooleanField(null=True, blank=True, default=False)
     ad_reminder_disforge = models.BooleanField(null=True, blank=True, default=False)
     ad_reminder_discordme = models.BooleanField(null=True, blank=True, default=False)
