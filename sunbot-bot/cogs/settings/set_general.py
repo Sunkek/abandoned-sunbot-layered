@@ -22,22 +22,26 @@ class SetGeneral(commands.Cog):
     async def showsettings(self, ctx):
 
         settings = self.bot.settings.get(ctx.guild.id, {})
-        trackers = helpers.format_settings(
-            settings, ctx, include=["track"], ignore=[]
-        )
         activity = helpers.format_settings(
             settings, ctx, include=["activity"], ignore=[]
         )
+        trackers = helpers.format_settings(
+            settings, ctx, include=["track"], ignore=[]
+        )
+        ad_reminder = helpers.format_settings(
+            settings, ctx, include=["ad_reminder"], ignore=[]
+        )
         desc = helpers.format_settings(
-            settings, ctx, include=[], ignore=["track", "activity"]
+            settings, ctx, include=[], ignore=["track", "activity", "ad_reminder"]
         )
         embed = discord.Embed(
             title=f"Current settings for {ctx.guild.name}",
             color=ctx.author.color,
             description=desc or "No custom settings yet!"
         )
-        if trackers: embed.add_field(name="Trackers", value=trackers)
         if activity: embed.add_field(name="Activity", value=activity)
+        if trackers: embed.add_field(name="Trackers", value=trackers)
+        if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
         await ctx.send(embed=embed)
        
     @commands.command(
