@@ -53,7 +53,7 @@ class SetAdReminder(commands.Cog):
     @commands.command(
         name="adremind", 
         alises=["ar"],
-        description=f"Starts or stops reminding to bump/post on the supported advertising platforms. They currently include: {', '.join(AD_PLATFORMS)}",
+        description=f"Starts or stops reminding to bump/post on the supported advertising platforms. They currently include: `{', '.join(AD_PLATFORMS)}``",
     )
     async def adremind(self, ctx, target):
         target = target.lower()
