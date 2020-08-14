@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from api.serializers import VoiceSerializer
 from api.models import User, Guild, Voice
 
+from utils import activity_functions
 
 class VoiceViewSet(viewsets.ModelViewSet):
     queryset = Voice.objects.all()
@@ -50,6 +51,9 @@ class VoiceViewSet(viewsets.ModelViewSet):
             else: raise e
             voice.save()
         serializer = self.get_serializer(voice)
+        activity_functions.add_voice_activity(
+            data, Guild.objects.get(guild_id=data["guild_id"])
+        )
         return Response(serializer.data)
 
 
