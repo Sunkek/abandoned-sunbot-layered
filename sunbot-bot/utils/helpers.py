@@ -79,7 +79,7 @@ def format_settings_value(guild, value):
                 formatted_value = guild.get_member(int(i))
             if formatted_value:
                 formatted_value = formatted_value.mention
-            elif value is True:
+            elif value == True:
                 formatted_value = "On"
             else:
                 formatted_value = i
@@ -95,7 +95,7 @@ def format_settings_value(guild, value):
             result = guild.get_member(int(value))
         if result:
             result = result.mention
-        elif result is True:
+        elif value == True:
             result = "On"
         else:
             result = value
