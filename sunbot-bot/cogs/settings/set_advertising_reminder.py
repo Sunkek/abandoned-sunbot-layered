@@ -8,12 +8,13 @@ from asyncio import sleep
 
 from utils import helpers, rest_api
 
+AD_PLATFORMS = [
+    "disboard", "disforge", "discordme", "discordservers"
+]
+
 class SetAdReminder(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.ad_platforms = [
-            "disboard", "disforge", "discordme", 
-        ]
         self.ad_reminder.start()
 
     def cog_unload(self):
@@ -52,11 +53,11 @@ class SetAdReminder(commands.Cog):
     @commands.command(
         name="adremind", 
         alises=["ar"],
-        description=f"Starts or stops reminding to bump/post on the supported advertising platforms. They currently include: {', '.join(self.ad_platforms)}",
+        description=f"Starts or stops reminding to bump/post on the supported advertising platforms. They currently include: {', '.join(AD_PLATFORMS)}",
     )
     async def adremind(self, ctx, target):
         target = target.lower()
-        if target not in self.ad_platforms:
+        if target not in AD_PLATFORMS:
             raise commands.BadArgument
         # Disboard
         if target == "disboard":
