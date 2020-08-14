@@ -62,6 +62,42 @@ class TopCharts(commands.Cog):
 
     # Top postcounts
     @top.command(
+        description="Shows you who has the most activity points in the current `month/year/alltime`",
+        name="activity", 
+        aliases=["a",],
+    )
+    async def top_activity(
+        self, ctx, channel: Optional[discord.TextChannel]=None, time_range="month"
+    ):
+        if time_range not in self.time_ranges:
+            raise commands.BadArgument
+        top_chart = await rest_api.get_top(
+            self.bot, "activity", time_range,
+            guild_id=ctx.guild.id,
+            channel_id=channel.id if channel else None,
+        )
+        columns = await helpers.parse_top_json(top_chart["results"], ctx)
+        headers = ["ACTIVITY", "MEMBER"]
+        column_keys = ["count", "user_name"]
+        use_columns = [columns[i] for i in column_keys]
+        table = helpers.format_columns(
+            *use_columns, 
+            headers=headers
+        )
+        channel = f"in {channel.name}" if channel else ""
+        embed = discord.Embed(
+            title=f"Top activity for {time_range} {channel}",
+            color=ctx.author.color,
+            description=f"`{table}`", 
+        )
+        embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
+        message = await ctx.send(embed=embed)
+        await paginator.paginate(
+            ctx, message, top_chart, column_keys, headers=headers
+        )
+
+    # Top postcounts
+    @top.command(
         description="Shows you the most used emotes for the current `month/year/alltime`",
         name="emotes", 
         aliases=["e",],

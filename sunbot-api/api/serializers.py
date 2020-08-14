@@ -1,6 +1,6 @@
 from rest_framework import serializers, pagination
 
-from .models import User, Guild, Messages, Reactions, Games, Voice, Emotes
+from .models import User, Guild, Messages, Reactions, Games, Voice, Emotes, Activity
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -63,3 +63,18 @@ class EmotesTopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
         fields = ["emote", "message_count", "reaction_count", "total_count"]
+
+                
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        exclude = ["id"]  # Useless primary key field
+
+
+class ActivityTopSerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField()
+    user_id = serializers.IntegerField()
+    
+    class Meta:
+        model = Activity
+        fields = ["user_id", "count"]

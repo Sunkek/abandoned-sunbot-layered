@@ -2,6 +2,7 @@
 from .user import *
 from .guild import *
 from .messages import *
+from .activity import *
 from .reactions import *
 from .games import *
 from .voice import *
