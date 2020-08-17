@@ -7,3 +7,4 @@ from .reactions import *
 from .games import *
 from .voice import *
 from .emotes import *
+from .nwords import *
