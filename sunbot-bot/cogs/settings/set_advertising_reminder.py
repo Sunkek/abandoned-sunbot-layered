@@ -110,7 +110,7 @@ class SetAdReminder(commands.Cog):
                             value=f'`every 2 hours`\nBump at [WEBSITE](https://disboard.org/server/{guild.id}) \nor with <@302050872383242240>:\n`!d bump`'
                         )
                     # Disforge - every 3 hours
-                    if settings["ad_reminder_discordsl"] and datetime.now().hour % 3 == 0:
+                    if settings["ad_reminder_disforge"] and datetime.now().hour % 3 == 0:
                         embed.add_field(
                             name='Disforge',
                             value=f'`every 3 hours`\nBump at [WEBSITE](https://disforge.com/dashboard)'
