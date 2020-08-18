@@ -91,6 +91,14 @@ class SetAdReminder(commands.Cog):
                 guild_id=ctx.guild.id,
                 ad_reminder_discordservers=value,
             )    
+        # Discord.me
+        elif target in ("topgg", "top.gg"):            
+            value = not self.bot.settings.get(ctx.guild.id, {}).get("ad_reminder_topgg", False)
+            await rest_api.set_guild_param(
+                self.bot, 
+                guild_id=ctx.guild.id,
+                ad_reminder_topgg=value,
+            )    
         
     @tasks.loop(hours=1.0)
     async def ad_reminder(self):
@@ -126,6 +134,13 @@ class SetAdReminder(commands.Cog):
                         name="discordservers",
                         value=f'`every 12 hours`\nBump at [WEBSITE](https://discordservers.com/panel/{guild.id}/bump)'
                     )
+                # top.gg
+                if settings["ad_reminder_topgg"] and datetime.now().hour % 12 == 0:
+                    embed.add_field(
+                        name="top.gg",
+                        value=f'`every 12 hours`\nBump at [WEBSITE](https://top.gg/servers/{guild.id}/vote)'
+                    )
+                
 
                 if embed.fields:
                     role = guild.get_role(int(settings["ad_reminder_role_id"]))

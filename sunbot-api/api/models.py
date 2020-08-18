@@ -75,6 +75,7 @@ class Guild(models.Model):
     ad_reminder_disforge = models.BooleanField(null=True, blank=True, default=False)
     ad_reminder_discordme = models.BooleanField(null=True, blank=True, default=False)
     ad_reminder_discordservers = models.BooleanField(null=True, blank=True, default=False)
+    ad_reminder_topgg = models.BooleanField(null=True, blank=True, default=False)
 
     karma_positive_emote = models.CharField(max_length=40, null=True, blank=True)
     karma_negative_emote = models.CharField(max_length=40, null=True, blank=True)
