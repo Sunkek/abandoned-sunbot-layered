@@ -132,5 +132,43 @@ class TopCharts(commands.Cog):
             headers=headers, target_pool=target_pool,
         )
 
+    # Top N-words
+    @top.command(
+        description="Shows you who posted the most N-words for the current `month/year/alltime`",
+        name="nwords", 
+        aliases=["n-words", "n"],
+    )
+    async def top_nwords(
+        self, ctx, time_range="month"
+    ):
+        if time_range not in self.time_ranges:
+            raise commands.BadArgument
+        top_chart = await rest_api.get_top(
+            self.bot, "nwords", time_range,
+            guild_id=ctx.guild.id,
+        )
+        columns = await helpers.parse_top_json(top_chart["results"], ctx)
+        headers = ["TOTAL", "NIGGER", "NIGGA", "MEMBER"]
+        footers = [top_chart["total"], ".", ".", "TOTAL"]
+        column_keys = ["total_count", "nigger_count", "nigga_count", "user_id"]
+        use_columns = [columns[i] for i in column_keys]
+        table = helpers.format_columns(
+            *use_columns, 
+            headers=headers, 
+            footers=footers,
+        )
+        embed = discord.Embed(
+            title=f"Top N-words users for {time_range}",
+            color=ctx.author.color,
+            description=f"`{table.replace("``", "")}", 
+        )
+        embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
+        message = await ctx.send(embed=embed)
+        await paginator.paginate(
+            ctx, message, top_chart, column_keys, 
+            headers=headers, footers=footers,
+        )
+
+
 def setup(bot):
     bot.add_cog(TopCharts(bot))
