@@ -1,3 +1,4 @@
+from django.db import connection
 from django.db.utils import IntegrityError
 from django.db.models import Sum
 from django.core.exceptions import ObjectDoesNotExist
