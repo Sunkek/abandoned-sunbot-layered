@@ -123,7 +123,7 @@ class TopCharts(commands.Cog):
         embed = discord.Embed(
             title=f"Top used emotes for {time_range}",
             color=ctx.author.color,
-            description=f"`{table.rstrip('``')}", 
+            description=f"`{table.replace('``', '')}", 
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
@@ -160,7 +160,7 @@ class TopCharts(commands.Cog):
         embed = discord.Embed(
             title=f"Top N-words users for {time_range}",
             color=ctx.author.color,
-            description=f"`{table.replace("``", "")}", 
+            description=f"`{table.replace('``', '')}", 
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
