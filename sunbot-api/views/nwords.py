@@ -9,7 +9,7 @@ from api.serializers import NwordsSerializer, NwordsTopSerializer
 from api.pagination import CustomPageNumberPagination
 from api.models import User, Guild, Nwords
 
-from utils import activity_functions
+from utils import activity_functions, helpers
 
 
 class NwordsViewSet(viewsets.ModelViewSet):
@@ -70,19 +70,29 @@ class TopNwordsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, time_range, *args, **kwargs):
         data = request.data
-        nwords = Nwords.objects
-        if data["guild_id"]:  # Top for the guild
-            nwords = nwords.filter(guild_id=data["guild_id"])
-            total = Nwords.objects.aggregate(total=Sum("nigger"))["total"]
-        nwords = nwords.values("user_id").annotate(
-            count=Sum("nigger")
-        ).order_by("-count")
-        page = self.paginate_queryset(nwords)
+        
+        cursor = connection.cursor()
+        cursor.execute(f"""
+            SELECT 
+                user_id,
+                sum(nigger) as nigger_count,
+                sum(nigga) as nigga_count,
+                sum(nigger) + sum(nigga) as total_count
+            FROM nwords
+            WHERE guild_id = %s
+            GROUP BY user_id
+            ORDER BY total_count DESC""",
+            [
+                data['guild_id'], 
+            ]
+        )
+        result = helpers.dictfetchall(cursor)
+        page = self.paginate_queryset(result)
         if page is not None:
             serializer = NwordsTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data, total)
-        serializer = NwordsTopSerializer(nwords, many=True)
-        # Add activity points
+            return self.get_paginated_response(serializer.data)
+        serializer = NwordsTopSerializer(result, many=True)
+        cursor.close()
         return Response(serializer.data)
 
 
