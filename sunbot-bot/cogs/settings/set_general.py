@@ -129,6 +129,19 @@ class SetGeneral(commands.Cog):
             track_emotes=value,
         )
         
+    @commands.command(
+        name="settracknwords", 
+        aliases=["stn"],
+        description="Sets N-words tracking on or off.",
+    )
+    async def settracknwords(self, ctx):
+        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_nwords", False)
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            track_nwords=value,
+        )
+        
 
 def setup(bot):
     bot.add_cog(SetGeneral(bot))

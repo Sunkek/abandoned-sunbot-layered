@@ -22,6 +22,7 @@ urlpatterns = [
     path("games/", views.games, name="games"),
     path("voice/", views.voice, name="voice"),
     path("emotes/", views.emotes, name="emotes"),
+    path("nwords/", views.nwords, name="nwords"),
 
     path("top/postcounts/<str:time_range>/", views.top_postcounts, name="top_postcounts"),
     path("top/activity/<str:time_range>/", views.top_activity, name="top_activity"),

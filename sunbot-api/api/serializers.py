@@ -83,7 +83,7 @@ class ActivityTopSerializer(serializers.ModelSerializer):
         
 class NwordsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Messages
+        model = Nwords
         exclude = ["id"]  # Useless primary key field
         
 

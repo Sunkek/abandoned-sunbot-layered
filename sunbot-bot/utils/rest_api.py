@@ -15,6 +15,7 @@ urls = {
     "games":f"{host}/api/v1/games/",
     "voice":f"{host}/api/v1/voice/",
     "emotes":f"{host}/api/v1/emotes/",
+    "nwords":f"{host}/api/v1/nwords/",
 
     "top":f"{host}/api/v1/top/",
     
@@ -83,6 +84,11 @@ async def get_born_today(bot):
 async def add_message(bot, **kwargs):
     """Save message data to the database"""
     async with bot.web.patch(urls["messages"], json=kwargs) as resp:
+        return resp
+        
+async def add_nwords(bot, **kwargs):
+    """Save message data to the database"""
+    async with bot.web.patch(urls["nwords"], json=kwargs) as resp:
         return resp
     
 async def add_reaction(bot, **kwargs):

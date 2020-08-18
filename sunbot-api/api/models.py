@@ -34,6 +34,7 @@ class Guild(models.Model):
     track_voice = models.BooleanField(null=True, blank=True, default=False)
     track_games = models.BooleanField(null=True, blank=True, default=False)
     track_emotes = models.BooleanField(null=True, blank=True, default=False)
+    track_nwords = models.BooleanField(null=True, blank=True, default=False)
     
     activity_per_message = models.IntegerField(null=True, blank=True)
     activity_min_message_words = models.IntegerField(null=True, blank=True)
