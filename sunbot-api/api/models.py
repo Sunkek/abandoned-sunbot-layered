@@ -275,13 +275,13 @@ class Nwords(models.Model):
     guild_id = models.ForeignKey(
         Guild,
         on_delete=models.CASCADE,
-        related_name="activity",
+        related_name="nwords",
         db_column="guild_id",  # Django adds second "_id" otherwise
     )
     user_id = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="activity",
+        related_name="nwords",
         db_column="user_id",  # Django adds second "_id" otherwise
     )
     period = models.DateField()
