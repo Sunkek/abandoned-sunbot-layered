@@ -9,7 +9,7 @@ from asyncio import sleep
 from utils import helpers, rest_api
 
 AD_PLATFORMS = [
-    "disboard", "disforge", "discordme", "discordservers"
+    "disboard", "disforge", "discordme", "discordservers", "topgg", "top.gg"
 ]
 
 class SetAdReminder(commands.Cog):
