@@ -89,10 +89,10 @@ class NwordsSerializer(serializers.ModelSerializer):
 
 class NwordsTopSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField()
-    nigger = serializers.IntegerField()
-    nigga = serializers.IntegerField()
+    nigger_count = serializers.IntegerField()
+    nigga_count = serializers.IntegerField()
     total_count = serializers.IntegerField()
     
     class Meta:
         model = Nwords
-        fields = ["user_id", "nigger", "nigga", "total_count"]
+        fields = ["user_id", "nigger_count", "nigga_count", "total_count"]
