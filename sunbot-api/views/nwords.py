@@ -98,7 +98,7 @@ class TopNwordsViewSet(viewsets.ModelViewSet):
             serializer = NwordsTopSerializer(result, many=True)
             cursor.close()
             return Response(serializer.data)
-        except Excpetion as e:
+        except Exception as e:
             print(e)
 
 
