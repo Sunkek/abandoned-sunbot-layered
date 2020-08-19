@@ -40,6 +40,11 @@ class SetVerification(commands.Cog):
     ):
         if emote in UNICODE_EMOJI:  # Strip skintones
             emote = str(bytes(emote, "utf-8")[:4], "utf-8")
+            await rest_api.set_guild_param(
+                self.bot, 
+                guild_id=ctx.guild.id,
+                verification_emote=emote
+            )
         if not emote or emote in [str(e) for e in ctx.guild.emojis]:
             # Build and send the JSON to backend
             await rest_api.set_guild_param(
