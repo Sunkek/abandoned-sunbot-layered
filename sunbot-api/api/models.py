@@ -43,7 +43,6 @@ class Guild(models.Model):
     activity_per_reaction = models.IntegerField(null=True, blank=True)
     activity_per_voice_minute = models.IntegerField(null=True, blank=True)
     activity_multi_per_voice_member = models.FloatField(null=True, blank=True)
-
     activity_channels_x0 = ArrayField(
         models.BigIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
@@ -56,14 +55,23 @@ class Guild(models.Model):
         models.BigIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
     )
-
     activity_cooldown = models.IntegerField(null=True, blank=True)
 
+    mute_role_id = models.BigIntegerField(null=True, blank=True)
+    basic_member_role_id = models.BigIntegerField(null=True, blank=True)
+    active_member_role_id = models.BigIntegerField(null=True, blank=True)
     mod_junior_role_id = models.BigIntegerField(null=True, blank=True)
     mod_senior_role_id = models.BigIntegerField(null=True, blank=True)
     mod_admin_role_id = models.BigIntegerField(null=True, blank=True)
 
-    mute_role_id = models.BigIntegerField(null=True, blank=True)
+    active_member_required_activity = models.IntegerField(null=True, blank=True)
+    active_member_required_days = models.IntegerField(null=True, blank=True)
+    mod_junior_required_activity = models.IntegerField(null=True, blank=True)
+    mod_junior_required_days = models.IntegerField(null=True, blank=True)
+    mod_senior_required_activity = models.IntegerField(null=True, blank=True)
+    mod_senior_required_days = models.IntegerField(null=True, blank=True)
+    mod_admin_required_activity = models.IntegerField(null=True, blank=True)
+    mod_admin_required_days = models.IntegerField(null=True, blank=True)
 
     log_general_channel_id = models.BigIntegerField(null=True, blank=True)
     log_mod_channel_id = models.BigIntegerField(null=True, blank=True)
@@ -91,10 +99,10 @@ class Guild(models.Model):
 
     verification_message_id = models.BigIntegerField(null=True, blank=True)
     verification_emote = models.CharField(max_length=40, null=True, blank=True)
-    unverified_role_id = models.BigIntegerField(null=True, blank=True)
-    verified_role_id = models.BigIntegerField(null=True, blank=True)
-    verified_message = models.CharField(max_length=2000, null=True, blank=True)
-    verified_message_embed = models.CharField(max_length=4000, null=True, blank=True)
+    verification_unverified_role_id = models.BigIntegerField(null=True, blank=True)
+    verification_verified_role_id = models.BigIntegerField(null=True, blank=True)
+    verification_verified_message = models.CharField(max_length=2000, null=True, blank=True)
+    verification_verified_message_embed = models.CharField(max_length=4000, null=True, blank=True)
 
     def __str__(self):
         return str(self.guild_id)
