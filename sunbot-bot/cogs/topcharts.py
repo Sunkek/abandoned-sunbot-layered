@@ -155,7 +155,7 @@ class TopCharts(commands.Cog):
             top_chart["total_2"], 
             "TOTAL",
         ]
-        column_keys = ["total_count", "nigger_count", "nigga_count", "user_id"]
+        column_keys = ["total_count", "nigger_count", "nigga_count", "user_name"]
         use_columns = [columns[i] for i in column_keys]
         table = helpers.format_columns(
             *use_columns, 
@@ -165,7 +165,7 @@ class TopCharts(commands.Cog):
         embed = discord.Embed(
             title=f"Top N-words users for {time_range}",
             color=ctx.author.color,
-            description=f"`{table.replace('``', '')}", 
+            description=f"`{table}``", 
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
