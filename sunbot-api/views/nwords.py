@@ -83,15 +83,13 @@ class TopNwordsViewSet(viewsets.ModelViewSet):
             WHERE guild_id = %s
             GROUP BY user_id
             ORDER BY total_count DESC""",
-            [
-                data['guild_id'], 
-            ]
+            [data['guild_id'], ]
         )
         result = helpers.dictfetchall(cursor)
         page = self.paginate_queryset(result)
         if page is not None:
             serializer = NwordsTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+            return self.get_paginated_response(serializer.data, total)
         serializer = NwordsTopSerializer(result, many=True)
         cursor.close()
         return Response(serializer.data)
