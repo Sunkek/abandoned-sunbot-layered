@@ -31,8 +31,13 @@ class SetGeneral(commands.Cog):
         ad_reminder = helpers.format_settings(
             settings, ctx, include=["ad_reminder"], ignore=[]
         )
+        verification = helpers.format_settings(
+            settings, ctx, include=["verification"], ignore=[]
+        )
         desc = helpers.format_settings(
-            settings, ctx, include=[], ignore=["track", "activity", "ad_reminder"]
+            settings, ctx, include=[], ignore=[
+                "track", "activity", "ad_reminder", "verification"
+            ],
         )
         embed = discord.Embed(
             title=f"Current settings for {ctx.guild.name}",
@@ -42,6 +47,7 @@ class SetGeneral(commands.Cog):
         if activity: embed.add_field(name="Activity", value=activity)
         if trackers: embed.add_field(name="Trackers", value=trackers)
         if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
+        if verification: embed.add_field(name="Verification", value=verification)
         await ctx.send(embed=embed)
        
     @commands.command(

@@ -62,7 +62,7 @@ def format_columns(*columns, headers=None, footers=None):
     
 def format_settings_key(string):
     result = string.lower().replace("activity", "").replace("track", "")
-    result = result.replace("ad_reminder", "")
+    result = result.replace("ad_reminder", "").replace("verification", "")
     result = result.lstrip("_").replace("_id", "").replace("_", " ").capitalize()
     return f'`{result}`'
     
