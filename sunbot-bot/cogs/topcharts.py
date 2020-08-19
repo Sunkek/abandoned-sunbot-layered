@@ -149,7 +149,12 @@ class TopCharts(commands.Cog):
         )
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         headers = ["TOTAL", "NIGGER", "NIGGA", "MEMBER"]
-        footers = [top_chart["total"], ".", ".", "TOTAL"]
+        footers = [
+            top_chart["total_nigger"]+top_chart["total_nigga"], 
+            top_chart["total_nigger"], 
+            top_chart["total_nigga"], 
+            "TOTAL",
+        ]
         column_keys = ["total_count", "nigger_count", "nigga_count", "user_id"]
         use_columns = [columns[i] for i in column_keys]
         table = helpers.format_columns(

@@ -61,13 +61,15 @@ class TopNwordsViewSet(viewsets.ModelViewSet):
     serializer_class = NwordsSerializer
     pagination_class = CustomPageNumberPagination
     
-    def get_paginated_response(self, data, total):
+    def get_paginated_response(self, data, total_nigger, total_nigga):
         """
         Return a paginated style `Response` object for the given output data.
         I just want to add total to my results.
         """
         assert self.paginator is not None
-        return self.paginator.get_paginated_response(data, total)
+        return self.paginator.get_paginated_response(
+            data, total_1=total_nigger, total_2=total_nigga,
+        )
 
     def list(self, request, time_range, *args, **kwargs):
         data = request.data
@@ -85,11 +87,13 @@ class TopNwordsViewSet(viewsets.ModelViewSet):
             ORDER BY total_count DESC""",
             [data['guild_id'], ]
         )
+        total_nigger = Nwords.objects.aggregate(total=Sum("nigger"))["total"]
+        total_nigga = Nwords.objects.aggregate(total=Sum("nigga"))["total"]
         result = helpers.dictfetchall(cursor)
         page = self.paginate_queryset(result)
         if page is not None:
             serializer = NwordsTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data, total)
+            return self.get_paginated_response(serializer.data, total_nigger, total_nigga)
         serializer = NwordsTopSerializer(result, many=True)
         cursor.close()
         return Response(serializer.data)
