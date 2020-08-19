@@ -150,9 +150,9 @@ class TopCharts(commands.Cog):
         columns = await helpers.parse_top_json(top_chart["results"], ctx)
         headers = ["TOTAL", "NIGGER", "NIGGA", "MEMBER"]
         footers = [
-            top_chart["total_nigger"]+top_chart["total_nigga"], 
-            top_chart["total_nigger"], 
-            top_chart["total_nigga"], 
+            top_chart["total_1"]+top_chart["total_2"], 
+            top_chart["total_1"], 
+            top_chart["total_2"], 
             "TOTAL",
         ]
         column_keys = ["total_count", "nigger_count", "nigga_count", "user_id"]
