@@ -72,31 +72,34 @@ class TopNwordsViewSet(viewsets.ModelViewSet):
         )
 
     def list(self, request, time_range, *args, **kwargs):
-        data = request.data
-        
-        cursor = connection.cursor()
-        cursor.execute(f"""
-            SELECT 
-                user_id,
-                sum(nigger) as nigger_count,
-                sum(nigga) as nigga_count,
-                sum(nigger) + sum(nigga) as total_count
-            FROM nwords
-            WHERE guild_id = %s
-            GROUP BY user_id
-            ORDER BY total_count DESC""",
-            [data['guild_id'], ]
-        )
-        total_nigger = Nwords.objects.aggregate(total=Sum("nigger"))["total"]
-        total_nigga = Nwords.objects.aggregate(total=Sum("nigga"))["total"]
-        result = helpers.dictfetchall(cursor)
-        page = self.paginate_queryset(result)
-        if page is not None:
-            serializer = NwordsTopSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data, total_nigger, total_nigga)
-        serializer = NwordsTopSerializer(result, many=True)
-        cursor.close()
-        return Response(serializer.data)
+        try:
+            data = request.data
+            
+            cursor = connection.cursor()
+            cursor.execute(f"""
+                SELECT 
+                    user_id,
+                    sum(nigger) as nigger_count,
+                    sum(nigga) as nigga_count,
+                    sum(nigger) + sum(nigga) as total_count
+                FROM nwords
+                WHERE guild_id = %s
+                GROUP BY user_id
+                ORDER BY total_count DESC""",
+                [data['guild_id'], ]
+            )
+            total_nigger = Nwords.objects.aggregate(total=Sum("nigger"))["total"]
+            total_nigga = Nwords.objects.aggregate(total=Sum("nigga"))["total"]
+            result = helpers.dictfetchall(cursor)
+            page = self.paginate_queryset(result)
+            if page is not None:
+                serializer = NwordsTopSerializer(page, many=True)
+                return self.get_paginated_response(serializer.data, total_nigger, total_nigga)
+            serializer = NwordsTopSerializer(result, many=True)
+            cursor.close()
+            return Response(serializer.data)
+        except Excpetion as e:
+            print(e)
 
 
 """Define the allowed request methods for each ModelViewSet"""
