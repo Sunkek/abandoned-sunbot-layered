@@ -36,7 +36,7 @@ class SetVerification(commands.Cog):
         description="Sets the verification emote. Members have to react with this emote to the verification message to get verified. Provide no emote to reset.",
     )
     async def setverificationemote(
-        self, ctx, emote:Optional[int]=None
+        self, ctx, emote:Optional[str]=None
     ):
         if emote in UNICODE_EMOJI:  # Strip skintones
             emote = str(bytes(emote, "utf-8")[:4], "utf-8")
