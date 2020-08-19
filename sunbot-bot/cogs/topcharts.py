@@ -165,7 +165,7 @@ class TopCharts(commands.Cog):
         embed = discord.Embed(
             title=f"Top N-words users for {time_range}",
             color=ctx.author.color,
-            description=f"`{table}``", 
+            description=f"`{table}`", 
         )
         embed.set_footer(text=f"Page {top_chart['current']}/{top_chart['last']}")
         message = await ctx.send(embed=embed)
