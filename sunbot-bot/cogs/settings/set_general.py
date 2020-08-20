@@ -109,7 +109,7 @@ class SetGeneral(commands.Cog):
     async def setwelcomeembed(
         self, ctx,
         channel: Optional[discord.TextChannel]=None, 
-        message_id: Optional[int]
+        message_id: Optional[int]=0
     ):
         channel = channel or ctx.channel
         message = await channel.fetch_message(message_id)
