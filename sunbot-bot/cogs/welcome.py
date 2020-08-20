@@ -32,18 +32,16 @@ class Welcome(commands.Cog):
         aliases = ["displaywelcome", "sw"]
     )
     async def showwelcome(self, ctx):
-        channel = self.bot.settings.get(ctx.guild.id, {}).get("welcome_channel")
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message")
-        print(text)
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
-        print(embed)
-        if channel and (text or embed):
-            channel = ctx.guild.get_channel(channel)
+        if text or embed:
             text = helpers.format_message(text, guild=ctx.guild, user=ctx.author)
+            print(text)
             embed = discord.Embed.from_dict(
                 helpers.format_message(embed, guild=ctx.guild, user=ctx.author)
             )
-            await channel.send(content=text or None, embed=embed or None)
+            print(embed)
+            await ctx.send(content=text or None, embed=embed or None)
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
     
