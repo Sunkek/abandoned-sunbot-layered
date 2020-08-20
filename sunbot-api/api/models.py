@@ -4,7 +4,7 @@ TODO! When Django starts supporting composite primary keys,
 rewrite them properly!"""
 
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, JSONField
 
 
 class User(models.Model):
@@ -96,14 +96,14 @@ class Guild(models.Model):
 
     welcome_channel_id = models.BigIntegerField(null=True, blank=True)
     welcome_message = models.CharField(max_length=2000, null=True, blank=True)
-    welcome_message_embed = models.JSONField(null=True, blank=True)
+    welcome_message_embed = JSONField(null=True, blank=True)
 
     verification_message_id = models.BigIntegerField(null=True, blank=True)
     verification_emote = models.CharField(max_length=40, null=True, blank=True)
     verification_unverified_role_id = models.BigIntegerField(null=True, blank=True)
     verification_verified_role_id = models.BigIntegerField(null=True, blank=True)
     verification_verified_message = models.CharField(max_length=2000, null=True, blank=True)
-    verification_verified_message_embed = models.JSONField(null=True, blank=True)
+    verification_verified_message_embed = JSONField(null=True, blank=True)
 
     def __str__(self):
         return str(self.guild_id)
