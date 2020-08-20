@@ -150,7 +150,8 @@ def make_guild_emote_list(ctx):
 
 def format_message(text, guild=None, user=None):
     print(guild)
-    print(user)
+    print(type(guild))
+    print(type(user))
     if not text:
         return None
     if user:
