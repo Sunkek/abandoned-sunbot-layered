@@ -16,7 +16,7 @@ class Welcome(commands.Cog):
     async def on_member_join(self, member):
         """Sends the initial welcome message"""
         try:
-            channel = self.bot.settings.get(member.guild.id, {}).get("welcome_channel")
+            channel = self.bot.settings.get(member.guild.id, {}).get("welcome_channel_id")
             print(channel)
             text = self.bot.settings.get(member.guild.id, {}).get("welcome_message")
             print(text)
