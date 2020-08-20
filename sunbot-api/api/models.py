@@ -94,6 +94,7 @@ class Guild(models.Model):
     warnings_before_kick = models.PositiveSmallIntegerField(null=True, blank=True)
     warnings_before_ban = models.PositiveSmallIntegerField(null=True, blank=True)
 
+    welcome_channel_id = models.BigIntegerField(null=True, blank=True)
     welcome_message = models.CharField(max_length=2000, null=True, blank=True)
     welcome_message_embed = models.CharField(max_length=4000, null=True, blank=True)
 

@@ -5,6 +5,12 @@ from datetime import datetime, timedelta
 import discord
 import collections
 
+PLACEHOLDERS = (
+    "`user.name` - replaced with the target user name, if applicable\n"
+    "`user.id` - replaced with the target user ID, if applicable\n"
+    "`user.mention` - replaced with the target user mention, if applicable"
+)
+
 def int_convertable(string):
     """Return True if string is convertable into int"""
     try: 
@@ -137,6 +143,15 @@ async def parse_top_json(json, ctx):
 
 def make_guild_emote_list(ctx):
     return [":_:".join(str(emoji).split(":")[::2]) for emoji in ctx.guild.emojis]
+
+def format_message(text, guild=None, user=None):
+    text = text.replace("user.name", user.name)
+    text = text.replace("user.id", user.name)
+    text = text.replace("user.mention", user.mention)
+    return text
+
+
+
 
 
 def columns_to_table(columns, numerate=False):

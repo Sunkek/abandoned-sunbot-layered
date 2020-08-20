@@ -6,6 +6,7 @@ from typing import Optional
 
 from utils import rest_api, helpers
 
+
 class SetGeneral(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -71,83 +72,56 @@ class SetGeneral(commands.Cog):
         )
         
     @commands.command(
-        name="settrackmessages", 
-        aliases=["stm"],
-        description="Sets message tracking on or off.",
+        name="setwelcomechannel", 
+        aliases=["swc"],
+        description="Sets up the channel where welcome, verification and leave messages will be sent.",
     )
-    async def settrackmessages(self, ctx):
-        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_messages", False)
+    async def setwelcomechannel(
+        self, 
+        ctx, 
+        channel:Optional[discord.TextChannel]=None
+    ):
+        # Build and send the JSON to backend
         await rest_api.set_guild_param(
             self.bot, 
             guild_id=ctx.guild.id,
-            track_messages=value,
+            welcome_channel_id=channel.id if channel else channel
         )
 
     @commands.command(
-        name="settrackreactions", 
-        aliases=["str"],
-        description="Sets reaction tracking on or off.",
+        name="setwelcomemessage", 
+        aliases=["swm"],
+        description=f"Sets up the welcome message which is sent when a new member joins the server. Available placeholders:\n{helpers.PLACEHOLDERS}",
     )
-    async def settrackreactions(self, ctx):
-        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_reactions", False)
+    async def setwelcomemessage(self, ctx, text=None):
+        # Build and send the JSON to backend
         await rest_api.set_guild_param(
             self.bot, 
             guild_id=ctx.guild.id,
-            track_reactions=value,
+            welcome_message=text
         )
         
     @commands.command(
-        name="settrackgames", 
-        aliases=["stg"],
-        description="Sets game tracking on or off.",
+        name="setwelcomeembed", 
+        aliases=["swe"],
+        description=f"Sets up the welcome embed which is sent when a new member joins the server. You should build a dummy embed with `Embedder` and then copy it with this command. Available placeholders:\n{helpers.PLACEHOLDERS}",
     )
-    async def settrackgames(self, ctx):
-        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_games", False)
+    async def setwelcomeembed(
+        self, ctx,
+        channel: Optional[discord.TextChannel]=None, 
+        message_id: Optional[int]
+    ):
+        channel = channel or ctx.channel
+        message = await channel.fetch_message(message_id)
+        if message.embeds:
+            embed = message.embeds[0].to_dict()
+        # Build and send the JSON to backend
         await rest_api.set_guild_param(
             self.bot, 
             guild_id=ctx.guild.id,
-            track_games=value,
+            welcome_message_embed=embed
         )
-        
-    @commands.command(
-        name="settrackvoice", 
-        aliases=["stv"],
-        description="Sets voice tracking on or off.",
-    )
-    async def settrackvoice(self, ctx):
-        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_voice", False)
-        await rest_api.set_guild_param(
-            self.bot, 
-            guild_id=ctx.guild.id,
-            track_voice=value,
-        )
-        
-    @commands.command(
-        name="settrackemotes", 
-        aliases=["ste"],
-        description="Sets custom emote tracking on or off.",
-    )
-    async def settrackemotes(self, ctx):
-        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_emotes", False)
-        await rest_api.set_guild_param(
-            self.bot, 
-            guild_id=ctx.guild.id,
-            track_emotes=value,
-        )
-        
-    @commands.command(
-        name="settracknwords", 
-        aliases=["stn"],
-        description="Sets N-words tracking on or off.",
-    )
-    async def settracknwords(self, ctx):
-        value = not self.bot.settings.get(ctx.guild.id, {}).get("track_nwords", False)
-        await rest_api.set_guild_param(
-            self.bot, 
-            guild_id=ctx.guild.id,
-            track_nwords=value,
-        )
-        
+                
 
 def setup(bot):
     bot.add_cog(SetGeneral(bot))
