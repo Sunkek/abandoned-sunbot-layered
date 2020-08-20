@@ -79,12 +79,12 @@ def format_settings_value(guild, value):
             formatted_value = ""
             if int_convertable(i) and not type(i) == bool:
                 formatted_value = guild.get_channel(int(i))
-            if not formatted_value:
-                formatted_value = guild.get_role(int(i))
-            if not formatted_value:
-                formatted_value = guild.get_member(int(i))
-            if formatted_value:
-                formatted_value = formatted_value.mention
+                if not formatted_value:
+                    formatted_value = guild.get_role(int(i))
+                if not formatted_value:
+                    formatted_value = guild.get_member(int(i))
+                if formatted_value:
+                    formatted_value = formatted_value.mention
             elif value == True:
                 formatted_value = "On"
             else:
