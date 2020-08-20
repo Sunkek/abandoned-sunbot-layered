@@ -29,12 +29,14 @@ class Welcome(commands.Cog):
     @commands.command(
         description="Displays the current welcome message", 
         name='showwelcome',
-        aliases = ["sw"]
+        aliases = ["displaywelcome", "sw"]
     )
     async def showwelcome(self, ctx):
         channel = self.bot.settings.get(ctx.guild.id, {}).get("welcome_channel")
         text = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message")
+        print(text)
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
+        print(embed)
         if channel and (text or embed):
             channel = ctx.guild.get_channel(channel)
             text = helpers.format_message(text, guild=ctx.guild, user=ctx.author)
