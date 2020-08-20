@@ -150,9 +150,6 @@ def make_guild_emote_list(ctx):
     return [":_:".join(str(emoji).split(":")[::2]) for emoji in ctx.guild.emojis]
 
 def format_message(text, guild=None, user=None):
-    print(guild)
-    print(type(guild))
-    print(type(user))
     note = ""
     if not text:
         return None

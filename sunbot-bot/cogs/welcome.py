@@ -36,11 +36,9 @@ class Welcome(commands.Cog):
         embed = self.bot.settings.get(ctx.guild.id, {}).get("welcome_message_embed")
         if text or embed:
             text = helpers.format_message(text, guild=ctx.guild, user=ctx.author)
-            print(text)
             embed = discord.Embed.from_dict(
                 helpers.format_message(embed, guild=ctx.guild, user=ctx.author)
             )
-            print(embed)
             await ctx.send(content=text or None, embed=embed or None)
         else:
             raise commands.MissingRequiredArgument("No welcome message or channel set!")
