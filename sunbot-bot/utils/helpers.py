@@ -1,6 +1,7 @@
 """Misc helper functions"""
 
 from datetime import datetime, timedelta
+import json
 
 import discord
 import collections
@@ -152,12 +153,18 @@ def format_message(text, guild=None, user=None):
     print(guild)
     print(type(guild))
     print(type(user))
+    note = ""
     if not text:
         return None
+    if type(text) in (dict, list):
+        note += "json\n"
+        text = json.JSONEncoder().encode(text)
     if user:
         text = text.replace("user.name", user.name)
         text = text.replace("user.id", str(user.id))
         text = text.replace("user.mention", user.mention)
+    if "json" in note:
+        text = json.loads(text)
     return text
 
 
