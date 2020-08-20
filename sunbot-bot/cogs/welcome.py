@@ -21,7 +21,9 @@ class Welcome(commands.Cog):
         if channel and (text or embed):
             channel = member.guild.get_channel(channel)
             text = helpers.format_message(text, guild=member.guild, user=member)
-            embed = helpers.format_message(embed, guild=member.guild, user=member)
+            embed = discord.Embed.from_dict(
+                helpers.format_message(embed, guild=member.guild, user=member)
+            )
             await channel.send(content=text or None, embed=embed or None)
     
 def setup(bot):
