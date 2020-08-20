@@ -89,7 +89,7 @@ def format_settings_value(guild, value):
                 formatted_value = "Set"
             elif value == True:
                 formatted_value = "On"
-            else:
+            if not formatted_value:
                 formatted_value = i
             result.append(formatted_value)
         result = ", ".join(result)
@@ -107,7 +107,7 @@ def format_settings_value(guild, value):
             result = "Set"
         elif value == True:
             result = "On"
-        else:
+        if not result:
             result = value
     return result
 
