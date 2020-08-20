@@ -16,7 +16,7 @@ def int_convertable(string):
     try: 
         int(string)
         return True
-    except ValueError:
+    except (ValueError, TypeError):
         return False
 
 def format_seconds(seconds):
