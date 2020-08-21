@@ -57,30 +57,30 @@ class Guild(models.Model):
     )
     activity_cooldown = models.IntegerField(null=True, blank=True)
 
-    mute_role_id = models.BigIntegerField(null=True, blank=True)
-    basic_member_role_id = models.BigIntegerField(null=True, blank=True)
-    active_member_role_id = models.BigIntegerField(null=True, blank=True)
-    mod_junior_role_id = models.BigIntegerField(null=True, blank=True)
-    mod_senior_role_id = models.BigIntegerField(null=True, blank=True)
-    mod_admin_role_id = models.BigIntegerField(null=True, blank=True)
+    rank_mute_role_id = models.BigIntegerField(null=True, blank=True)
+    rank_basic_member_role_id = models.BigIntegerField(null=True, blank=True)
+    rank_active_member_role_id = models.BigIntegerField(null=True, blank=True)
+    rank_mod_junior_role_id = models.BigIntegerField(null=True, blank=True)
+    rank_mod_senior_role_id = models.BigIntegerField(null=True, blank=True)
+    rank_mod_admin_role_id = models.BigIntegerField(null=True, blank=True)
 
-    active_member_required_activity = models.IntegerField(null=True, blank=True)
-    active_member_required_days = models.IntegerField(null=True, blank=True)
-    mod_junior_required_activity = models.IntegerField(null=True, blank=True)
-    mod_junior_required_days = models.IntegerField(null=True, blank=True)
-    mod_junior_vote_months = ArrayField(
+    rank_active_member_required_activity = models.IntegerField(null=True, blank=True)
+    rank_active_member_required_days = models.IntegerField(null=True, blank=True)
+    rank_mod_junior_required_activity = models.IntegerField(null=True, blank=True)
+    rank_mod_junior_required_days = models.IntegerField(null=True, blank=True)
+    rank_mod_junior_vote_months = ArrayField(
         models.PositiveSmallIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
     )
-    mod_senior_required_activity = models.IntegerField(null=True, blank=True)
-    mod_senior_required_days = models.IntegerField(null=True, blank=True)
-    mod_senior_vote_months = ArrayField(
+    rank_mod_senior_required_activity = models.IntegerField(null=True, blank=True)
+    rank_mod_senior_required_days = models.IntegerField(null=True, blank=True)
+    rank_mod_senior_vote_months = ArrayField(
         models.PositiveSmallIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
     )
-    mod_admin_required_activity = models.IntegerField(null=True, blank=True)
-    mod_admin_required_days = models.IntegerField(null=True, blank=True)
-    mod_admin_vote_months = ArrayField(
+    rank_mod_admin_required_activity = models.IntegerField(null=True, blank=True)
+    rank_mod_admin_required_days = models.IntegerField(null=True, blank=True)
+    rank_mod_admin_vote_months = ArrayField(
         models.PositiveSmallIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
     )
