@@ -19,6 +19,8 @@ urls = {
 
     "top":f"{host}/api/v1/top/",
     
+    "active":f"{host}/api/v1/active/",
+    
 
     "warnings":f"{host}/api/v1/warning/",
     
@@ -120,5 +122,11 @@ async def get_top(bot, chart, time_range, **kwargs):
 async def send_get(bot, url, **kwargs):
     """Send a GET request to the provided URL"""
     async with bot.web.get(url, json=kwargs) as resp:
+        json = await resp.json()
+        return json
+
+async def get_active_members(bot, guild_id, **kwargs):
+    """Request the members eligible for the active rank"""
+    async with bot.web.get(f"{urls['active']}{guild_id}/", json=kwargs) as resp:
         json = await resp.json()
         return json

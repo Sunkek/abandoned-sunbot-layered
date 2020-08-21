@@ -28,6 +28,8 @@ urlpatterns = [
     path("top/activity/<str:time_range>/", views.top_activity, name="top_activity"),
     path("top/emotes/<str:time_range>/", views.top_emotes, name="top_emotes"),
     path("top/nwords/<str:time_range>/", views.top_nwords, name="top_nwords"),
+    
+    path("active/<int:guild_id>/", views.active_members, name="active_members"),
 
     # path("api-auth/", include("rest_framework.urls", namespace="rest_framework"))
 ]
