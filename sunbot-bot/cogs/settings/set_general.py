@@ -44,7 +44,7 @@ class SetGeneral(commands.Cog):
         desc = helpers.format_settings(
             settings, ctx, include=[], ignore=[
                 "track_", "activity_", "ad_reminder_", "verification_", "welcome_", 
-                "leave_",
+                "leave_", "rank_"
             ],
         )
         embed = discord.Embed(
