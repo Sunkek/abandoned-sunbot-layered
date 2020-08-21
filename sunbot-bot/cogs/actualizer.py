@@ -45,7 +45,7 @@ class Actualzier(commands.Cog):
                     print(eligible_members)
                     if not eligible_members:
                         continue
-                    for member in guild:
+                    for member in guild.members:
                         if all((  # Basic to Active
                             active not in member.roles,
                             junior not in member.roles,
