@@ -53,7 +53,7 @@ class SetGeneral(commands.Cog):
         if trackers: embed.add_field(name="Trackers", value=trackers)
         if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
         if verification: embed.add_field(name="Verification", value=verification)
-        if welcome: embed.add_field(name="Welcome/Leave", value=verification)
+        if welcome: embed.add_field(name="Welcome/Leave", value=welcome)
         await ctx.send(embed=embed)
        
     @commands.command(
