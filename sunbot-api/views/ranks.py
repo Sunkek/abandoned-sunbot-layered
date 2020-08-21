@@ -25,7 +25,7 @@ class ActiveMembersViewSet(viewsets.ModelViewSet):
             req_activity = settings.rank_active_member_required_activity
             if not req_activity:
                 return Response([])
-            date = datetime.date.today().replace(month=datetime.now().month-1, day=1)
+            date = datetime.today().replace(month=datetime.now().month, day=1)
             active_members = Activity.objects.filter(
                 guild_id=guild_id, activity__gte=req_activity, period=date,
             ).values("user_id")
