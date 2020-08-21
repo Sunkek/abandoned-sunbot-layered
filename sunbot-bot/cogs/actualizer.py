@@ -65,8 +65,8 @@ class Actualzier(commands.Cog):
                         )):
                             await member.add_roles(basic)
                             await member.remove_roles(active)
-            except Exception as e:
-                print(e)
+        except Exception as e:
+            print(e)
 
 
 def setup(bot):
