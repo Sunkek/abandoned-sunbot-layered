@@ -21,7 +21,7 @@ class ActiveMembersViewSet(viewsets.ModelViewSet):
     def list(self, request, guild_id, *args, **kwargs):
         # Get active role requirements
         try:
-            settings = Guild.get(guild_id=guild_id)
+            settings = Guild.objects.get(guild_id=guild_id)
             req_activity = settings.rank_active_member_required_activity
             if not req_activity:
                 return Response([])
