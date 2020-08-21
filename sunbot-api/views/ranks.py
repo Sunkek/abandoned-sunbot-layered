@@ -20,19 +20,15 @@ class ActiveMembersViewSet(viewsets.ModelViewSet):
 
     def list(self, request, guild_id, *args, **kwargs):
         # Get active role requirements
-        try:
-            settings = Guild.objects.get(guild_id=guild_id)
-            req_activity = settings.rank_active_member_required_activity
-            if not req_activity:
-                return Response([])
-            date = datetime.today().replace(month=datetime.now().month, day=1)
-            active_members = Activity.objects.filter(
-                guild_id=guild_id, activity__gte=req_activity, period=date,
-            ).values_list("user_id", flat=True)
-            print(active_members)
-            return Response(active_members)
-        except Exception as e:
-            print(e)
+        settings = Guild.objects.get(guild_id=guild_id)
+        req_activity = settings.rank_active_member_required_activity
+        if not req_activity:
+            return Response([])
+        date = datetime.today().replace(month=datetime.now().month-1, day=1)
+        active_members = Activity.objects.filter(
+            guild_id=guild_id, activity__gte=req_activity, period=date,
+        ).values_list("user_id", flat=True)
+        return Response(active_members)
 
 
 """Define the allowed request methods for each ModelViewSet"""
