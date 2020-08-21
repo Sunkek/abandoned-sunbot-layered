@@ -28,7 +28,7 @@ class ActiveMembersViewSet(viewsets.ModelViewSet):
             date = datetime.today().replace(month=datetime.now().month, day=1)
             active_members = Activity.objects.filter(
                 guild_id=guild_id, activity__gte=req_activity, period=date,
-            ).values("user_id")
+            ).values_list("user_id", flat=True)
             print(active_members)
             return Response(active_members)
         except Exception as e:
