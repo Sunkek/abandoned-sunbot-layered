@@ -68,10 +68,22 @@ class Guild(models.Model):
     active_member_required_days = models.IntegerField(null=True, blank=True)
     mod_junior_required_activity = models.IntegerField(null=True, blank=True)
     mod_junior_required_days = models.IntegerField(null=True, blank=True)
+    mod_junior_vote_months = ArrayField(
+        models.PositiveSmallIntegerField(null=True, blank=True), 
+        null=True, blank=True, default=list,
+    )
     mod_senior_required_activity = models.IntegerField(null=True, blank=True)
     mod_senior_required_days = models.IntegerField(null=True, blank=True)
+    mod_senior_vote_months = ArrayField(
+        models.PositiveSmallIntegerField(null=True, blank=True), 
+        null=True, blank=True, default=list,
+    )
     mod_admin_required_activity = models.IntegerField(null=True, blank=True)
     mod_admin_required_days = models.IntegerField(null=True, blank=True)
+    mod_admin_vote_months = ArrayField(
+        models.PositiveSmallIntegerField(null=True, blank=True), 
+        null=True, blank=True, default=list,
+    )
 
     log_general_channel_id = models.BigIntegerField(null=True, blank=True)
     log_mod_channel_id = models.BigIntegerField(null=True, blank=True)

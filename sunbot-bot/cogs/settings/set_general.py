@@ -35,9 +35,13 @@ class SetGeneral(commands.Cog):
         verification = helpers.format_settings(
             settings, ctx, include=["verification"], ignore=[]
         )
+        welcome = helpers.format_settings(
+            settings, ctx, include=["welcome", "leave"], ignore=[]
+        )
         desc = helpers.format_settings(
             settings, ctx, include=[], ignore=[
-                "track", "activity", "ad_reminder", "verification"
+                "track", "activity", "ad_reminder", "verification", "welcome", 
+                "leave",
             ],
         )
         embed = discord.Embed(
@@ -49,6 +53,7 @@ class SetGeneral(commands.Cog):
         if trackers: embed.add_field(name="Trackers", value=trackers)
         if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
         if verification: embed.add_field(name="Verification", value=verification)
+        if welcome: embed.add_field(name="Welcome/Leave", value=verification)
         await ctx.send(embed=embed)
        
     @commands.command(
@@ -69,6 +74,71 @@ class SetGeneral(commands.Cog):
             self.bot, 
             guild_id=ctx.guild.id,
             birthday_feed_channel_id=birthday_feed
+        )
+        
+    @commands.command(
+        name="setmuterole", 
+        aliases=["smr",],
+        description="Sets up the mute role. This role is assigned with multiple ways - command, warnings (not implemented yet!)",
+    )
+    async def setmuterole(self, ctx, role: discord.Role=None):
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            mute_role_id=role.id if role else None,
+        )
+
+    @commands.command(
+        name="setbasicmemberrole", 
+        aliases=["sbmr",],
+        description="Sets up the basic member role. This role is assigned to those who pass the verification.",
+    )
+    async def setbasicmemberrole(self, ctx, role: discord.Role=None):
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            basic_member_role_id=role.id if role else None,
+        )
+        
+    @commands.command(
+        name="setjuniormodrole", 
+        aliases=["sjmr",],
+        description="Sets up the junior moderator role. This role is assigned with multiple ways - command, vote (not implemented yet!)",
+    )
+    async def setjuniormodrole(self, ctx, role: discord.Role=None):
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            mod_junior_role_id=role.id if role else None,
+        )
+        
+    @commands.command(
+        name="setseniormodrole", 
+        aliases=["ssmr",],
+        description="Sets up the senior moderator role. This role is assigned with multiple ways - command, vote (not implemented yet!)",
+    )
+    async def setseniormodrole(self, ctx, role: discord.Role=None):
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            mod_senior_role_id=role.id if role else None,
+        )
+        
+    @commands.command(
+        name="setadminrole", 
+        aliases=["sar",],
+        description="Sets up the administrator role. This role is assigned with multiple ways - command, vote (not implemented yet!)",
+    )
+    async def setadminrole(self, ctx, role: discord.Role=None):
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            mod_admin_role_id=role.id if role else None,
         )
         
     @commands.command(
