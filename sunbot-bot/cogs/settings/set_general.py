@@ -26,22 +26,25 @@ class SetGeneral(commands.Cog):
         activity = helpers.format_settings(
             settings, ctx, include=["activity_"], ignore=[]
         )
+        ranks = helpers.format_settings(
+            settings, ctx, include=["rank_"], ignore=[]
+        )
         trackers = helpers.format_settings(
-            settings, ctx, include=["track"], ignore=[]
+            settings, ctx, include=["track_"], ignore=[]
         )
         ad_reminder = helpers.format_settings(
-            settings, ctx, include=["ad_reminder"], ignore=[]
+            settings, ctx, include=["ad_reminder_"], ignore=[]
         )
         verification = helpers.format_settings(
-            settings, ctx, include=["verification"], ignore=[]
+            settings, ctx, include=["verification_"], ignore=[]
         )
         welcome = helpers.format_settings(
-            settings, ctx, include=["welcome", "leave"], ignore=[]
+            settings, ctx, include=["welcome_", "leave_"], ignore=[]
         )
         desc = helpers.format_settings(
             settings, ctx, include=[], ignore=[
-                "track", "activity_", "ad_reminder", "verification", "welcome", 
-                "leave",
+                "track_", "activity_", "ad_reminder_", "verification_", "welcome_", 
+                "leave_",
             ],
         )
         embed = discord.Embed(
@@ -50,6 +53,7 @@ class SetGeneral(commands.Cog):
             description=desc or "No custom settings yet!"
         )
         if activity: embed.add_field(name="Activity", value=activity)
+        if ranks: embed.add_field(name="Ranks", value=ranks)
         if trackers: embed.add_field(name="Trackers", value=trackers)
         if ad_reminder: embed.add_field(name="Ad Reminder", value=ad_reminder)
         if verification: embed.add_field(name="Verification", value=verification)
