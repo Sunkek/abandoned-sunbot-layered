@@ -33,15 +33,11 @@ class Actualzier(commands.Cog):
                 active_activity = self.bot.settings[guild.id].get("rank_active_member_required_activity")
                 active_days = self.bot.settings[guild.id].get("rank_active_member_required_days", 0)
                 active_days = datetime.now() - timedelta(days=active_days)
-                print(active_days)
                 junior = self.bot.settings[guild.id].get("rank_mod_junior_role_id")
-                print(junior)
                 junior = guild.get_role(junior)
                 senior = self.bot.settings[guild.id].get("rank_mod_senior_role_id")
-                print(senior)
                 senior = guild.get_role(senior)
                 admin = self.bot.settings[guild.id].get("rank_mod_admin_role_id")
-                print(admin)
                 admin = guild.get_role(admin)
                 # Active member role
                 if (active and active_activity) or (active and active_days):
