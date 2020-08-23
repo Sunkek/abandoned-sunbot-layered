@@ -24,7 +24,7 @@ class Actualzier(commands.Cog):
     async def auto_update_ranks(self):
         """Triggers on the 1st of every month. Reads last month's 
         activity and promotes/demotes people accordingly"""
-        if datetime.now.day != 1:
+        if datetime.now().day != 1:
             return
         for guild in self.bot.settings.keys():
             guild = self.bot.get_guild(guild)

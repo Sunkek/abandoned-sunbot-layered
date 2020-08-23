@@ -20,18 +20,16 @@ urls = {
     "top":f"{host}/api/v1/top/",
     
     "active":f"{host}/api/v1/active/",
+    "junior":f"{host}/api/v1/junior_mods/",
+    
     
 
     "warnings":f"{host}/api/v1/warning/",
-    
     "top_wordcounts":f"{host}/api/v1/top/wordcounts/",
     "top_attachments":f"{host}/api/v1/top/attachments/",
-
     "top_reactions_given":f"{host}/api/v1/top/reactions/given/",
     "top_reactions_received":f"{host}/api/v1/top/reactions/received/",
-    
     "top_voiceminutes":f"{host}/api/v1/top/voiceminutes/",
-
     "top_games":f"{host}/api/v1/top/games/",
     "top_players":f"{host}/api/v1/top/players/",
 }
@@ -128,5 +126,11 @@ async def send_get(bot, url, **kwargs):
 async def get_active_members(bot, guild_id, **kwargs):
     """Request the members eligible for the active rank"""
     async with bot.web.get(f"{urls['active']}{guild_id}/", json=kwargs) as resp:
+        json = await resp.json()
+        return json
+
+async def get_junior_mods(bot, guild_id, **kwargs):
+    """Request the members eligible for the junior mod rank"""
+    async with bot.web.get(f"{urls['junior']}{guild_id}/", json=kwargs) as resp:
         json = await resp.json()
         return json

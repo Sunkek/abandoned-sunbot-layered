@@ -31,7 +31,29 @@ class ActiveMembersViewSet(viewsets.ModelViewSet):
         return Response(active_members)
 
 
+class JuniorModsViewSet(viewsets.ModelViewSet):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+    pagination_class = None
+    
+
+    def list(self, request, guild_id, *args, **kwargs):
+        # Get active role requirements
+        settings = Guild.objects.get(guild_id=guild_id)
+        req_activity = settings.rank_junior_mod_required_activity
+        if not req_activity:
+            return Response([])
+        date = datetime.today().replace(month=datetime.now().month-1, day=1)
+        junior_mods = Activity.objects.filter(
+            guild_id=guild_id, activity__gte=req_activity, period=date,
+        ).values_list("user_id", flat=True)
+        return Response(junior_mods)
+
+
 """Define the allowed request methods for each ModelViewSet"""
 active_members = ActiveMembersViewSet.as_view({
+    'get': 'list',
+})
+junior_mods = JuniorModsViewSet.as_view({
     'get': 'list',
 })

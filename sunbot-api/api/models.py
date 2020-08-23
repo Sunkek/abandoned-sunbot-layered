@@ -84,6 +84,7 @@ class Guild(models.Model):
         models.PositiveSmallIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
     )
+    rank_vote_channel_id = models.BigIntegerField(null=True, blank=True)
 
     log_general_channel_id = models.BigIntegerField(null=True, blank=True)
     log_mod_channel_id = models.BigIntegerField(null=True, blank=True)
