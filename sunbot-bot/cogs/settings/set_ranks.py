@@ -72,7 +72,7 @@ class SetRanks(commands.Cog):
     @commands.command(
         name="setactivememberroleactivity", 
         aliases=["samra",],
-        description="Sets up the amount of activity a member must get in the previous or current month to have the active member role.",
+        description="Sets up the amount of activity a member must get in the previous month to have the active member role.",
     )
     async def setactivememberroleactivity(self, ctx, amount: int=0):
         if amount > 1000000 or amount < 0:
@@ -83,6 +83,23 @@ class SetRanks(commands.Cog):
             guild_id=ctx.guild.id,
             rank_active_member_required_activity=amount,
         )        
+        
+    @commands.command(
+        name="setvotechannel", 
+        aliases=["svc"],
+        description="Sets up the channel where vote messages will be sent.",
+    )
+    async def setwelcomechannel(
+        self, 
+        ctx, 
+        channel:Optional[discord.TextChannel]=None
+    ):
+        # Build and send the JSON to backend
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_vote_channel_id=channel.id if channel else channel
+        )
         
     @commands.command(
         name="setjuniormodrole", 
@@ -96,6 +113,36 @@ class SetRanks(commands.Cog):
             guild_id=ctx.guild.id,
             rank_mod_junior_role_id=role.id if role else None,
         )
+
+    @commands.command(
+        name="setjuniormodroledays", 
+        aliases=["sjmrd",],
+        description="Sets up the amount of days a member must be on your server to have the junior mod role.",
+    )
+    async def setjuniormodroledays(self, ctx, amount: int=0):
+        if amount > 10000 or amount < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_mod_junior_required_days=amount,
+        )
+        
+    @commands.command(
+        name="setjuniormodroleactivity", 
+        aliases=["sjmra",],
+        description="Sets up the amount of activity a member must get in the previous month to have the junior mod role.",
+    )
+    async def setjuniormodroleactivity(self, ctx, amount: int=0):
+        if amount > 1000000 or amount < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_mod_junior_required_activity=amount,
+        )        
         
     @commands.command(
         name="setseniormodrole", 
