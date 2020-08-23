@@ -12,10 +12,10 @@ from utils import rest_api, helpers
 class Vote(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.auto_update_ranks.start()
+        self.auto_vote.start()
 
     def cog_unload(self):
-        self.auto_update_ranks.cancel()
+        self.auto_vote.cancel()
 
     def cog_check(self, ctx):
         return ctx.author.guild_permissions.administrator
