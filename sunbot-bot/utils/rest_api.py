@@ -69,10 +69,13 @@ async def set_guild_param(bot, guild_id, **kwargs):
 
 async def set_guild_param_list(bot, guild_id, setting, targets):
     was_set = bot.settings.get(guild_id, {}).get(setting, list())
+    print(was_set)
     new_elements = set(targets).difference(was_set)
+    print(new_elements)
     new_setting = {
         setting: list(set(was_set).difference(targets).union(new_elements))
     }
+    print(new_setting)
     await set_guild_param(bot, guild_id, **new_setting)
     
 async def get_born_today(bot):
