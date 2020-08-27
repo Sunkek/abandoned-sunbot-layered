@@ -68,7 +68,7 @@ async def set_guild_param(bot, guild_id, **kwargs):
         return resp
 
 async def set_guild_param_list(bot, guild_id, setting, targets):
-    print(type(bot.settings.keys()[0]))
+    print(type(list(bot.settings.keys())[0]))
     print(type(guild_id))
     was_set = bot.settings.get(guild_id, {}).get(setting, list())
     print(was_set)

@@ -33,6 +33,7 @@ class Vote(commands.Cog):
                     guild = self.bot.get_guild(guild)
                     vote_channel = settings[guild.id].get("rank_vote_channel_id")
                     vote_channel = guild.get_channel(vote_channel)
+                    print(vote_channel)
                     if not vote_channel:
                         continue
 
