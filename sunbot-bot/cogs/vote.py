@@ -78,10 +78,10 @@ class Vote(commands.Cog):
                             )):  
                                 candidates.append(member.mention)
                         if not candidates:
-                            continue                    
-                        print(candidates)
+                            continue
+                        date = now.strftime("%m/%y")
                         embed = discord.Embed(
-                            title=f"{junior.name} vote {now.month}/{now.year} open",
+                            title=f"{junior.name} vote {date} open",
                             color=guild.me.color
                         )
                         embed.description = (
@@ -92,6 +92,7 @@ class Vote(commands.Cog):
                         )
                         if junior_limit:
                             embed.description += f"\nMax number of {junior_limit} candidates will be picked from this vote."
+                        embed.add_field(name="Candidates", value="\n".join(candidates))
                     message = await vote_channel.send(embed=embed)
                     await message.add_reaction("☑️")
         except Exception as e:
