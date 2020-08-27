@@ -29,22 +29,22 @@ class Vote(commands.Cog):
         try:
             now = datetime.now()
             if now.day:  # if now.day == 1:
-                for guild in self.bot.settings.keys():
+                for guild, settings in self.bot.settings.items():
                     guild = self.bot.get_guild(guild)
-                    vote_channel = self.bot.settings[guild.id].get("rank_vote_channel_id")
+                    vote_channel = settings[guild.id].get("rank_vote_channel_id")
                     vote_channel = guild.get_channel(vote_channel)
                     if not vote_channel:
                         continue
 
-                    junior_vote_months = self.bot.settings[guild.id].get("rank_mod_junior_vote_months", list())
-                    senior_vote_months = self.bot.settings[guild.id].get("rank_mod_senior_vote_months", list())
-                    admin_vote_months = self.bot.settings[guild.id].get("rank_mod_admin_vote_months", list())
+                    junior_vote_months = settings.get("rank_mod_junior_vote_months", list())
+                    senior_vote_months = settings.get("rank_mod_senior_vote_months", list())
+                    admin_vote_months = settings.get("rank_mod_admin_vote_months", list())
                     print(junior_vote_months)
                     if now.month not in \
                         junior_vote_months + senior_vote_months + admin_vote_months:
                         continue
                     
-                    junior = self.bot.settings[guild.id].get("rank_mod_junior_role_id")
+                    junior = settings.get("rank_mod_junior_role_id")
                     junior = guild.get_role(junior)
                     junior_limit = self.bot.settings[guild.id].get("rank_mod_junior_limit")
                     junior_activity = self.bot.settings[guild.id].get("rank_mod_junior_required_activity")
