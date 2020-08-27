@@ -157,7 +157,7 @@ class SetRanks(commands.Cog):
             self.bot, 
             guild_id=ctx.guild.id,
             setting="rank_mod_junior_vote_months",
-            months=months,
+            targets=months,
         )
         
     @commands.command(
