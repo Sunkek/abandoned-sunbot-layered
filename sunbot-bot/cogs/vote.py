@@ -28,7 +28,7 @@ class Vote(commands.Cog):
         The votes are counted and members get promoted/demoted."""
         try:
             now = datetime.now()
-            if now.day == 1:
+            if now.day:  # if now.day == 1:
                 for guild in self.bot.settings.keys():
                     guild = self.bot.get_guild(guild)
                     vote_channel = self.bot.settings[guild].get("rank_vote_channel_id")
