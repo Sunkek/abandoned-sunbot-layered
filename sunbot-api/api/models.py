@@ -282,6 +282,10 @@ class Activity(models.Model):
     )
     period = models.DateField()
     activity = models.IntegerField(default=0,)
+    from_text = models.IntegerField(default=0,)
+    from_attachments = models.IntegerField(default=0,)
+    from_reactions = models.IntegerField(default=0,)
+    from_voice = models.IntegerField(default=0,)
     last_active = models.DateTimeField(auto_now=True)
 
     def __str__(self):
