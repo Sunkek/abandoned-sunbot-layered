@@ -152,7 +152,8 @@ class SetRanks(commands.Cog):
     )
     async def setjuniormodvotemonths(
         self, ctx, months:Greedy[int]
-    ):          
+    ):
+        print(months)
         await rest_api.set_guild_param_list(
             self.bot, 
             guild_id=ctx.guild.id,
