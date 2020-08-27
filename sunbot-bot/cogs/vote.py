@@ -31,7 +31,7 @@ class Vote(commands.Cog):
             if now.day:  # if now.day == 1:
                 for guild in self.bot.settings.keys():
                     guild = self.bot.get_guild(guild)
-                    vote_channel = self.bot.settings[guild].get("rank_vote_channel_id")
+                    vote_channel = self.bot.settings[guild.id].get("rank_vote_channel_id")
                     vote_channel = guild.get_channel(vote_channel)
                     if not vote_channel:
                         continue
