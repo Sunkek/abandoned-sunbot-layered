@@ -48,7 +48,7 @@ class Vote(commands.Cog):
                     junior_limit = self.bot.settings[guild.id].get("rank_mod_junior_limit")
                     junior_activity = self.bot.settings[guild.id].get("rank_mod_junior_required_activity")
                     junior_days = self.bot.settings[guild.id].get("rank_mod_junior_required_days", 0) or 0
-                    junior_days = datetime.now() - timedelta(days=junior_days)
+                    junior_join = datetime.now() - timedelta(days=junior_days)
 
                     senior = self.bot.settings[guild.id].get("rank_mod_senior_role_id")
                     senior = guild.get_role(senior)
@@ -74,7 +74,7 @@ class Vote(commands.Cog):
                                 senior not in member.roles,
                                 admin not in member.roles,
                                 member.id in eligible_members,
-                                member.joined_at < junior_days
+                                member.joined_at < junior_join
                             )):  
                                 candidates.append(member.mention)
                         if not candidates:
@@ -85,7 +85,7 @@ class Vote(commands.Cog):
                             color=guild.me.color
                         )
                         embed.description = (
-                            f"The vote happens on these months: {', '.join(str(i) for i in junior_vote_months)}\n"
+                            f"The vote happens on these months: {', '.join(helpers.MONTHS[i] for i in sorted(junior_vote_months))}\n"
                             "It's anonymous. React to this message with ☑️ to receive your voting ballot in DM (make sure DMs are open).\n"
                             f"Candidates must earn {junior_activity} activity points and be on the server for at least {junior_days} days.\n"
                             f"To get promoted, a candidate must upvote themself in the ballot and get the support of at least 1/3 of the voters."

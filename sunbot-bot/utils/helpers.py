@@ -12,6 +12,12 @@ PLACEHOLDERS = (
     "`user.mention` - replaced with the target user mention, if applicable"
 )
 
+MONTHS = [
+    "January", "February", "March", "April", 
+    "May", "June","July", "August", 
+    "September", "October", "November", "December",
+]
+
 def int_convertable(string):
     """Return True if string is convertable into int"""
     try: 
