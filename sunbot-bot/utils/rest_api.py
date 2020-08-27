@@ -74,7 +74,6 @@ async def set_guild_param_list(bot, guild_id, setting, targets):
     new_setting = {
         setting: list(set(was_set).difference(targets).union(new_elements))
     }
-    print(new_setting)
     await set_guild_param(bot, guild_id, **new_setting)
     
 async def get_born_today(bot):
