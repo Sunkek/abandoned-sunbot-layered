@@ -39,6 +39,7 @@ class Vote(commands.Cog):
                     junior_vote_months = self.bot.settings[guild.id].get("rank_mod_junior_vote_months", [])
                     senior_vote_months = self.bot.settings[guild.id].get("rank_mod_senior_vote_months", [])
                     admin_vote_months = self.bot.settings[guild.id].get("rank_mod_admin_vote_months", [])
+                    print(junior_vote_months)
                     if now.month not in \
                         junior_vote_months + senior_vote_months + admin_vote_months:
                         continue
@@ -49,6 +50,7 @@ class Vote(commands.Cog):
                     junior_activity = self.bot.settings[guild.id].get("rank_mod_junior_required_activity")
                     junior_days = self.bot.settings[guild.id].get("rank_mod_junior_required_days", 0)
                     junior_days = datetime.now() - timedelta(days=junior_days)
+                    print(junior_days)
 
                     senior = self.bot.settings[guild.id].get("rank_mod_senior_role_id")
                     senior = guild.get_role(senior)
@@ -65,7 +67,8 @@ class Vote(commands.Cog):
                     # Junior vote
                     if now.month in junior_vote_months:
                         # Make a list of candidates
-                        eligible_members = await rest_api.get_junior_mods(self.bot, guild.id)    
+                        eligible_members = await rest_api.get_junior_mods(self.bot, guild.id)
+                        print(eligible_members)    
                         if not eligible_members:
                             continue
                         candidates = []
