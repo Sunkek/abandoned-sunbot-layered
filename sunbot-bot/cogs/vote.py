@@ -85,13 +85,13 @@ class Vote(commands.Cog):
                             color=guild.me.color
                         )
                         embed.description = (
-                            f"The vote happens on these months: {', '.join(helpers.MONTHS[i] for i in sorted(junior_vote_months))}\n"
-                            "It's anonymous. React to this message with ☑️ to receive your voting ballot in DM (make sure DMs are open).\n"
-                            f"Candidates must earn {junior_activity} activity points and be on the server for at least {junior_days} days.\n"
-                            f"To get promoted, a candidate must upvote themself in the ballot and get the support of at least 1/3 of the voters."
+                            f"- The vote happens on {', '.join(helpers.MONTHS[i-1] for i in sorted(junior_vote_months))}\n"
+                            "- It's anonymous. React to this message with ☑️ to receive your voting ballot in DM (make sure DMs are open).\n"
+                            f"- Candidates must earn {junior_activity} activity points and be on the server for at least {junior_days} days.\n"
+                            f"- To get promoted, a candidate must upvote themself in the ballot and get the support of at least 1/3 of the voters."
                         )
                         if junior_limit:
-                            embed.description += f"\nMax number of {junior_limit} candidates will be picked from this vote."
+                            embed.description += f"\n- Max number of {junior_limit} candidates will be picked from this vote."
                         embed.add_field(name="Candidates", value="\n".join(candidates))
                     message = await vote_channel.send(embed=embed)
                     await message.add_reaction("☑️")
