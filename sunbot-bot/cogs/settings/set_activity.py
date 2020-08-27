@@ -136,7 +136,6 @@ class SetActivity(commands.Cog):
         self, ctx, channels:Greedy[Union[discord.TextChannel, int]]
     ):
         targets = [ch.id if type(ch) != int else ch for ch in channels]
-        print(targets)          
         await rest_api.set_guild_param_list(
             self.bot, 
             guild_id=ctx.guild.id,
@@ -153,7 +152,6 @@ class SetActivity(commands.Cog):
         self, ctx, channels:Greedy[Union[discord.TextChannel, int]]
     ):
         targets = [ch.id if type(ch) != int else ch for ch in channels]
-        print(targets)          
         await rest_api.set_guild_param_list(
             self.bot, 
             guild_id=ctx.guild.id,
@@ -170,7 +168,6 @@ class SetActivity(commands.Cog):
         self, ctx, channels:Greedy[Union[discord.TextChannel, int]]
     ):
         targets = [ch.id if type(ch) != int else ch for ch in channels]
-        print(targets)          
         await rest_api.set_guild_param_list(
             self.bot, 
             guild_id=ctx.guild.id,
