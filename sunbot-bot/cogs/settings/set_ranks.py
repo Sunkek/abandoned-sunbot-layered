@@ -2,6 +2,7 @@
 
 import discord
 from discord.ext import commands
+from discord.ext.commands import Greedy
 from typing import Optional
 
 from utils import rest_api, helpers
@@ -142,7 +143,22 @@ class SetRanks(commands.Cog):
             self.bot, 
             guild_id=ctx.guild.id,
             rank_mod_junior_required_activity=amount,
-        )        
+        )
+        
+    @commands.command(
+        name="setjuniormodvotemonths", 
+        aliases=["sjmvm"],
+        description="Add or remove the specific months to/from the list of months when junior mod votes happen.",
+    )
+    async def setjuniormodvotemonths(
+        self, ctx, months:Greedy[int]
+    ):          
+        await rest_api.set_guild_param_list(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            setting="rank_mod_junior_vote_months",
+            months=months,
+        )
         
     @commands.command(
         name="setseniormodrole", 
