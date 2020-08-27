@@ -50,20 +50,20 @@ class Vote(commands.Cog):
                     junior = guild.get_role(junior)
                     junior_limit = self.bot.settings[guild.id].get("rank_mod_junior_limit")
                     junior_activity = self.bot.settings[guild.id].get("rank_mod_junior_required_activity")
-                    junior_days = self.bot.settings[guild.id].get("rank_mod_junior_required_days", 0)
+                    junior_days = self.bot.settings[guild.id].get("rank_mod_junior_required_days", 0) or 0
                     junior_days = datetime.now() - timedelta(days=junior_days)
                     print(junior_days)
 
                     senior = self.bot.settings[guild.id].get("rank_mod_senior_role_id")
                     senior = guild.get_role(senior)
                     senior_activity = self.bot.settings[guild.id].get("rank_mod_senior_required_activity")
-                    senior_days = self.bot.settings[guild.id].get("rank_mod_senior_required_days", 0)
+                    senior_days = self.bot.settings[guild.id].get("rank_mod_senior_required_days", 0) or 0
                     senior_days = datetime.now() - timedelta(days=senior_days)
 
                     admin = self.bot.settings[guild.id].get("rank_mod_admin_role_id")
                     admin = guild.get_role(admin)
                     admin_activity = self.bot.settings[guild.id].get("rank_mod_admin_required_activity")
-                    admin_days = self.bot.settings[guild.id].get("rank_mod_admin_required_days", 0)
+                    admin_days = self.bot.settings[guild.id].get("rank_mod_admin_required_days", 0) or 0
                     admin_days = datetime.now() - timedelta(days=admin_days)
 
                     # Junior vote
