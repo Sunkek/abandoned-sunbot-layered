@@ -69,11 +69,8 @@ async def set_guild_param(bot, guild_id, **kwargs):
 
 async def set_guild_param_list(bot, guild_id, setting, targets):
     settings = bot.settings.get(guild_id, dict())
-    print(settings)
-    was_set = settings.get(setting, list())
-    print(was_set)
+    was_set = settings.get(setting, list()) or list()
     new_elements = set(targets).difference(was_set)
-    print(new_elements)
     new_setting = {
         setting: list(set(was_set).difference(targets).union(new_elements))
     }

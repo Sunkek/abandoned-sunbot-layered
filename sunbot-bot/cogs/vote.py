@@ -37,9 +37,9 @@ class Vote(commands.Cog):
                     if not vote_channel:
                         continue
 
-                    junior_vote_months = settings.get("rank_mod_junior_vote_months", list())
-                    senior_vote_months = settings.get("rank_mod_senior_vote_months", list())
-                    admin_vote_months = settings.get("rank_mod_admin_vote_months", list())
+                    junior_vote_months = settings.get("rank_mod_junior_vote_months", list()) or list()
+                    senior_vote_months = settings.get("rank_mod_senior_vote_months", list()) or list()
+                    admin_vote_months = settings.get("rank_mod_admin_vote_months", list()) or list()
                     print(junior_vote_months)
                     if now.month not in \
                         junior_vote_months + senior_vote_months + admin_vote_months:
