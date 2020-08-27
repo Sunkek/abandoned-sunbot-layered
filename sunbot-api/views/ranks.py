@@ -39,15 +39,18 @@ class JuniorModsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, guild_id, *args, **kwargs):
         # Get active role requirements
-        settings = Guild.objects.get(guild_id=guild_id)
-        req_activity = settings.rank_junior_mod_required_activity
-        if not req_activity:
-            return Response([])
-        date = datetime.today().replace(month=datetime.now().month, day=1) #  month-1
-        junior_mods = Activity.objects.filter(
-            guild_id=guild_id, activity__gte=req_activity, period=date,
-        ).values_list("user_id", flat=True)
-        return Response(junior_mods)
+        try:
+            settings = Guild.objects.get(guild_id=guild_id)
+            req_activity = settings.rank_junior_mod_required_activity
+            if not req_activity:
+                return Response([])
+            date = datetime.today().replace(month=datetime.now().month, day=1) #  month-1
+            junior_mods = Activity.objects.filter(
+                guild_id=guild_id, activity__gte=req_activity, period=date,
+            ).values_list("user_id", flat=True)
+            return Response(junior_mods)
+        except Exception as e:
+            print(e)
 
 
 """Define the allowed request methods for each ModelViewSet"""
