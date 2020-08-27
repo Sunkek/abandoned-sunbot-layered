@@ -146,6 +146,21 @@ class SetRanks(commands.Cog):
         )
         
     @commands.command(
+        name="setjuniormodlimit", 
+        aliases=["sjml",],
+        description="Sets up the max amount of junior mods that can be vote-picked",
+    )
+    async def setjuniormodlimit(self, ctx, amount: int=0):
+        if amount > 50 or amount < 0:
+            raise commands.BadArgument
+        # Build and send the JSON to the server part of the bot
+        await rest_api.set_guild_param(
+            self.bot, 
+            guild_id=ctx.guild.id,
+            rank_mod_junior_limit=amount,
+        )
+        
+    @commands.command(
         name="setjuniormodvotemonths", 
         aliases=["sjmvm"],
         description="Add or remove the specific months to/from the list of months when junior mod votes happen.",

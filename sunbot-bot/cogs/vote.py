@@ -31,17 +31,14 @@ class Vote(commands.Cog):
             if now.day:  # if now.day == 1:
                 for guild, settings in self.bot.settings.items():
                     guild = self.bot.get_guild(guild)
-                    print(guild.name)
                     vote_channel = settings.get("rank_vote_channel_id")
                     vote_channel = guild.get_channel(vote_channel)
-                    print(vote_channel)
                     if not vote_channel:
                         continue
 
                     junior_vote_months = settings.get("rank_mod_junior_vote_months", list()) or list()
                     senior_vote_months = settings.get("rank_mod_senior_vote_months", list()) or list()
                     admin_vote_months = settings.get("rank_mod_admin_vote_months", list()) or list()
-                    print(junior_vote_months)
                     if now.month not in \
                         junior_vote_months + senior_vote_months + admin_vote_months:
                         continue
@@ -52,7 +49,6 @@ class Vote(commands.Cog):
                     junior_activity = self.bot.settings[guild.id].get("rank_mod_junior_required_activity")
                     junior_days = self.bot.settings[guild.id].get("rank_mod_junior_required_days", 0) or 0
                     junior_days = datetime.now() - timedelta(days=junior_days)
-                    print(junior_days)
 
                     senior = self.bot.settings[guild.id].get("rank_mod_senior_role_id")
                     senior = guild.get_role(senior)
@@ -70,7 +66,6 @@ class Vote(commands.Cog):
                     if now.month in junior_vote_months:
                         # Make a list of candidates
                         eligible_members = await rest_api.get_junior_mods(self.bot, guild.id)
-                        print(eligible_members)    
                         if not eligible_members:
                             continue
                         candidates = []
@@ -84,18 +79,19 @@ class Vote(commands.Cog):
                                 candidates.append(member.mention)
                         if not candidates:
                             continue                    
-
+                        print(candidates)
                         embed = discord.Embed(
                             title=f"{junior.name} vote {now.month}/{now.year} open",
                             color=guild.me.color
                         )
                         embed.description = (
-                            f"The vote happens on these months: {', '.join(junior_vote_months)}\n"
+                            f"The vote happens on these months: {', '.join(str(i) for i in junior_vote_months)}\n"
                             "It's anonymous. React to this message with ☑️ to receive your voting ballot in DM (make sure DMs are open).\n"
                             f"Candidates must earn {junior_activity} activity points and be on the server for at least {junior_days} days.\n"
-                            f"To get promoted, a candidate must upvote themself in the ballot and get the support of at least 1/3 of the voters.\n"
-                            f"Max number of {junior_limit} candidates will be picked from this vote."
+                            f"To get promoted, a candidate must upvote themself in the ballot and get the support of at least 1/3 of the voters."
                         )
+                        if junior_limit:
+                            embed.description += f"\nMax number of {junior_limit} candidates will be picked from this vote."
                     message = await vote_channel.send(embed=embed)
                     await message.add_reaction("☑️")
         except Exception as e:

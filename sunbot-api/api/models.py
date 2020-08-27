@@ -68,6 +68,7 @@ class Guild(models.Model):
     rank_active_member_required_days = models.IntegerField(null=True, blank=True)
     rank_mod_junior_required_activity = models.IntegerField(null=True, blank=True)
     rank_mod_junior_required_days = models.IntegerField(null=True, blank=True)
+    rank_mod_junior_limit = models.PositiveSmallIntegerField(null=True, blank=True)
     rank_mod_junior_vote_months = ArrayField(
         models.PositiveSmallIntegerField(null=True, blank=True), 
         null=True, blank=True, default=list,
