@@ -41,7 +41,7 @@ class JuniorModsViewSet(viewsets.ModelViewSet):
         # Get active role requirements
         try:
             settings = Guild.objects.get(guild_id=guild_id)
-            req_activity = settings.rank_junior_mod_required_activity
+            req_activity = settings.rank_mod_junior_required_activity
             if not req_activity:
                 return Response([])
             date = datetime.today().replace(month=datetime.now().month, day=1) #  month-1
