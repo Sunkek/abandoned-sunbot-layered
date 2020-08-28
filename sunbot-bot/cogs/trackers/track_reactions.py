@@ -28,7 +28,7 @@ class TrackReactions(commands.Cog):
                 receiver = message.author
                 if giver.bot or giver == receiver: 
                     return
-                if str(payload.emoji) in UNICODE_EMOJI:
+                if str(payload.emoji) in UNICODE_EMOJI or str(payload.emoji) == "☑️":  # "☑️" isn't in UNICODE_EMOJI?
                     # Stripping skintones and other modifiers
                     emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
                 else: 
