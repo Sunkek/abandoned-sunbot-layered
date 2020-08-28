@@ -30,7 +30,10 @@ class TrackReactions(commands.Cog):
                     return
                 if str(payload.emoji) in UNICODE_EMOJI or str(payload.emoji) == "☑️":  # "☑️" isn't in UNICODE_EMOJI?
                     # Stripping skintones and other modifiers
-                    emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
+                    try:
+                        emoji = str(bytes(str(payload.emoji), "utf-8")[:4], "utf-8")[0]
+                    except UnicodeDecodeError:
+                        emoji = str(payload.emoji)
                 else: 
                     # Just turn it into string
                     emoji = str(payload.emoji).split(":")
