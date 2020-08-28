@@ -31,8 +31,8 @@ class Vote(commands.Cog):
         if now.day < 5 and now.month not in \
             junior_vote_months + senior_vote_months + admin_vote_months:  # now.day > 5
             return
-        # If the reaction is ballot
-        if str(payload.emoji) != "☑️":
+        # If the reaction is ballot and not bot's
+        if str(payload.emoji) != "☑️" and payload.user_id != self.bot.user.id:
             return
         # If it's the vote message
         vote_channel = self.bot.settings[guild.id].get("rank_vote_channel_id")
@@ -42,7 +42,7 @@ class Vote(commands.Cog):
             not message.embeds:
             return
         # Now fetch the candidates from the mesage
-        candidates = message.embeds[0].fields[0].value.split("/n")
+        candidates = message.embeds[0].fields[0].value.split("\n")
         print(candidates)
 
 
