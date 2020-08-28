@@ -20,6 +20,35 @@ class Vote(commands.Cog):
     def cog_check(self, ctx):
         return ctx.author.guild_permissions.administrator
 
+    @commands.Cog.listener() 
+    async def on_raw_reaction_add(self, payload):
+        now = datetime.now()
+        # If it's the vote period
+        guild = self.bot.get_guild(payload.guild_id)
+        junior_vote_months = self.bot.settings[guild.id].get("rank_mod_junior_vote_months", list())
+        senior_vote_months = self.bot.settings[guild.id].get("rank_mod_senior_vote_months", list())
+        admin_vote_months = self.bot.settings[guild.id].get("rank_mod_admin_vote_months", list())
+        if now.day < 5 and now.month not in \  
+            junior_vote_months + senior_vote_months + admin_vote_months:  # now.day > 5
+            return
+        # If the reaction is ballot
+        if str(payload.emoji) != "☑️":
+            return
+        # If it's the vote message
+        vote_channel = self.bot.settings[guild.id].get("rank_vote_channel_id")
+        channel = guild.get_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
+        if channel.id != vote_channel and message.author != self.bot.user and \
+            not message.embeds:
+            return
+        # Now fetch the candidates from the mesage
+        candidates = message.embeds[0].fields[0].value.split("/n")
+        print(candidates)
+
+
+        
+        
+
     @tasks.loop(hours=24)
     async def auto_vote(self):
         """1st of the vote month: vote begins. 
