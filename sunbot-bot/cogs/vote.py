@@ -42,9 +42,15 @@ class Vote(commands.Cog):
             not message.embeds:
             return
         # Now fetch the candidates from the mesage
-        candidates = message.embeds[0].fields[0].value.split("\n")
+        vote_emebed = message.embeds[0]
+        candidates = vote_emebed.fields[0].value.split("\n")
         print(candidates)
-
+        desc_embed = discord.Embed(
+            title=vote_emebed.title[:-5],
+            color=guild.me.color
+        )
+        desc_embed.description = "React to the messages below with candidates numbers to vote for them. If you're among the candidates, but don't want the promotion - don't upvote yourself."
+        
 
         
         
