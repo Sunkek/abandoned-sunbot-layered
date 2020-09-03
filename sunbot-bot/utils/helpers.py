@@ -84,7 +84,7 @@ def format_settings_key(string):
 def format_settings_value(guild, value):
     if type(value) == list:
         result = []
-        for i in value:
+        for i in sorted(value):
             formatted_value = ""
             if int_convertable(i):
                 formatted_value = guild.get_channel(int(i))
