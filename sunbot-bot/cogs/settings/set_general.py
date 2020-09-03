@@ -26,34 +26,27 @@ class SetGeneral(commands.Cog):
         activity = helpers.format_settings(
             settings, ctx, include=["activity_"], ignore=[]
         )
-        print(activity)
         ranks = helpers.format_settings(
             settings, ctx, include=["rank_"], ignore=[]
         )
-        print(ranks)
         trackers = helpers.format_settings(
             settings, ctx, include=["track_"], ignore=[]
         )
-        print(trackers)
         ad_reminder = helpers.format_settings(
             settings, ctx, include=["ad_reminder_"], ignore=[]
         )
-        print(ad_reminder)
         verification = helpers.format_settings(
             settings, ctx, include=["verification_"], ignore=[]
         )
-        print(verification)
         welcome = helpers.format_settings(
             settings, ctx, include=["welcome_", "leave_"], ignore=[]
         )
-        print(welcome)
         desc = helpers.format_settings(
             settings, ctx, include=[], ignore=[
                 "track_", "activity_", "ad_reminder_", "verification_", "welcome_", 
                 "leave_", "rank_"
             ],
         )
-        print(desc)
         embed = discord.Embed(
             title=f"Current settings for {ctx.guild.name}",
             color=ctx.author.color,
