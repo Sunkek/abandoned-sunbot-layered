@@ -78,12 +78,15 @@ def format_settings_key(string):
     result = result.replace("ad_reminder_", "").replace("verification_", "")
     result = result.replace("rank_", "")
     result = result.lstrip("_").replace("_id", "").replace("_", " ").capitalize()
+    print(result)
     return f'`{result}`'
     
 def format_settings_value(guild, value):
+    print(value)
     if type(value) == list:
         result = []
         for i in value:
+            print(i)
             formatted_value = ""
             if int_convertable(i):
                 formatted_value = guild.get_channel(int(i))
@@ -114,6 +117,7 @@ def format_settings_value(guild, value):
             result = "On"
         if not result:
             result = value
+    print(result)
     return result
 
 def format_info_key(string):
