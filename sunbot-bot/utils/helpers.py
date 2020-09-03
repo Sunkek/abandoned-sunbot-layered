@@ -82,11 +82,9 @@ def format_settings_key(string):
     return f'`{result}`'
     
 def format_settings_value(guild, value):
-    print(value)
     if type(value) == list:
         result = []
         for i in value:
-            print(i)
             formatted_value = ""
             if int_convertable(i):
                 formatted_value = guild.get_channel(int(i))
@@ -96,11 +94,8 @@ def format_settings_value(guild, value):
                     formatted_value = guild.get_member(int(i))
                 if formatted_value:
                     formatted_value = formatted_value.mention
-            print(formatted_value)
             if not formatted_value:
-                result = " ,".join(str(value))
-                break
-            print(result)
+                formatted_value = str(i)
             result.append(formatted_value)
         result = ", ".join(result)
     else:
@@ -119,7 +114,6 @@ def format_settings_value(guild, value):
             result = "On"
         if not result:
             result = value
-    print(result)
     return result
 
 def format_info_key(string):
