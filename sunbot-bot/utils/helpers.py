@@ -101,6 +101,7 @@ def format_settings_value(guild, value):
                 formatted_value = i
             result.append(formatted_value)
         result = ", ".join(result)
+        print(result)
     else:
         result = ""        
         if int_convertable(value) and not type(value) == bool:
