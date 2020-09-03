@@ -101,7 +101,7 @@ def format_settings_value(guild, value):
             if not formatted_value:
                 formatted_value = i
             result.append(formatted_value)
-        result = ", ".join(result))
+        result = ", ".join(result)
     else:
         result = ""        
         if int_convertable(value) and not type(value) == bool:
@@ -118,7 +118,7 @@ def format_settings_value(guild, value):
             result = "On"
         if not result:
             result = value
-    print(result
+    print(result)
     return result
 
 def format_info_key(string):
