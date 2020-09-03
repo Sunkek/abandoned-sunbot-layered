@@ -78,7 +78,6 @@ def format_settings_key(string):
     result = result.replace("ad_reminder_", "").replace("verification_", "")
     result = result.replace("rank_", "")
     result = result.lstrip("_").replace("_id", "").replace("_", " ").capitalize()
-    print(result)
     return f'`{result}`'
     
 def format_settings_value(guild, value):
@@ -94,10 +93,12 @@ def format_settings_value(guild, value):
                     formatted_value = guild.get_member(int(i))
                 if formatted_value:
                     formatted_value = formatted_value.mention
-            elif type(i) == dict or type(i) == list:
-                formatted_value = "Set"
+            elif type(value) == dict or type(value) == list:
+                result = "Set"
+                break
             elif value == True:
-                formatted_value = "On"
+                result = "On"
+                break
             if not formatted_value:
                 formatted_value = i
             result.append(formatted_value)
@@ -118,7 +119,6 @@ def format_settings_value(guild, value):
             result = "On"
         if not result:
             result = value
-    print(result)
     return result
 
 def format_info_key(string):
