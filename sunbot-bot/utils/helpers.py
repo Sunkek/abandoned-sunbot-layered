@@ -85,7 +85,7 @@ def format_settings_value(guild, value):
         result = []
         for i in value:
             formatted_value = ""
-            if int_convertable(i) and not type(i) == bool:
+            if int_convertable(i):
                 formatted_value = guild.get_channel(int(i))
                 if not formatted_value:
                     formatted_value = guild.get_role(int(i))
@@ -93,14 +93,9 @@ def format_settings_value(guild, value):
                     formatted_value = guild.get_member(int(i))
                 if formatted_value:
                     formatted_value = formatted_value.mention
-            elif type(value) == dict or type(value) == list:
-                result = "Set"
+            else:
+                result = " ,".join(value)
                 break
-            elif value == True:
-                result = "On"
-                break
-            if not formatted_value:
-                formatted_value = i
             result.append(formatted_value)
         result = ", ".join(result)
     else:
