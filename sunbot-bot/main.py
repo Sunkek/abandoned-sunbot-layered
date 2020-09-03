@@ -15,7 +15,7 @@ from datetime import datetime
 from utils import rest_api
 
 bot = commands.Bot(
-    command_prefix=commands.when_mentioned_or("sbt ", "Sbt ", "SBT "), 
+    command_prefix=commands.when_mentioned_or("sb ", "Sb ", "SB "), 
     сase_insensitive=True,
 )
 # Remove the default help command because there will be a custom one
