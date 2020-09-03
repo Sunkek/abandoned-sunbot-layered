@@ -97,7 +97,7 @@ def format_settings_value(guild, value):
                 if formatted_value:
                     formatted_value = formatted_value.mention
             if not formatted_value:
-                result = " ,".join(value)
+                result = " ,".join(str(value))
                 break
             result.append(formatted_value)
         result = ", ".join(result)
