@@ -96,9 +96,11 @@ def format_settings_value(guild, value):
                     formatted_value = guild.get_member(int(i))
                 if formatted_value:
                     formatted_value = formatted_value.mention
+            print(formatted_value)
             if not formatted_value:
                 result = " ,".join(str(value))
                 break
+            print(result)
             result.append(formatted_value)
         result = ", ".join(result)
     else:
