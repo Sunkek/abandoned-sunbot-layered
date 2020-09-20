@@ -73,25 +73,26 @@ class Vote(commands.Cog):
         candidates = vote_emebed.fields[0].value.split("\n")
         for num, candidate in enumerate(candidates):
             candidates[num] = f"{self.numbers[num+1]} {candidate}"
-        print(candidates)
         desc_embed = discord.Embed(
             title=vote_emebed.title[:-5],
             color=guild.me.color
         )
-        desc_embed.description = "React to the messages below with candidate numbers to vote for them. **Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses reactions, rereact to the initial vote message on server."
+        desc_embed.description = "React to the messages below with candidate numbers to vote for them.\n\n**Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses reactions, rereact to the initial vote message on server."
         embeds = []
         for i in range(len(candidates)//20):
             embed = discord.Embed(
                 title="Cadidates",
-                description="\n".join(candidates[i*20:(i+1)*20])
+                description="\n".join(candidates[i*20:(i+1)*20]),
+                color=guild.me.color
             )
             embeds.append(embed)
-            print(embed.description)
         # Sending embeds and adding reaactions to them
         user = await self.bot.fetch_user(payload.user_id)
         await user.send(embed=desc_embed)
-        for embed in embeds:
-            await user.send(embed=embed)
+        for num, embed in enumerate(embeds):
+            message = await user.send(embed=embed)
+            for number in range(num*20:(num+1)*20):
+                await message.add_reaction(self.numbers[number+1])
 
     @tasks.loop(hours=24)
     async def auto_vote(self):
