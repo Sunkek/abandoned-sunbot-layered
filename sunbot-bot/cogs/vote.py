@@ -52,6 +52,8 @@ class Vote(commands.Cog):
         now = datetime.now()
         # If it's the vote period
         guild = self.bot.get_guild(payload.guild_id)
+        if not guild:
+            return
         junior_vote_months = self.bot.settings[guild.id].get("rank_mod_junior_vote_months") or list()
         senior_vote_months = self.bot.settings[guild.id].get("rank_mod_senior_vote_months") or list()
         admin_vote_months = self.bot.settings[guild.id].get("rank_mod_admin_vote_months") or list()
@@ -86,12 +88,12 @@ class Vote(commands.Cog):
                 color=guild.me.color
             )
             embeds.append(embed)
-        # Sending embeds and adding reaactions to them
+        # Sending embeds and adding reactions to them
         user = await self.bot.fetch_user(payload.user_id)
         await user.send(embed=desc_embed)
         for num, embed in enumerate(embeds):
             message = await user.send(embed=embed)
-            for number in range(num*20,(num+1)*20):
+            for number in range(num*20, min((num+1)*20, len(candidates))):
                 await message.add_reaction(self.numbers[number+1])
 
     @tasks.loop(hours=24)
