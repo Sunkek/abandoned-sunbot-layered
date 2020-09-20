@@ -51,7 +51,7 @@ class Vote(commands.Cog):
         )
         desc_embed.description = "React to the messages below with candidate numbers to vote for them. **Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses reactions, rereact to the initial vote message on server."
         embeds = []
-        for i in range(len(candidates)/20):
+        for i in range(len(candidates)//20):
             embed = discord.Embed(
                 title="Cadidates",
                 description="\n".join(candidates[i*20:(i+1)*20])
@@ -148,14 +148,14 @@ class Vote(commands.Cog):
             print(e)
                 
 
-    '''@auto_vote.before_loop
+    @auto_vote.before_loop
     async def before_auto_vote(self):
         """Sleeping until the full day"""
         await self.bot.wait_until_ready()
         await sleep(5) # To make sure bot reads settings
         now = datetime.now()
         next_day = now.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
-        await sleep((next_day - now).total_seconds())'''
+        await sleep((next_day - now).total_seconds())
 
 
 def setup(bot):
