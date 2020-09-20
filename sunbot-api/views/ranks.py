@@ -44,7 +44,7 @@ class JuniorModsViewSet(viewsets.ModelViewSet):
             req_activity = settings.rank_mod_junior_required_activity
             if not req_activity:
                 return Response([])
-            date = datetime.today().replace(month=datetime.now().month, day=1) #  month-1
+            date = datetime.today().replace(month=datetime.now().month-1 or 12, day=1)
             junior_mods = Activity.objects.filter(
                 guild_id=guild_id, activity__gte=req_activity, period=date,
             ).values_list("user_id", flat=True)

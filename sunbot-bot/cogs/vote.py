@@ -12,6 +12,33 @@ from utils import rest_api, helpers
 class Vote(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.numbers = {
+            1:"<:1icon:658633333051228161>", 2:"<:2icon:658633333692956673>",
+            3:"<:3icon:658633334255124480>", 4:"<:4icon:658633333625847809>",
+            5:"<:5icon:658633333877637130>", 6:"<:6icon:658633334217244682>",
+            7:"<:7icon:658633334288678922>", 8:"<:8icon:658633334234152980>",
+            9:"<:9icon:658633334234021898>", 10:"<:10icon:658633333919711235>",
+            11:"<:11icon:658633333395423242>", 12:"<:12icon:658633334158524417>",
+            13:"<:13icon:658633334028763137>", 14:"<:14icon:658633333688893444>",
+            15:"<:15icon:658633334171238410>", 16:"<:16icon:658633334049734677>",
+            17:"<:17icon:658633333688893464>", 18:"<:18icon:658633334141747200>",
+            19:"<:19icon:658633334183821322>", 20:"<:20icon:658633334338879518>",
+            21:"<:21icon:658633334192341022>", 22:"<:22icon:658633333911322624>",
+            23:"<:23icon:658633334036889613>", 24:"<:24icon:658633334167175179>",
+            25:"<:25icon:658633334250930189>", 26:"<:26icon:658633334234152981>",
+            27:"<:27icon:658633334556983317>", 28:"<:28icon:658633334704046080>",
+            29:"<:29icon:658633334263644161>", 32:"<:30icon:658633334548725780>",
+            31:"<:31icon:658633334456451082>", 32:"<:32icon:658633334418702357>",
+            33:"<:33icon:658633334284484619>", 34:"<:34icon:658633334540468244>",
+            35:"<:35icon:658633334695395351>", 36:"<:36icon:658633334506913806>",
+            37:"<:37icon:658633334473228288>", 38:"<:38icon:658633334208856085>",
+            39:"<:39icon:658633334347268137>", 40:"<:40icon:658633334368370700>",
+            41:"<:41icon:658633334439542785>", 42:"<:42icon:658633334490136587>",
+            43:"<:43icon:658633334473359370>", 44:"<:44icon:658633334527623168>",
+            45:"<:45icon:658633334548856844>", 46:"<:46icon:658633334489874462>",
+            47:"<:47icon:658633334527754260>", 48:"<:48icon:658633334787932180>",
+            49:"<:49icon:658633334422896651>", 50:"<:50icon:658633334288678913>",
+        }
         self.auto_vote.start()
 
     def cog_unload(self):
@@ -44,6 +71,8 @@ class Vote(commands.Cog):
         # Now fetch the candidates from the mesage
         vote_emebed = message.embeds[0]
         candidates = vote_emebed.fields[0].value.split("\n")
+        for num, candidate in enumerate(candidates):
+            candidates[num] = f"{self.numbers[num+1]} {candidate}"
         print(candidates)
         desc_embed = discord.Embed(
             title=vote_emebed.title[:-5],
@@ -60,14 +89,9 @@ class Vote(commands.Cog):
             print(embed.description)
         # Sending embeds and adding reaactions to them
         user = await self.bot.fetch_user(payload.user_id)
+        await user.send(embed=desc_embed)
         for embed in embeds:
             await user.send(embed=embed)
-            
-
-        
-
-        
-        
 
     @tasks.loop(hours=24)
     async def auto_vote(self):
