@@ -49,7 +49,21 @@ class Vote(commands.Cog):
             title=vote_emebed.title[:-5],
             color=guild.me.color
         )
-        desc_embed.description = "React to the messages below with candidates numbers to vote for them. If you're among the candidates, but don't want the promotion - don't upvote yourself."
+        desc_embed.description = "React to the messages below with candidate numbers to vote for them. **Important** - If you're among the candidates, but don't want the promotion - don't upvote yourself. If the embed misses reactions, rereact to the initial vote message on server."
+        embeds = []
+        for i in range(len(candidates)/20):
+            embed = discord.Embed(
+                title="Cadidates",
+                description="\n".join(candidates[i*20:(i+1)*20])
+            )
+            embeds.append(embed)
+            print(embed.description)
+        # Sending embeds and adding reaactions to them
+        user = await self.bot.fetch_user(payload.user_id)
+        for embed in embeds:
+            await user.send(embed=embed)
+            
+
         
 
         
