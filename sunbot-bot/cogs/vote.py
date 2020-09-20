@@ -91,7 +91,7 @@ class Vote(commands.Cog):
         await user.send(embed=desc_embed)
         for num, embed in enumerate(embeds):
             message = await user.send(embed=embed)
-            for number in range(num*20:(num+1)*20):
+            for number in range(num*20,(num+1)*20):
                 await message.add_reaction(self.numbers[number+1])
 
     @tasks.loop(hours=24)
