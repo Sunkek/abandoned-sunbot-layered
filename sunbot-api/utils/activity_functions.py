@@ -42,8 +42,8 @@ def add_message_activity(message, guild):
             amount *= 0.5
         elif message["channel_id"] in guild.activity_channels_x2:
             amount *= 2
-        activity.activity += amount
-        if activity.activity:
+        activity.from_messages += amount
+        if activity.from_messages:
             activity.save()
             
 def add_reaction_activity(reaction, guild):    
@@ -54,8 +54,8 @@ def add_reaction_activity(reaction, guild):
         datetime.strptime("01-01-2000 +0000", "%d-%m-%Y %z") + \
         timedelta(seconds=guild.activity_cooldown or 0)):
 
-        activity.activity += guild.activity_per_reaction 
-        if activity.activity:
+        activity.from_reactions += guild.activity_per_reaction 
+        if activity.from_reactions:
             activity.save()
             
 def add_voice_activity(voice, guild):    
@@ -66,7 +66,7 @@ def add_voice_activity(voice, guild):
         datetime.strptime("01-01-2000 +0000", "%d-%m-%Y %z") + \
         timedelta(seconds=guild.activity_cooldown or 0)):
 
-        activity.activity += guild.activity_per_voice_minute * \
+        activity.from_voice += guild.activity_per_voice_minute * \
             guild.activity_multi_per_voice_member * (voice["members"] - 1)
-        if activity.activity:
+        if activity.from_voice:
             activity.save()
