@@ -30,7 +30,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                     guild_id=Guild(guild_id=data["guild_id"]),
                     channel_id=data["channel_id"],
                     user_id=User(user_id=data["user_id"]),
-                    period=data["period"][:-2]+"01",  # The first of the current month
+                    period=data["period"]
                 )
             except ObjectDoesNotExist:
                 # Entry not found - create one!
@@ -38,7 +38,7 @@ class MessagesViewSet(viewsets.ModelViewSet):
                     guild_id=Guild(guild_id=data["guild_id"]),
                     channel_id=data["channel_id"],
                     user_id=User(user_id=data["user_id"]),
-                    period=data["period"][:-2]+"01",  # The first of the current month
+                    period=data["period"]
                 )
             # Update counters
             messages.postcount += data["postcount"]

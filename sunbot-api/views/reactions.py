@@ -27,7 +27,7 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 giver_id=User(user_id=data["giver_id"]),
                 receiver_id=User(user_id=data["receiver_id"]),
                 emote=data["emote"],
-                period=data["period"][:-2]+"01",  # The first of the current month
+                period=data["period"]
             )
         except ObjectDoesNotExist as e:
             # Entry not found - create one!
@@ -36,7 +36,7 @@ class ReactionsViewSet(viewsets.ModelViewSet):
                 giver_id=User(user_id=data["giver_id"]),
                 receiver_id=User(user_id=data["receiver_id"]),
                 emote=data["emote"],
-                period=data["period"][:-2]+"01",  # The first of the current month
+                period=data["period"]
             )
         # Update counters
         reactions.count += data["count"]

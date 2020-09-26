@@ -30,14 +30,14 @@ class NwordsViewSet(viewsets.ModelViewSet):
                 nwords = Nwords.objects.get(
                     guild_id=Guild(guild_id=data["guild_id"]),
                     user_id=User(user_id=data["user_id"]),
-                    period=data["period"][:-2]+"01",  # The first of the current month
+                    period=data["period"]
                 )
             except ObjectDoesNotExist:
                 # Entry not found - create one!
                 nwords = Nwords(
                     guild_id=Guild(guild_id=data["guild_id"]),
                     user_id=User(user_id=data["user_id"]),
-                    period=data["period"][:-2]+"01",  # The first of the current month
+                    period=data["period"]
                 )
             # Update counters
             nwords.nigger += data["nigger"]

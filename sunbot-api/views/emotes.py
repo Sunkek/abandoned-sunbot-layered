@@ -30,7 +30,7 @@ class EmotesViewSet(viewsets.ModelViewSet):
                 guild_id=Guild(guild_id=data["guild_id"]),
                 user_id=User(user_id=data["user_id"]),
                 emote=data["emote"],
-                period=data["period"][:-2]+"01",  # The first of the current month
+                period=data["period"]
             )
         except ObjectDoesNotExist as e:
             # Entry not found - create one!
@@ -38,7 +38,7 @@ class EmotesViewSet(viewsets.ModelViewSet):
                 guild_id=Guild(guild_id=data["guild_id"]),
                 user_id=User(user_id=data["user_id"]),
                 emote=data["emote"],
-                period=data["period"][:-2]+"01",  # The first of the current month
+                period=data["period"]
             )
         # Update counters
         emotes.count += data["count"]
