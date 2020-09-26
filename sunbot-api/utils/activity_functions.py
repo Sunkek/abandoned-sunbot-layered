@@ -1,6 +1,6 @@
 """Some helper functions"""
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -12,14 +12,14 @@ def get_or_init_activity(data):
         activity = Activity.objects.get(
             guild_id=Guild(guild_id=data["guild_id"]),
             user_id=User(user_id=data.get("user_id", data.get("giver_id"))),
-            period=datetime.now().strftime("%Y-%m-01"),  # The first of the current month
+            period=date.today()
         )
     except ObjectDoesNotExist:
         # Entry not found - create one!
         activity = Activity(
             guild_id=Guild(guild_id=data["guild_id"]),
             user_id=User(user_id=data.get("user_id", data.get("giver_id"))),
-            period=datetime.now().strftime("%Y-%m-01"),  # The first of the current month
+            period=date.today()
         )
     return activity
 
